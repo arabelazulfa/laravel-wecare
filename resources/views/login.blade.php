@@ -39,7 +39,8 @@
                 Atau masuk dengan
             </div>
             <button class="w-full bg-white rounded-md py-2 flex justify-center items-center gap-2" type="button">
-                <img alt="Google logo with blue, red, yellow, and green colors" class="w-5 h-5" height="20" src="https://storage.googleapis.com/a1aa/image/f7e0f1d5-b071-4915-8575-cb4872ccfe02.jpg" width="20"/>
+                <img alt="Google logo" class="w-5 h-5" src="https://developers.google.com/identity/images/g-logo.png" width="20" height="20"/>
+
                 <span class="text-sm text-black">
                     Google
                 </span>
