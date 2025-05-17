@@ -17,18 +17,20 @@
             padding: 20px;
         }
         .main-content {
+             background: linear-gradient(rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.6)),
+                url('/images/volunteer.jpg');
+            background-size: cover;
+            background-position: center;
             text-align: center;
             margin: 20px;
             padding: 60px 20px;
-            background-image: url('https://cdn.rukita.co/stories/wp-content/uploads/2022/08/05141724/volunteer1.jpg');/* Ganti dengan URL gambar kamu */
-            background-size: cover;
-            background-position: center;
             color: black;
-            border-radius: 15px;
+            border-radius: 20px;
             box-shadow: 0 4px 8px rgba(0,0,0,0.2);
         }
         .main-content h2 {
             font-weight: bold;
+            font-size: 40px;
         }
         .stats {
             background-color: #ffcccb;
@@ -62,9 +64,9 @@
     <!-- Main content with background -->
     <div class="main-content">
         <h2>Welcome to WeCare</h2>
-        <p>Ada harapan pada setiap gerakan</p>
+        <p>Ada harapan pada setiap gerakan.</p>
         <p>Mari bergabung bersama kami untuk mewujudkan harapan tersebut.</p>
-        <img src="/images/volunteer.jpg" alt="Volunteer" class="img-fluid rounded mt-3 d-block mx-auto" style="max-width: 600px;" />
+       
 
         <a href="{{ url('/activities') }}" class="btn btn-danger mt-4">Cari Kegiatan</a>
     </div>
