@@ -15,6 +15,13 @@
             background-color: #ff6b6b;
             color: white;
             padding: 20px;
+             display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .header h1 {
+            margin: 0;
+            font-weight: bold;
         }
         .main-content {
              background: linear-gradient(rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.6)),
