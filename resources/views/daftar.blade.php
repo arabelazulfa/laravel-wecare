@@ -62,7 +62,7 @@
     <div class="header">
         <h1>WeCare</h1>
     </div>
-
+    
     <div class="form-container">
         <h2 class="form-title">Daftar Sebagai:</h2>
         <div class="form-section">
