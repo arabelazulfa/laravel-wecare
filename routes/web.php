@@ -12,5 +12,5 @@ Route::get('/login', function () {
 })->name('login');
 
 Route::get('/register', function () {
-    return view('daftarakun');
+    return view('daftar');  
 });
