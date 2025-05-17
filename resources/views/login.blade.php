@@ -29,7 +29,9 @@
             </label>
             <input class="w-full rounded-md py-2 px-3 mb-1 text-gray-400 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#F19494]" id="password" placeholder="Enter your password" required="" type="password"/>
             <div class="text-right text-xs text-black mb-4">
-                Lupa password?
+                <a href="reset-password.html" class="text-[#4A7CFD] font-semibold hover:underline">
+                    Lupa password?
+                </a>
             </div>
             
             <button class="w-full bg-[#4A7CFD] text-white font-semibold py-2 rounded-lg mb-3 hover:bg-[#3a66d9] transition-colors" type="submit">
