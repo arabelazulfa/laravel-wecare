@@ -50,7 +50,7 @@
             
             <p class="text-center text-xs text-black mt-4">
                 Belum punya akun?
-                <a class="text-[#4A7CFD] font-semibold hover:underline" href="daftar.blade.php">
+                <a class="text-[#4A7CFD] font-semibold hover:underline" href="{{ route('register') }}">
                     Daftar
                 </a>
             </p>
