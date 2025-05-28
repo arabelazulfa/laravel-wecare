@@ -43,14 +43,18 @@
     <button type="submit" class="w-full bg-[#4A7CFD] text-white font-semibold py-2 rounded-lg mb-3 hover:bg-[#3a66d9] transition-colors">
       Verifikasi
     </button>
-
-    <div class="text-center text-xs text-black mb-3">
-      Tidak menerima kode?
-      <button type="button" class="text-[#4A7CFD] font-semibold hover:underline" onclick="alert('Kode OTP telah dikirim ulang!')">
-        Kirim ulang
-      </button>
-    </div>
   </form>
+
+  <form method="POST" action="{{ route('otp.resend') }}" class="text-center mt-2">
+    @csrf
+    <button type="submit" class="text-[#4A7CFD] font-semibold hover:underline">
+      Kirim ulang kode OTP
+    </button>
+  </form>
+
+  @if(session('success'))
+    <p class="text-green-600 mt-2 text-center">{{ session('success') }}</p>
+  @endif
 
   <script>
     const inputs = document.querySelectorAll('.otp-box');

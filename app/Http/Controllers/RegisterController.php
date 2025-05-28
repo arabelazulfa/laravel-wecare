@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
+use App\Mail\OtpMail;
+use Illuminate\Support\Facades\Mail;
 
 class RegisterController extends Controller
 {
@@ -37,9 +39,10 @@ class RegisterController extends Controller
         session([
             'otp' => $otp,
             'otp_email' => $user->email,
+            'otp_expires_at' => now()->addMinutes(5), // Set OTP expired dalam 10 menit
         ]);
 
-        // (Opsional) Kirim OTP ke email di sini
+        Mail::to($request->email)->send(new OtpMail($otp));
 
         // Redirect ke halaman OTP
         return redirect()->route('otp.form')->with('success', 'Kode OTP telah dikirim ke email Anda.');

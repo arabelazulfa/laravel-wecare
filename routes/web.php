@@ -54,7 +54,7 @@ Route::get('/', function () {
 });
 Route::get('/register', function () {
     return view('daftar');  
-});
+})->name('register');
 
 // Halaman form register volunteer & organisasi
 Route::get('/register/volunteer', function () {
@@ -72,10 +72,11 @@ Route::post('/register/organisasi', [RegisterController::class, 'storeOrganisasi
 //route OTP
 Route::get('/otp', [OtpController::class, 'showOtpForm'])->name('otp.form');
 Route::post('/otp', [OtpController::class, 'verifyOtp'])->name('otp.verify');
+Route::post('/otp/resend', [OtpController::class, 'resendOtp'])->name('otp.resend');
 
-Route::get('/login', function () {
-    return view('login');
-})->name('login');
+// Route::get('/login', function () {
+//     return view('login');
+// })->name('login');
 
 
 
