@@ -21,6 +21,40 @@
     body { font-family: 'Poppins', sans-serif; }
   </style>
 </head>
+
+<script>
+  document.querySelector("form").addEventListener("submit", function(e) {
+    const password = document.querySelector("input[name='password']");
+    const confirmPassword = document.querySelector("input[name='password_confirmation']");
+    const phone = document.querySelector("input[name='phone']");
+
+    // Cek panjang password
+    if (password.value.length < 6) {
+      alert("Password minimal 6 karakter");
+      password.focus();
+      e.preventDefault(); // stop submit
+      return;
+    }
+
+    // Cek konfirmasi password
+    if (password.value !== confirmPassword.value) {
+      alert("Konfirmasi password tidak sama");
+      confirmPassword.focus();
+      e.preventDefault();
+      return;
+    }
+
+    // Cek no HP: hanya angka dan minimal 10 digit
+    const phoneRegex = /^[0-9]{10,}$/;
+    if (!phoneRegex.test(phone.value)) {
+      alert("Nomor HP harus angka dan minimal 10 digit");
+      phone.focus();
+      e.preventDefault();
+      return;
+    }
+  });
+</script>
+
 <body class="bg-[#FCE9E9] min-h-screen flex flex-col items-center pt-8 px-4">
 
   <!-- Header -->
@@ -35,90 +69,141 @@
     <h2 class="text-center text-black text-2xl font-semibold mb-4">Daftar Volunteer</h2>
 
     <!-- Nama -->
-    <label class="block text-sm font-medium text-gray-700">Nama Lengkap</label>
-    <div class="bg-white p-3 rounded-lg shadow">
-      <input type="text" name="name" required placeholder="Nama lengkap"
+    <div>
+      <label class="block text-sm font-medium text-gray-700 mb-1">Nama Lengkap</label>
+      <div class="bg-white p-3 rounded-lg shadow">
+        <input type="text" name="name" required placeholder="Nama lengkap"
              class="w-full text-sm text-gray-700 placeholder-gray-400 focus:outline-none">
-    </div>
-
-    <!-- Email -->
-    <label class="block text-sm font-medium text-gray-700">Email</label>
-    <div class="bg-white p-3 rounded-lg shadow">
-      <input type="email" name="email" required placeholder="Email aktif"
-             class="w-full text-sm text-gray-700 placeholder-gray-400 focus:outline-none">
-    </div>
-
-    <!-- No Telp -->
-    <label class="block text-sm font-medium text-gray-700">No Telepon</label>
-    <div class="bg-white p-3 rounded-lg shadow">
-      <input type="text" name="phone" required placeholder="08xxxxxxxxxx"
-             class="w-full text-sm text-gray-700 placeholder-gray-400 focus:outline-none">
-    </div>
-
-    <!-- Password -->
-    <label class="block text-sm font-medium text-gray-700">Password</label>
-    <div class="bg-white p-3 rounded-lg shadow">
-      <input type="password" name="password" required placeholder="Password"
-             class="w-full text-sm text-gray-700 placeholder-gray-400 focus:outline-none">
-    </div>
-
-    <!-- Konfirmasi Password -->
-    <label class="block text-sm font-medium text-gray-700">Konfirmasi Password</label>
-    <div class="bg-white p-3 rounded-lg shadow">
-      <input type="password" name="password_confirmation" required placeholder="Ulangi password"
-             class="w-full text-sm text-gray-700 placeholder-gray-400 focus:outline-none">
-    </div>
-
-    <!-- Gender -->
-    <label class="block text-sm font-medium text-gray-700">Jenis Kelamin</label>
-    <div class="bg-white p-3 rounded-lg shadow">
-      <div class="flex gap-4 text-sm text-gray-700">
-        <label><input type="radio" name="gender" value="Laki-laki" required> Laki-laki</label>
-        <label><input type="radio" name="gender" value="Perempuan"> Perempuan</label>
       </div>
     </div>
 
-    <!-- Tanggal Lahir -->
-    <label class="block text-sm font-medium text-gray-700">Tanggal Lahir</label>
-    <div class="bg-white p-3 rounded-lg shadow">
-      <input type="date" name="birthdate" required
-             class="w-full text-sm text-gray-700 focus:outline-none">
+    <!-- Email -->
+    <div>
+      <label class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+      <div class="bg-white p-3 rounded-lg shadow">
+        <input type="email" name="email" required placeholder="Email aktif"
+             class="w-full text-sm text-gray-700 placeholder-gray-400 focus:outline-none">
+      </div>
     </div>
+
+    <!-- No Telp -->
+     <div>
+      <label class="block text-sm font-medium text-gray-700 mb-1">No Telepon</label>
+      <div class="bg-white p-3 rounded-lg shadow">
+        <input type="text" name="phone" required placeholder="08xxxxxxxxxx"
+             class="w-full text-sm text-gray-700 placeholder-gray-400 focus:outline-none">
+      </div>
+    </div>
+
+    <!-- Password -->
+    <div>
+      <label class="block text-sm font-medium text-gray-700 mb-1">Password</label>
+      <div class="bg-white p-3 rounded-lg shadow">
+        <input type="password" name="password" required placeholder="Password"
+             class="w-full text-sm text-gray-700 placeholder-gray-400 focus:outline-none">
+      </div>
+    </div>
+
+    <!-- Konfirmasi Password -->
+     <div>
+      <label class="block text-sm font-medium text-gray-700 mb-1">Konfirmasi Password</label>
+      <div class="bg-white p-3 rounded-lg shadow">
+        <input type="password" name="password_confirmation" required placeholder="Ulangi password"
+             class="w-full text-sm text-gray-700 placeholder-gray-400 focus:outline-none">
+      </div>
+    </div>
+
+    <div class="pt-3 border-t border-pink-400">
+        <p class="font-semibold text-xl mb-2">Data Diri</p>
+    </div>
+
+    <!-- Gender -->
+    <div>
+        <label class="block text-sm font-medium text-gray-700 mb-2">Jenis Kelamin</label>
+        <div class="flex items-center gap-6">
+          <label class="inline-flex items-center text-sm font-medium text-gray-700 mb-2">
+            <input type="radio" name="gender" required class="form-radio text-pink-400">
+            <span class="ml-1">Laki-Laki</span>
+          </label>
+          <label class="inline-flex items-center text-sm font-medium text-gray-700 mb-2">
+            <input type="radio" name="gender" required class="form-radio text-pink-400">
+            <span class="ml-1">Perempuan</span>
+          </label>
+        </div>
+      </div>
+
+    <!-- Tanggal Lahir -->
+    <div class="mb-4">
+        <label class="block text-sm font-medium text-gray-700 mb-1">Tanggal Lahir</label>
+        <div class="bg-white p-3 rounded-lg shadow">
+          <input type="date" name="birthdate" required
+                 class="w-full text-sm text-gray-700 focus:outline-none">
+        </div>
+      </div>
 
     <!-- Minat -->
-    <label class="block text-sm font-medium text-gray-700">Minat</label>
-    <div class="bg-white p-3 rounded-lg shadow text-sm text-gray-700">
-      <label class="block"><input type="checkbox" name="interests[]" value="Kemanusiaan"> Kemanusiaan</label>
-      <label class="block"><input type="checkbox" name="interests[]" value="Lingkungan"> Lingkungan</label>
-      <label class="block"><input type="checkbox" name="interests[]" value="Ketenagakerjaan"> Ketenagakerjaan</label>
-    </div>
+    <div class="grid grid-cols-2 gap-4 mb-4">
+        <div>
+          <label for="minat1" class="block text-sm font-medium text-gray-700 mb-1">Minat 1</label>
+          <select id="minat1" name="minat1" required class="w-full rounded-md px-3 py-2 text-sm text-gray-700">
+            <option disabled selected>Pilih Minat</option>
+            <option>Kemanusiaan</option>
+            <option>Kesehatan</option>
+            <option>Kepemimpinan</option>
+            <option>Ketenagakerjaan</option>
+            <option>Lingkungan</option>
+            <option>Bencana Alam</option>
+          </select>
+        </div>
+        <div>
+          <label for="minat2" class="block text-sm font-medium text-gray-700 mb-1">Minat 2</label>
+          <select id="minat2" name="minat2" required class="w-full rounded-md px-3 py-2 text-sm text-gray-700">
+            <option disabled selected>Pilih Minat</option>
+            <option>Kemanusiaan</option>
+            <option>Kesehatan</option>
+            <option>Kepemimpinan</option>
+            <option>Ketenagakerjaan</option>
+            <option>Lingkungan</option>
+            <option>Bencana Alam</option>
+          </select>
+        </div>
+      </div>
+
 
     <!-- Provinsi -->
-    <label class="block text-sm font-medium text-gray-700">Provinsi</label>
-    <div class="bg-white p-3 rounded-lg shadow">
-      <input type="text" name="province" required placeholder="Contoh: Jawa Barat"
-             class="w-full text-sm text-gray-700 placeholder-gray-400 focus:outline-none">
-    </div>
+    <div class="mb-4">
+        <label class="block text-sm font-medium text-gray-700 mb-1">Provinsi</label>
+        <div class="bg-white p-3 rounded-lg shadow">
+          <input type="text" name="province" required placeholder="Contoh: Jawa Barat"
+                 class="w-full text-sm text-gray-700 placeholder-gray-400 focus:outline-none">
+        </div>
+      </div>
 
     <!-- Kota -->
-    <label class="block text-sm font-medium text-gray-700">Kota/Kabupaten</label>
-    <div class="bg-white p-3 rounded-lg shadow">
-      <input type="text" name="city" required placeholder="Contoh: Bandung"
-             class="w-full text-sm text-gray-700 placeholder-gray-400 focus:outline-none">
-    </div>
+    <div class="mb-4">
+        <label class="block text-sm font-medium text-gray-700 mb-1">Kota/Kabupaten</label>
+        <div class="bg-white p-3 rounded-lg shadow">
+          <input type="text" name="city" required placeholder="Contoh: Bandung"
+                 class="w-full text-sm text-gray-700 placeholder-gray-400 focus:outline-none">
+        </div>
+      </div>
 
     <!-- Profesi -->
-    <label class="block text-sm font-medium text-gray-700">Profesi</label>
-    <div class="bg-white p-3 rounded-lg shadow">
-      <input type="text" name="profession" required placeholder="Contoh: Mahasiswa"
-             class="w-full text-sm text-gray-700 placeholder-gray-400 focus:outline-none">
-    </div>
+    <div class="mb-4">
+        <label class="block text-sm font-medium text-gray-700 mb-1">Profesi</label>
+        <div class="bg-white p-3 rounded-lg shadow">
+          <input type="text" name="profession" required placeholder="Contoh: Mahasiswa"
+                 class="w-full text-sm text-gray-700 placeholder-gray-400 focus:outline-none">
+        </div>
+      </div>
 
     <!-- Upload KTP -->
-    <label class="block text-sm font-medium text-gray-700">Upload KTP</label>
-    <div class="bg-white p-3 rounded-lg shadow">
-      <input type="file" name="ktp" required
+    <div class="mb-4">
+      <label class="block text-sm font-medium text-gray-700 mb-1">Upload KTP</label>
+      <div class="bg-white p-3 rounded-lg shadow">
+        <input type="file" name="ktp" required
              class="block w-full text-sm text-gray-700 file:border file:rounded-lg file:px-3 file:py-1 file:bg-[#FCE9E9] file:text-gray-700 file:cursor-pointer">
+      </div>
     </div>
 
     <!-- Submit -->
