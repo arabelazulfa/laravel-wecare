@@ -1,86 +1,33 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Daftar Akun - WeCare</title>
+@extends('layouts.app')
 
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+@section('title', 'Daftar Akun - WeCare')
 
-    <!-- Font Awesome Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+@section('content')
+<div class="form-container mx-auto bg-white rounded-xl shadow-lg p-6 max-w-lg">
+    <!-- Judul -->
+    <h2 class="text-center text-2xl font-semibold mb-6 text-black-500">Daftar Sebagai:</h2>
 
-    <style>
-        body {
-            background-color: #f0f0f0;
-        }
-        .header {
-            background-color: #ff6b6b;
-            color: white;
-            padding: 20px;
-            text-align: center;
-        }
-        .form-container {
-            background-color: white;
-            padding: 40px;
-            border-radius: 15px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-            margin: 40px auto;
-            max-width: 600px;
-        }
-        .form-title {
-            font-weight: bold;
-            font-size: 30px;
-            margin-bottom: 20px;
-            text-align: center;
-        }
-        .form-section {
-            display: flex;
-            justify-content: space-around;
-            gap: 20px;
-            margin-top: 20px;
-        }
-        .form-option {
-            flex: 1;
-            text-align: center;
-            padding: 20px;
-            border: 1px solid #ff6b6b;
-            border-radius: 10px;
-            transition: background-color 0.3s, transform 0.2s;
-            color: inherit;
-            text-decoration: none;
-        }
-        .form-option:hover {
-            background-color: #ffcccb;
-            transform: scale(1.05);
-        }
-    </style>
-</head>
-<body>
+    <!-- Pilihan Akun -->
+    <div class="flex gap-6 justify-center">
+        <!-- Volunteer -->
+        <a href="{{ url('/register/volunteer') }}"
+           class="flex flex-col items-center flex-1 border border-gray-400 rounded-lg p-6 text-gray-700 hover:bg-gray-100 hover:scale-105 transition-transform duration-200">
+            <i class="fas fa-user fa-3x mb-3 text-gray-600"></i>
+            <span class="text-lg font-medium">Volunteer</span>
+        </a>
 
-    <div class="header">
-        <h1>WeCare</h1>
-    </div>
-    
-    <div class="form-container">
-        <h2 class="form-title">Daftar Sebagai:</h2>
-        <div class="form-section">
-            <a href="{{ url('/register/volunteer') }}" class="form-option">
-                <i class="fas fa-user fa-3x mb-2"></i>
-                <p>Volunteer</p>
-            </a>
-            <a href="{{ url('/register/organisasi') }}" class="form-option">
-                <i class="fas fa-users fa-3x mb-2"></i>
-                <p>Organisasi</p>
-            </a>
-        </div>
-        <div class="text-center mt-4">
-            <a href="{{ url('/') }}" class="btn btn-danger">Kembali</a>
-        </div>
+        <!-- Organisasi -->
+        <a href="{{ url('/register/organisasi') }}"
+           class="flex flex-col items-center flex-1 border border-gray-400 rounded-lg p-6 text-gray-700 hover:bg-gray-100 hover:scale-105 transition-transform duration-200">
+            <i class="fas fa-users fa-3x mb-3 text-gray-600"></i>
+            <span class="text-lg font-medium">Organisasi</span>
+        </a>
     </div>
 
-    <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
+    <!-- Tombol Kembali -->
+    <div class="text-center mt-8">
+        <a href="{{ url('/') }}"
+           class="bg-gray-400 hover:bg-gray-700 text-white font-semibold px-6 py-2 rounded-lg transition">Kembali</a>
+    </div>
+</div>
+@endsection

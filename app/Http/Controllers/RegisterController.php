@@ -29,8 +29,13 @@ class RegisterController extends Controller
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'role' => 'volunteer',
-            'ktp_path' => $ktpPath, // Simpan path file KTP
+            'phone' => $request->phone,
+            'gender' => $request->gender,
+            'birthdate' => $request->birthdate,
+            'ktp_path' => $ktpPath,
         ]);
+
+
 
         // Generate OTP 6 digit
         $otp = rand(100000, 999999);

@@ -21,6 +21,12 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'phone',
+        'gender',
+        'birthdate',
+        'ktp_path',
+        'role',
+        'email_verified_at',
     ];
 
     /**
@@ -45,4 +51,10 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function organizationProfile()
+    {
+        return $this->hasOne(OrganizationProfile::class, 'user_id');
+    }
+
 }
