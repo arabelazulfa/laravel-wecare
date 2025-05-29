@@ -75,7 +75,7 @@
         <p>Mari bergabung bersama kami untuk mewujudkan harapan tersebut.</p>
        
 
-        <a href="{{ url('/activities') }}" class="btn btn-danger mt-4">Cari Kegiatan</a>
+        <a href="{{ route('volunteer.events') }}" class="btn btn-danger mt-4">Cari Kegiatan</a>
     </div>
 
     <!-- Stats with icons -->

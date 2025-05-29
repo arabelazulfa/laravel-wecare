@@ -18,4 +18,17 @@ class EventController extends Controller
         $event = Event::findOrFail($id);
         return view('events.show', compact('event'));
     }
+
+    // EventController.php
+
+    public function showForVolunteer()
+    {
+        $events = Event::with('organizer.organizationProfile')
+            ->where('status', 'active')
+            ->get();
+
+        return view('events.volunteer-event', compact('events'));
+    }
+
+
 }
