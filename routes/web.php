@@ -11,11 +11,28 @@ use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\OtpController;
 
 
+
 Route::get('/', function () {
     return view('welcome');
 });
 Route::view('/register', 'daftar');
 Route::view('/login', 'login')->name('login');
+
+// Form registrasi organisasi step 1 (GET)
+Route::get('/register/organisasi', function () {
+    return view('auth.register_organisasi');
+})->name('register.organisasi.step1');
+
+Route::post('/register/organisasi', [RegisterController::class, 'storeOrganisasiStep1'])->name('register.organisasi.step1');
+//Route::post('/register/organization/step1', [RegisterController::class, 'goToStep2'])->name('register.organization.step1');
+
+// Form registrasi organisasi step 2 (GET)
+Route::get('/register/organisasi/step2', function () {
+    return view('auth.register2_organisasi');
+})->name('register.organisasi.step2');
+
+//Route::get('/register/organisasi/step2', [RegisterController::class, 'showOrganisasiStep2'])->name('register.organisasi.step2');
+Route::post('/register/organisasi/step2', [RegisterController::class, 'storeOrganisasiDetail'])->name('register.organisasi.detail.store');
 
 // auth-protected pages
 Route::middleware('auth')->group(function () {
@@ -61,13 +78,11 @@ Route::get('/register/volunteer', function () {
     return view('auth.register_volunteer');
 });
 
-Route::get('/register/organisasi', function () {
-    return view('auth.register_organisasi');
-});
+
 
 // Proses simpan data pendaftaran
 Route::post('/register/volunteer', [RegisterController::class, 'storeVolunteer'])->name('register.volunteer');
-Route::post('/register/organisasi', [RegisterController::class, 'storeOrganisasi'])->name('register.organisasi');
+//Route::post('/register/organisasi', [RegisterController::class, 'storeOrganisasi'])->name('register.organisasi');
 
 //route OTP
 Route::get('/otp', [OtpController::class, 'showOtpForm'])->name('otp.form');
