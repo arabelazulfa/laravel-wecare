@@ -12,11 +12,23 @@ class OrganizationProfile extends Model
     protected $fillable = [
         'user_id',
         'org_name',
-        'address',
+        'org_type',
+        'established_date',
+        'location',
+        'province',
+        'city',
+        'postal_code',
+        'org_phone',
+        'website',
         'logo',
-        // tambahin field lain yang ada di tabel lo
+        'description',
+        'focus_area',
+        'status',
+        'rejection_reason',
+        // sesuaikan dengan kolom tabel organization_profiles
     ];
 
+    // Relasi ke User
     public function user()
     {
         return $this->belongsTo(User::class);
