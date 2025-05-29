@@ -47,6 +47,7 @@ Route::middleware('auth')->group(function () {
     [NotificationController::class, 'markAsRead'])
     ->name('notifications.read');
 
+
 });
 
 Route::get('/', function () {
@@ -73,6 +74,10 @@ Route::post('/register/organisasi', [RegisterController::class, 'storeOrganisasi
 Route::get('/otp', [OtpController::class, 'showOtpForm'])->name('otp.form');
 Route::post('/otp', [OtpController::class, 'verifyOtp'])->name('otp.verify');
 Route::post('/otp/resend', [OtpController::class, 'resendOtp'])->name('otp.resend');
+
+Route::get('/volunteer/events', [EventController::class, 'showForVolunteer'])->name('volunteer.events');
+
+Route::get('/activities', [EventController::class, 'showForVolunteer'])->name('volunteer.events');
 
 // Route::get('/login', function () {
 //     return view('login');
