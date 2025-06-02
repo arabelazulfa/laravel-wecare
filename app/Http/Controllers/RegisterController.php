@@ -28,7 +28,7 @@ class RegisterController extends Controller
             'profession' => 'required|string',
             'minat1' => 'required|string',
             'minat2' => 'required|string',
-]);
+        ]);
 
 
         // Upload KTP
@@ -100,24 +100,46 @@ class RegisterController extends Controller
     }
     public function storeOrganisasiDetail(Request $request)
     {
-    $validated = $request->validate([
-        'nama_organisasi' => 'required|string|max:255',
-        'tipe_organisasi' => 'required|string',
-        'tanggal_berdiri' => 'required|date',
-        'lokasi' => 'required|string',
-        'deskripsi_singkat' => 'nullable|string',
-        'fokus_utama' => 'nullable|string',
-        'alamat' => 'required|string',
-        'provinsi' => 'required|string',
-        'kabupaten_kota' => 'required|string',
-        'kodepos' => 'required|string',
-        'no_telp' => 'required|string',
-        'website' => 'nullable|url',
-        'logo' => 'nullable|image|max:2048',
-    ]);
+        $validated = $request->validate([
+            'nama_organisasi' => 'required|string|max:255',
+            'tipe_organisasi' => 'required|string',
+            'tanggal_berdiri' => 'required|date',
+            'lokasi' => 'required|string',
+            'deskripsi_singkat' => 'nullable|string',
+            'fokus_utama' => 'nullable|string',
+            'alamat' => 'required|string',
+            'provinsi' => 'required|string',
+            'kabupaten_kota' => 'required|string',
+            'kodepos' => 'required|string',
+            'no_telp' => 'required|string',
+            'website' => 'nullable|url',
+            'logo' => 'nullable|image|max:2048',
+        ]);
 
-        // Simpan data, upload logo jika ada, dll.
+        // Simpan data detail organisasi ke session
+        session(['organisasi_detail' => $validated]);
+
+        // Ambil email dari data step 1 di session
+        $registerData = session('register_data');
+        $email = $registerData['email'] ?? null;
+
+        if (!$email) {
+            return redirect()->route('register.organisasi.step1')->with('error', 'Email tidak ditemukan, silakan ulangi pendaftaran.');
+        }
+
+        //Generate OTP
+        $otp = rand(100000, 999999);
+
+        // Kirim OTP ke email
+        Mail::to($request->email)->send(new OtpMail($otp));
+
+        //Redirect ke halaman OTP
+        return redirect()->route('otp.form', ['role' => 'organisasi', 'email' => $email])
+            ->with('success', 'Kode OTP telah dikirim ke email Anda.');
+
+        // Simpan data, upload logo jika ada, dll.
     }
+
 
     public function showOrganisasiStep2()
     {
@@ -129,59 +151,59 @@ class RegisterController extends Controller
         return view('auth.register2_organisasi'); // Pastikan nama path view-nya sesuai
     }
     public function showOrganisasiPreview()
-    {   
-    // Ambil data dari session
-    $step1 = session('register_data');
-    $step2 = session('organisasi_detail');
+    {
+        // Ambil data dari session
+        $step1 = session('register_data');
+        $step2 = session('organisasi_detail');
 
-    // Jika salah satu tidak ada, redirect balik
-    if (!$step1 || !$step2) {
-        return redirect()->route('register.organisasi.step1')->with('error', 'Data tidak lengkap, silakan isi dari awal.');
-    }
+        // Jika salah satu tidak ada, redirect balik
+        if (!$step1 || !$step2) {
+            return redirect()->route('register.organisasi.step1')->with('error', 'Data tidak lengkap, silakan isi dari awal.');
+        }
 
-    // Tampilkan halaman preview
-    return view('auth.register3_organisasi', compact('step1', 'step2'));
+        // Tampilkan halaman preview
+        return view('auth.register3_organisasi', compact('step1', 'step2'));
     }
     public function finalizeOrganisasiRegistration()
     {
-    $step1 = session('register_data');
-    $step2 = session('organisasi_detail');
+        $step1 = session('register_data');
+        $step2 = session('organisasi_detail');
 
-    if (!$step1 || !$step2) {
-        return redirect()->route('register.organisasi.step1')->with('error', 'Data tidak lengkap.');
-    }
+        if (!$step1 || !$step2) {
+            return redirect()->route('register.organisasi.step1')->with('error', 'Data tidak lengkap.');
+        }
 
-    // Simpan user
-    $user = User::create([
-        'name' => $step1['name'],
-        'email' => $step1['email'],
-        'password' => $step1['password'],
-        'role' => $step1['role'],
-        'phone' => $step1['phone'],
-    ]);
+        // Simpan user
+        $user = User::create([
+            'name' => $step1['name'],
+            'email' => $step1['email'],
+            'password' => $step1['password'],
+            'role' => $step1['role'],
+            'phone' => $step1['phone'],
+        ]);
 
-    // Simpan profile organisasi (pastikan kamu punya model OrganizationProfile)
-    OrganizationProfile::create([
-        'user_id' => $user->id,
-        'nama_organisasi' => $step2['nama_organisasi'],
-        'tipe_organisasi' => $step2['tipe_organisasi'],
-        'tanggal_berdiri' => $step2['tanggal_berdiri'],
-        'lokasi' => $step2['lokasi'],
-        'deskripsi_singkat' => $step2['deskripsi_singkat'] ?? null,
-        'fokus_utama' => $step2['fokus_utama'] ?? null,
-        'alamat' => $step2['alamat'],
-        'provinsi' => $step2['provinsi'],
-        'kabupaten_kota' => $step2['kabupaten_kota'],
-        'kodepos' => $step2['kodepos'],
-        'no_telp' => $step2['no_telp'],
-        'website' => $step2['website'] ?? null,
-        'logo_path' => $step2['logo_path'] ?? null,
-    ]);
+        // Simpan profile organisasi (pastikan kamu punya model OrganizationProfile)
+        OrganizationProfile::create([
+            'user_id' => $user->id,
+            'nama_organisasi' => $step2['nama_organisasi'],
+            'tipe_organisasi' => $step2['tipe_organisasi'],
+            'tanggal_berdiri' => $step2['tanggal_berdiri'],
+            'lokasi' => $step2['lokasi'],
+            'deskripsi_singkat' => $step2['deskripsi_singkat'] ?? null,
+            'fokus_utama' => $step2['fokus_utama'] ?? null,
+            'alamat' => $step2['alamat'],
+            'provinsi' => $step2['provinsi'],
+            'kabupaten_kota' => $step2['kabupaten_kota'],
+            'kodepos' => $step2['kodepos'],
+            'no_telp' => $step2['no_telp'],
+            'website' => $step2['website'] ?? null,
+            'logo_path' => $step2['logo_path'] ?? null,
+        ]);
 
-    // Bersihkan session
-    session()->forget(['register_data', 'organisasi_detail']);
+        // Bersihkan session
+        session()->forget(['register_data', 'organisasi_detail']);
 
-    return redirect()->route('otp.form')->with('success', 'Akun organisasi berhasil dibuat. Silakan verifikasi email.');
+        return redirect()->route('otp.form')->with('success', 'Akun organisasi berhasil dibuat. Silakan verifikasi email.');
     }
 
 
