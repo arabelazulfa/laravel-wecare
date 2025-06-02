@@ -72,11 +72,13 @@ class RegisterController extends Controller
         return redirect()->route('otp.form')->with('success', 'Kode OTP telah dikirim ke email Anda.');
     }
 
-    public function storeOrganisasi(Request $request)
+    public function storeOrganisasiStep1(Request $request)
     {
+        // Validasi input form step 1
         $request->validate([
-            'name' => 'required|string|max:255',
+            'contact_name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email',
+            'phone' => 'required|string|max:20',
             'password' => 'required|min:6|confirmed',
             // Validasi fields untuk organization_profiles:
             'org_name' => 'required|string|max:255',
@@ -93,7 +95,6 @@ class RegisterController extends Controller
             // sesuaikan dengan kebutuhan
         ]);
 
-        // Buat User
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
@@ -119,15 +120,37 @@ class RegisterController extends Controller
         ]);
 
         $otp = rand(100000, 999999);
-
         session([
             'otp' => $otp,
             'otp_email' => $user->email,
-            'otp_expires_at' => now()->addMinutes(5),
         ]);
 
         Mail::to($request->email)->send(new OtpMail($otp));
 
-        return redirect()->route('otp.form')->with('success', 'Kode OTP telah dikirim ke email Anda.');
+        // Simpan data, upload logo jika ada, dll.
     }
+    public function showOrganisasiStep2()
+    {
+        // Cek apakah data dari step 1 tersedia
+        if (!session()->has('register_data')) {
+            return redirect()->route('register.organisasi.step1')->with('error', 'Silakan isi data kontak terlebih dahulu.');
+        }
+
+        return view('auth.register2_organisasi'); // Pastikan nama path view-nya sesuai
+    }
+    public function showOrganisasiPreview()
+    {   
+    // Ambil data dari session
+    $step1 = session('register_data');
+    $step2 = session('organisasi_detail');
+
+    // Jika salah satu tidak ada, redirect balik
+    if (!$step1 || !$step2) {
+        return redirect()->route('register.organisasi.step1')->with('error', 'Data tidak lengkap, silakan isi dari awal.');
+    }
+
+    // Tampilkan halaman preview
+    return view('auth.register3_organisasi', compact('step1', 'step2'));
+    }
+
 }
