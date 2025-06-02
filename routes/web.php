@@ -25,6 +25,12 @@ Route::get('/login', function () {
 })->name('login');
 Route::post('/login', [LoginController::class, 'login']);
 
+Route::get('/register/volunteer', function () {
+    return view('auth.register_volunteer'); 
+})->name('register.volunteer');
+ 
+Route::post('/register/volunteer', [RegisterController::class, 'storeVolunteer'])->name('store.volunteer');
+
 // Form registrasi organisasi step 1 (GET)
 Route::get('/register/organisasi', function () {
     return view('auth.register_organisasi');
