@@ -10,6 +10,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\OtpController;
 use App\Http\Controllers\LoginController;
+use Illuminate\Support\Facades\Auth;
 
 Route::get('/', function () {
     return view('welcome');
@@ -55,6 +56,12 @@ Route::post('/otp', [OtpController::class, 'verifyOtp'])->name('otp.verify');
 Route::post('/otp/resend', [OtpController::class, 'resendOtp'])->name('otp.resend');
 
 Route::get('/activities', [EventController::class, 'showForVolunteer'])->name('volunteer.events');
+
+Route::post('/logout', function () {
+    Auth::logout();
+    return redirect('/login');
+})->name('logout');
+
 
 // auth-protected pages
 Route::middleware('auth')->group(function () {
