@@ -47,6 +47,8 @@
 
   <form method="POST" action="{{ route('otp.resend', ['role' => $role]) }}" class="text-center mt-2">
     @csrf
+    <input type="hidden" name="email" value="{{ $email }}">
+    <input type="hidden" name="role" value="{{ $role }}">
     <button type="submit" class="text-[#4A7CFD] font-semibold hover:underline">
       Kirim ulang kode OTP
     </button>
