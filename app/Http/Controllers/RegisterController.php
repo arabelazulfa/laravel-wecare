@@ -116,28 +116,20 @@ class RegisterController extends Controller
             'logo' => 'nullable|image|max:2048',
         ]);
 
-        // Simpan data detail organisasi ke session
-        session(['organisasi_detail' => $validated]);
-
-        // Ambil email dari data step 1 di session
-        $registerData = session('register_data');
-        $email = $registerData['email'] ?? null;
-
-        if (!$email) {
-            return redirect()->route('register.organisasi.step1')->with('error', 'Email tidak ditemukan, silakan ulangi pendaftaran.');
+        // Proses upload logo jika ada
+        if ($request->hasFile('logo')) {
+            $validated['logo_path'] = $request->file('logo')->store('logos', 'public');
+        } else {
+            $validated['logo_path'] = null;
         }
 
-        //Generate OTP
-        $otp = rand(100000, 999999);
+        // Hapus elemen 'logo' yang berupa objek UploadedFile, agar tidak disimpan ke session
+        unset($validated['logo']);
 
-        // Kirim OTP ke email
-        Mail::to($request->email)->send(new OtpMail($otp));
+        // Simpan data ke session, tanpa objek file
+        session(['organisasi_detail' => $validated]);
 
-        //Redirect ke halaman OTP
-        return redirect()->route('otp.form', ['role' => 'organisasi', 'email' => $email])
-            ->with('success', 'Kode OTP telah dikirim ke email Anda.');
-
-        // Simpan data, upload logo jika ada, dll.
+        return redirect()->route('register.organisasi.preview');
     }
 
 
@@ -203,12 +195,26 @@ class RegisterController extends Controller
         // Bersihkan session
         session()->forget(['register_data', 'organisasi_detail']);
 
-        return redirect()->route('otp.form')->with('success', 'Akun organisasi berhasil dibuat. Silakan verifikasi email.');
+        // Generate OTP
+        $otp = rand(100000, 999999);
+
+        // Simpan session OTP
+        session([
+            'otp' => $otp,
+            'otp_email' => $user->email,
+            'otp_expires_at' => now()->addMinutes(5),
+        ]);
+
+        // Kirim OTP ke email
+        Mail::to($user->email)->send(new OtpMail($otp));
+
+        // Redirect ke halaman OTP
+        return redirect()->route('otp.form', ['role' => 'organisasi', 'email' => $user->email])
+            ->with('success', 'Kode OTP telah dikirim ke email Anda.');
     }
-
-
-    // return redirect()->route('otp.form', ['role' => 'organisasi', 'email' => $request->email])
-    // ->with('success', 'Kode OTP telah dikirim ke email Anda.');
-
+    public function showKonfirmasi()
+{
+    return view('auth.register_organisasi_konfirmasi'); // buat file blade-nya juga
+}
 
 }
