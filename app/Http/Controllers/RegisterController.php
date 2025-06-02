@@ -4,8 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
-use App\Models\VolunteerProfile;
-use App\Models\OrganizationProfile;
 use Illuminate\Support\Facades\Hash;
 use App\Mail\OtpMail;
 use Illuminate\Support\Facades\Mail;
@@ -14,64 +12,45 @@ class RegisterController extends Controller
 {
     public function storeVolunteer(Request $request)
     {
-        // Validasi form termasuk file KTP dan fields volunteer profile
+        // Validasi form termasuk file KTP
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email',
             'password' => 'required|min:6|confirmed',
-            'phone' => 'required|string',
-            'gender' => 'required|in:Laki-Laki,Perempuan',
-            'birthdate' => 'required|date',
-            'ktp' => 'required|image|mimes:jpeg,png,jpg|max:2048',
-            'province' => 'required|string',
-            'city' => 'required|string',
-            'profession' => 'required|string',
-            'minat1' => 'required|string',
-            'minat2' => 'required|string',
+            'ktp' => 'required|image|mimes:jpeg,png,jpg|max:2048', // validasi file KTP
         ]);
 
-
-        // Upload KTP
+        // Upload KTP ke storage/app/public/ktp_images
         $ktpPath = $request->file('ktp')->store('ktp_images', 'public');
 
-        // Buat User
+        // Simpan user
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'role' => 'volunteer',
-            'phone' => $request->phone ?? null,
-            'gender' => $request->gender ?? null,
-            'birthdate' => $request->birthdate ?? null,
+            'phone' => $request->phone,
+            'gender' => $request->gender,
+            'birthdate' => $request->birthdate,
             'ktp_path' => $ktpPath,
         ]);
 
-        // Simpan ke volunteer_profiles
-        VolunteerProfile::create([
-            'user_id' => $user->id,
-            'profession' => $request->profession,
-            'city' => $request->city,
-            'interest1' => $request->interest1,
-            'interest2' => $request->interest2,
-            'ktp_file' => $ktpPath, // atau sesuai kolom di tabel volunteer_profiles
-            // tambahkan fields lain jika ada
-        ]);
 
-        // Generate OTP
+
+        // Generate OTP 6 digit
         $otp = rand(100000, 999999);
 
-        // Simpan session OTP
+        // Simpan OTP dan email ke session
         session([
             'otp' => $otp,
             'otp_email' => $user->email,
-            'otp_expires_at' => now()->addMinutes(5),
+            'otp_expires_at' => now()->addMinutes(5), // Set OTP expired dalam 10 menit
         ]);
 
         Mail::to($request->email)->send(new OtpMail($otp));
 
-        return redirect()->route('otp.form', ['role' => 'volunteer', 'email' => $request->email])
-            ->with('success', 'Kode OTP telah dikirim ke email Anda.');
-
+        // Redirect ke halaman OTP
+        return redirect()->route('otp.form')->with('success', 'Kode OTP telah dikirim ke email Anda.');
     }
 
     public function storeOrganisasiStep1(Request $request)
@@ -116,23 +95,8 @@ class RegisterController extends Controller
             'logo' => 'nullable|image|max:2048',
         ]);
 
-        // Proses upload logo jika ada
-        if ($request->hasFile('logo')) {
-            $validated['logo_path'] = $request->file('logo')->store('logos', 'public');
-        } else {
-            $validated['logo_path'] = null;
-        }
-
-        // Hapus elemen 'logo' yang berupa objek UploadedFile, agar tidak disimpan ke session
-        unset($validated['logo']);
-
-        // Simpan data ke session, tanpa objek file
-        session(['organisasi_detail' => $validated]);
-
-        return redirect()->route('register.organisasi.preview');
+        // Simpan data, upload logo jika ada, dll.
     }
-
-
     public function showOrganisasiStep2()
     {
         // Cek apakah data dari step 1 tersedia
@@ -143,15 +107,15 @@ class RegisterController extends Controller
         return view('auth.register2_organisasi'); // Pastikan nama path view-nya sesuai
     }
     public function showOrganisasiPreview()
-    {
-        // Ambil data dari session
-        $step1 = session('register_data');
-        $step2 = session('organisasi_detail');
+    {   
+    // Ambil data dari session
+    $step1 = session('register_data');
+    $step2 = session('organisasi_detail');
 
-        // Jika salah satu tidak ada, redirect balik
-        if (!$step1 || !$step2) {
-            return redirect()->route('register.organisasi.step1')->with('error', 'Data tidak lengkap, silakan isi dari awal.');
-        }
+    // Jika salah satu tidak ada, redirect balik
+    if (!$step1 || !$step2) {
+        return redirect()->route('register.organisasi.step1')->with('error', 'Data tidak lengkap, silakan isi dari awal.');
+    }
 
         // Tampilkan halaman preview
         return view('auth.register3_organisasi', compact('step1', 'step2'));
@@ -213,8 +177,8 @@ class RegisterController extends Controller
             ->with('success', 'Kode OTP telah dikirim ke email Anda.');
     }
     public function showKonfirmasi()
-    {
+{
     return view('auth.register_organisasi_konfirmasi'); // buat file blade-nya juga
-    }
+}
 
 }

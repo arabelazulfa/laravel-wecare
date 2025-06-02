@@ -5,7 +5,8 @@
   <h1 class="text-2xl font-bold mb-6 text-center text-black">Daftar Volunteer Event</h1>
 
   <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-    @foreach ($events as $event)
+    @forelse ($events as $event)
+    <div class="bg-white rounded overflow-hidden shadow hover:shadow-lg transition-shadow duration-300"></div>
     <a href="{{ route('events.show', $event->id) }}" 
          class="block rounded overflow-hidden shadow hover:shadow-lg hover:cursor-pointer transition-shadow duration-300">
         <x-event-card 
@@ -17,7 +18,7 @@
           image="{{ $event->photo }}"
           tags="{{ $event->category }}"
         />
-      </a>
+    </a>
 
       {{-- Contoh tombol daftar cuma muncul buat volunteer yang sudah login --}}
     @auth
@@ -30,9 +31,12 @@
         </div>
       @endif
     @endauth
-
-    @endforeach
   </div>
+    @empty
+      <p class="text-center col-span-full text-gray-500">Belum ada event relawan yang tersedia.</p>
+    @endforelse
+  </div>
+
   {{-- Kalau user belum login, bisa tampilkan pesan atau tombol login --}}
   @guest
     <div class="text-center mt-8">

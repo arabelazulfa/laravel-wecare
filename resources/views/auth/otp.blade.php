@@ -25,7 +25,7 @@
     WeCare
   </div>
 
-  <form method="POST" action="{{ route('otp.verify', ['role' => $role]) }}" autocomplete="off" class="bg-[#FDCACA] rounded-xl w-full max-w-md p-6" spellcheck="false">
+  <form method="POST" action="{{ route('otp.verify') }}" autocomplete="off" class="bg-[#FDCACA] rounded-xl w-full max-w-md p-6" spellcheck="false">
     @csrf
     <h2 class="text-center text-black text-xl mb-6 font-medium">Masukkan Kode OTP</h2>
     <p class="text-center text-black mb-6">
@@ -45,10 +45,8 @@
     </button>
   </form>
 
-  <form method="POST" action="{{ route('otp.resend', ['role' => $role]) }}" class="text-center mt-2">
+  <form method="POST" action="{{ route('otp.resend') }}" class="text-center mt-2">
     @csrf
-    <input type="hidden" name="email" value="{{ $email }}">
-    <input type="hidden" name="role" value="{{ $role }}">
     <button type="submit" class="text-[#4A7CFD] font-semibold hover:underline">
       Kirim ulang kode OTP
     </button>
