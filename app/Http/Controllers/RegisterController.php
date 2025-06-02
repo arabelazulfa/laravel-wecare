@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use App\Mail\OtpMail;
 use Illuminate\Support\Facades\Mail;
+use App\Models\OrganizationProfile;
 
 class RegisterController extends Controller
 {
@@ -177,8 +178,8 @@ class RegisterController extends Controller
             ->with('success', 'Kode OTP telah dikirim ke email Anda.');
     }
     public function showKonfirmasi()
-{
+    {
     return view('auth.register_organisasi_konfirmasi'); // buat file blade-nya juga
-}
+    }
 
 }

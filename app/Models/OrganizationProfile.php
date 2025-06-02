@@ -11,10 +11,19 @@ class OrganizationProfile extends Model
 
     protected $fillable = [
         'user_id',
-        'org_name',
-        'address',
-        'logo',
-        // tambahin field lain yang ada di tabel lo
+        'nama_organisasi',
+        'tipe_organisasi',
+        'tanggal_berdiri',
+        'lokasi',
+        'deskripsi_singkat',
+        'fokus_utama',
+        'alamat',
+        'provinsi',
+        'kabupaten_kota',
+        'kodepos',
+        'no_telp',
+        'website',
+        'logo_path',
     ];
 
     public function user()

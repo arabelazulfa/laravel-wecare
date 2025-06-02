@@ -46,6 +46,8 @@ Route::get('/register/organisasi/preview', [RegisterController::class, 'showOrga
 
 Route::get('/register/organisasi/konfirmasi', [RegisterController::class, 'showKonfirmasi'])
     ->name('register.organisasi.konfirmasi');
+Route::post('/register/organisasi/konfirmasi', [RegisterController::class, 'showKonfirmasi'])
+    ->name('register.organisasi.konfirmasi');
 
 //route OTP
 Route::get('/otp', [OtpController::class, 'showOtpForm'])->name('otp.form');
