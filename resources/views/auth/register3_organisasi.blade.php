@@ -1,17 +1,17 @@
 @extends('layouts.app')
 
 @section('content')
-    @if ($errors->any())
-        <div class="alert alert-danger max-w-md mx-auto mt-4">
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li class="text-red-600">{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-    @endif
+    <div class="form-container">
+        @if ($errors->any())
+            <div class="alert alert-danger max-w-md mx-auto mt-4 text-sm">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li class="text-red-600">{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
 
-    <div class="preview-wrapper">
         <div class="preview-card">
             <h3>Preview Pendaftaran Organisasi</h3>
 
@@ -56,54 +56,48 @@
     </div>
 
     <style>
-        body {
-            background-color: #fddde6 !important;
-        }
-        .preview-wrapper {
-            width: 100%;
-            padding: 40px 50px;
-            box-sizing: border-box;
+        .form-container {
+            max-width: 960px;
+            margin: 30px auto;
+            padding: 0 16px;
         }
 
         .preview-card {
             background-color: white;
-            width: 100%;
-            max-width: 1000px;
-            margin: 0 auto;
-            padding: 40px 50px;
+            padding: 30px 40px;
             border-radius: 10px;
             box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
+            font-size: 14px;
         }
 
         h3 {
             text-align: center;
-            margin-bottom: 40px;
-            font-size: 36px;
+            margin-bottom: 30px;
+            font-size: 24px;
             font-weight: 700;
-            color:rgb(2, 2, 2);
-            letter-spacing: 1.2px;
+            color: rgb(2, 2, 2);
+            letter-spacing: 1px;
         }
 
         .section-title {
-            font-size: 22px;
+            font-size: 16px;
             font-weight: 700;
-            margin-top: 35px;
-            margin-bottom: 15px;
+            margin-top: 25px;
+            margin-bottom: 12px;
             color: #444;
             border-bottom: 2px solid #f48ca5;
-            padding-bottom: 5px;
-            letter-spacing: 0.5px;
+            padding-bottom: 4px;
         }
 
         .info-row {
             display: flex;
-            margin: 8px 0;
-            font-size: 16px;
+            margin: 6px 0;
+            font-size: 14px;
             align-items: flex-start;
         }
 
         .info-label {
-            width: 200px;
+            width: 180px;
             font-weight: 600;
             color: #555;
         }
@@ -120,14 +114,14 @@
         .form-button {
             display: flex;
             justify-content: flex-end;
-            margin-top: 40px;
+            margin-top: 30px;
         }
 
         .btn-primary-custom {
             background-color: #007bff;
             color: white;
-            font-size: 16px;
-            padding: 12px 36px;
+            font-size: 14px;
+            padding: 10px 28px;
             border-radius: 5px;
             border: none;
             cursor: pointer;
@@ -144,8 +138,10 @@
             margin-top: 10px;
             border-radius: 6px;
             box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-            max-width: 140px;
+            max-width: 120px;
             height: auto;
         }
     </style>
 @endsection
+
+

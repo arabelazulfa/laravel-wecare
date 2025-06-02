@@ -1,6 +1,12 @@
+@extends('layouts.app')
+
+@section('title', 'Registrasi Akun Organisasi - WeCare')
+
+@section('content')
+
 @if ($errors->any())
-    <div class="alert alert-danger">
-        <ul>
+    <div class="alert alert-danger text-sm text-red-600 mb-4">
+        <ul class="list-disc pl-5">
             @foreach ($errors->all() as $error)
                 <li>{{ $error }}</li>
             @endforeach
@@ -8,21 +14,7 @@
     </div>
 @endif
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Registrasi Akun Organisasi</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet" />
-  <style>
-    body {
-      font-family: 'Poppins', sans-serif;
-    }
-  </style>
-</head>
-<body class="bg-[#FCE9E9] min-h-screen flex flex-col items-center pt-8 px-4">
+<div class="bg-[#FCE9E9] min-h-screen flex flex-col items-center pt-8 px-4">
 
   <!-- Header -->
   <div class="bg-[#F19494] rounded-lg w-full max-w-md text-white text-center py-3 font-semibold text-lg mb-6 shadow-md">
@@ -132,5 +124,6 @@
       </button>
     </form>
   </main>
-</body>
-</html>
+</div>
+
+@endsection
