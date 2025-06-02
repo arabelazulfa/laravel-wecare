@@ -213,8 +213,8 @@ class RegisterController extends Controller
             ->with('success', 'Kode OTP telah dikirim ke email Anda.');
     }
     public function showKonfirmasi()
-{
+    {
     return view('auth.register_organisasi_konfirmasi'); // buat file blade-nya juga
-}
+    }
 
 }

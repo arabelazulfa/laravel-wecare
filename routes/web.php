@@ -39,6 +39,7 @@ Route::get('/register/organisasi/preview', [RegisterController::class, 'showOrga
 
 Route::get('/register/organisasi/konfirmasi', [RegisterController::class, 'showKonfirmasi'])
     ->name('register.organisasi.konfirmasi');
+Route::post('register/organisasi/konfirmasi', [RegisterController::class, 'showkonfirmasi'])->name('register.organisasi.konfirmasi');
 
 // Step Final: Simpan ke database
 Route::post('/register/organisasi/submit', [RegisterController::class, 'submitOrganisasiRegistration'])->name('register.organisasi.submit');
