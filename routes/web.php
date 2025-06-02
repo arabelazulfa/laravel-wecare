@@ -88,3 +88,4 @@ Route::middleware('auth')->group(function () {
 
     // Route::get('/volunteer/events', [EventController::class, 'showForVolunteer'])->name('volunteer.events');
 });
+
