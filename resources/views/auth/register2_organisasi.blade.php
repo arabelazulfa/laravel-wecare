@@ -1,3 +1,13 @@
+@if ($errors->any())
+  <div class="text-red-500 text-xs mb-2">
+    <ul>
+      @foreach ($errors->all() as $error)
+        <li>{{ $error }}</li>
+      @endforeach
+    </ul>
+  </div>
+@endif
+
 <!DOCTYPE html>
 <html lang="en">
 <head>

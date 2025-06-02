@@ -41,7 +41,7 @@
         h3 {
             text-align: center;
             margin-bottom: 40px;
-            font-size: 36px; /* diperbesar */
+            font-size: 36px;
             font-weight: 700;
             color: #d6336c;
             letter-spacing: 1.2px;
@@ -58,15 +58,17 @@
             letter-spacing: 0.5px;
         }
 
-        p {
+        .info-row {
+            display: flex;
             margin: 8px 0;
             font-size: 16px;
+            align-items: flex-start;
         }
 
         .info-label {
             font-weight: 600;
             color: #555;
-            min-width: 180px;
+            min-width: 200px;
             display: inline-block;
         }
 
@@ -94,9 +96,11 @@
         }
 
         img {
-            margin-top: 10px;
+            margin-top: 5px;
             border-radius: 6px;
             box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            max-width: 200px;
+            height: auto;
         }
     </style>
 </head>
@@ -109,29 +113,31 @@
 
             <div>
                 <div class="section-title">Informasi Kontak</div>
-                <p><span class="info-label">Nama Kontak:</span> {{ $step1['name'] }}</p>
-                <p><span class="info-label">Email:</span> {{ $step1['email'] }}</p>
-                <p><span class="info-label">No. Telepon:</span> {{ $step1['phone'] }}</p>
+                <div class="info-row"><span class="info-label">Nama Kontak:</span><span>{{ $step1['name'] }}</span></div>
+                <div class="info-row"><span class="info-label">Email:</span><span>{{ $step1['email'] }}</span></div>
+                <div class="info-row"><span class="info-label">No. Telepon:</span><span>{{ $step1['phone'] }}</span></div>
             </div>
 
             <div>
                 <div class="section-title">Detail Organisasi</div>
-                <p><span class="info-label">Nama Organisasi:</span> {{ $step2['nama_organisasi'] }}</p>
-                <p><span class="info-label">Tipe Organisasi:</span> {{ $step2['tipe_organisasi'] }}</p>
-                <p><span class="info-label">Tanggal Berdiri:</span> {{ $step2['tanggal_berdiri'] }}</p>
-                <p><span class="info-label">Lokasi:</span> {{ $step2['lokasi'] }}</p>
-                <p><span class="info-label">Deskripsi Singkat:</span> {{ $step2['deskripsi_singkat'] ?? '-' }}</p>
-                <p><span class="info-label">Fokus Utama:</span> {{ $step2['fokus_utama'] ?? '-' }}</p>
-                <p><span class="info-label">Alamat:</span> {{ $step2['alamat'] }}</p>
-                <p><span class="info-label">Provinsi:</span> {{ $step2['provinsi'] }}</p>
-                <p><span class="info-label">Kabupaten/Kota:</span> {{ $step2['kabupaten_kota'] }}</p>
-                <p><span class="info-label">Kode Pos:</span> {{ $step2['kodepos'] }}</p>
-                <p><span class="info-label">No. Telepon Organisasi:</span> {{ $step2['no_telp'] }}</p>
-                <p><span class="info-label">Website:</span> {{ $step2['website'] ?? '-' }}</p>
+                <div class="info-row"><span class="info-label">Nama Organisasi:</span><span>{{ $step2['nama_organisasi'] }}</span></div>
+                <div class="info-row"><span class="info-label">Tipe Organisasi:</span><span>{{ $step2['tipe_organisasi'] }}</span></div>
+                <div class="info-row"><span class="info-label">Tanggal Berdiri:</span><span>{{ $step2['tanggal_berdiri'] }}</span></div>
+                <div class="info-row"><span class="info-label">Lokasi:</span><span>{{ $step2['lokasi'] }}</span></div>
+                <div class="info-row"><span class="info-label">Deskripsi Singkat:</span><span>{{ $step2['deskripsi_singkat'] ?? '-' }}</span></div>
+                <div class="info-row"><span class="info-label">Fokus Utama:</span><span>{{ $step2['fokus_utama'] ?? '-' }}</span></div>
+                <div class="info-row"><span class="info-label">Alamat:</span><span>{{ $step2['alamat'] }}</span></div>
+                <div class="info-row"><span class="info-label">Provinsi:</span><span>{{ $step2['provinsi'] }}</span></div>
+                <div class="info-row"><span class="info-label">Kabupaten/Kota:</span><span>{{ $step2['kabupaten_kota'] }}</span></div>
+                <div class="info-row"><span class="info-label">Kode Pos:</span><span>{{ $step2['kodepos'] }}</span></div>
+                <div class="info-row"><span class="info-label">No. Telepon Organisasi:</span><span>{{ $step2['no_telp'] }}</span></div>
+                <div class="info-row"><span class="info-label">Website:</span><span>{{ $step2['website'] ?? '-' }}</span></div>
 
                 @if(isset($step2['logo_path']))
-                    <p><span class="info-label">Logo:</span></p>
-                    <img src="{{ asset('storage/' . $step2['logo_path']) }}" alt="Logo Organisasi" width="140" />
+                    <div class="info-row">
+                        <span class="info-label">Logo:</span>
+                        <span><img src="{{ asset('storage/' . $step2['logo_path']) }}" alt="Logo Organisasi"></span>
+                    </div>
                 @endif
             </div>
 
