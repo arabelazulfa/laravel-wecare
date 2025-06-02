@@ -9,14 +9,20 @@ use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\OtpController;
-
-
+use App\Http\Controllers\LoginController;
 
 Route::get('/', function () {
     return view('welcome');
 });
-Route::view('/register', 'daftar');
-Route::view('/login', 'login')->name('login');
+
+Route::get('/register', function () {
+    return view('daftar');  
+})->name('register');
+
+Route::get('/login', function () {
+    return view('login');
+})->name('login');
+Route::post('/login', [LoginController::class, 'login']);
 
 // Form registrasi organisasi step 1 (GET)
 Route::get('/register/organisasi', function () {
@@ -33,6 +39,22 @@ Route::get('/register/organisasi/step2', function () {
 
 //Route::get('/register/organisasi/step2', [RegisterController::class, 'showOrganisasiStep2'])->name('register.organisasi.step2');
 Route::post('/register/organisasi/step2', [RegisterController::class, 'storeOrganisasiDetail'])->name('register.organisasi.detail.store');
+
+// Halaman form register volunteer & organisasi
+Route::get('/register/volunteer', function () {
+    return view('auth.register_volunteer');
+});
+
+// Proses simpan data pendaftaran
+Route::post('/register/volunteer', [RegisterController::class, 'storeVolunteer'])->name('register.volunteer');
+//Route::post('/register/organisasi', [RegisterController::class, 'storeOrganisasi'])->name('register.organisasi');
+
+//route OTP
+Route::get('/otp', [OtpController::class, 'showOtpForm'])->name('otp.form');
+Route::post('/otp', [OtpController::class, 'verifyOtp'])->name('otp.verify');
+Route::post('/otp/resend', [OtpController::class, 'resendOtp'])->name('otp.resend');
+
+Route::get('/activities', [EventController::class, 'showForVolunteer'])->name('volunteer.events');
 
 // auth-protected pages
 Route::middleware('auth')->group(function () {
@@ -64,39 +86,5 @@ Route::middleware('auth')->group(function () {
     [NotificationController::class, 'markAsRead'])
     ->name('notifications.read');
 
-
+    // Route::get('/volunteer/events', [EventController::class, 'showForVolunteer'])->name('volunteer.events');
 });
-
-Route::get('/', function () {
-    return view('welcome');
-});
-Route::get('/register', function () {
-    return view('daftar');  
-})->name('register');
-
-// Halaman form register volunteer & organisasi
-Route::get('/register/volunteer', function () {
-    return view('auth.register_volunteer');
-});
-
-
-
-// Proses simpan data pendaftaran
-Route::post('/register/volunteer', [RegisterController::class, 'storeVolunteer'])->name('register.volunteer');
-//Route::post('/register/organisasi', [RegisterController::class, 'storeOrganisasi'])->name('register.organisasi');
-
-//route OTP
-Route::get('/otp', [OtpController::class, 'showOtpForm'])->name('otp.form');
-Route::post('/otp', [OtpController::class, 'verifyOtp'])->name('otp.verify');
-Route::post('/otp/resend', [OtpController::class, 'resendOtp'])->name('otp.resend');
-
-Route::get('/volunteer/events', [EventController::class, 'showForVolunteer'])->name('volunteer.events');
-
-Route::get('/activities', [EventController::class, 'showForVolunteer'])->name('volunteer.events');
-
-// Route::get('/login', function () {
-//     return view('login');
-// })->name('login');
-
-
-
