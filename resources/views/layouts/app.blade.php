@@ -21,10 +21,11 @@
   </div>
 
   {{-- Content --}}
-  <main class="w-full max-w-md md:max-w-lg lg:max-w-[1000px] bg-white shadow-md rounded-xl px-6 py-8 mx-auto">
-    @yield('content')
-  </main>
-
+  <div class="flex justify-center px-4">
+    <main class="w-full max-w-xl bg-white shadow-md rounded-xl px-6 py-8">
+      @yield('content')
+    </main>
+  </div>
   {{-- Footer --}}
   <footer class="mt-auto text-xs text-gray-500 text-center">
     &copy; {{ date('Y') }} WeCare. All rights reserved.
