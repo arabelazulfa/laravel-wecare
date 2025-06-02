@@ -69,7 +69,9 @@ class RegisterController extends Controller
 
         Mail::to($request->email)->send(new OtpMail($otp));
 
-        return redirect()->route('otp.form')->with('success', 'Kode OTP telah dikirim ke email Anda.');
+        return redirect()->route('otp.form', ['role' => 'volunteer', 'email' => $request->email])
+            ->with('success', 'Kode OTP telah dikirim ke email Anda.');
+
     }
 
     public function storeOrganisasiStep1(Request $request)
@@ -125,6 +127,13 @@ class RegisterController extends Controller
             'otp_email' => $user->email,
         ]);
 
+        session([
+            'otp' => $otp,
+            'otp_email' => $user->email,
+            'otp_expires_at' => now()->addMinutes(5),
+        ]);
+
+
         Mail::to($request->email)->send(new OtpMail($otp));
 
         // Simpan data, upload logo jika ada, dll.
@@ -152,5 +161,9 @@ class RegisterController extends Controller
     // Tampilkan halaman preview
     return view('auth.register3_organisasi', compact('step1', 'step2'));
     }
+
+    // return redirect()->route('otp.form', ['role' => 'organisasi', 'email' => $request->email])
+    // ->with('success', 'Kode OTP telah dikirim ke email Anda.');
+
 
 }
