@@ -1,47 +1,75 @@
-@if ($errors->any())
-    <div class="alert alert-danger">
-        <ul>
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
+@extends('layouts.app')
+
+@section('content')
+    @if ($errors->any())
+        <div class="alert alert-danger max-w-md mx-auto mt-4">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li class="text-red-600">{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+
+    <div class="preview-wrapper">
+        <div class="preview-card">
+            <h3>Preview Pendaftaran Organisasi</h3>
+
+            <div>
+                <div class="section-title">Informasi Kontak</div>
+                <div class="info-row"><div class="info-label">Nama Kontak</div><div class="info-separator">:</div><div class="info-value">{{ $step1['name'] }}</div></div>
+                <div class="info-row"><div class="info-label">Email</div><div class="info-separator">:</div><div class="info-value">{{ $step1['email'] }}</div></div>
+                <div class="info-row"><div class="info-label">No. Telepon</div><div class="info-separator">:</div><div class="info-value">{{ $step1['phone'] }}</div></div>
+            </div>
+
+            <div>
+                <div class="section-title">Detail Organisasi</div>
+                <div class="info-row"><div class="info-label">Nama Organisasi</div><div class="info-separator">:</div><div class="info-value">{{ $step2['nama_organisasi'] }}</div></div>
+                <div class="info-row"><div class="info-label">Tipe Organisasi</div><div class="info-separator">:</div><div class="info-value">{{ $step2['tipe_organisasi'] }}</div></div>
+                <div class="info-row"><div class="info-label">Tanggal Berdiri</div><div class="info-separator">:</div><div class="info-value">{{ $step2['tanggal_berdiri'] }}</div></div>
+                <div class="info-row"><div class="info-label">Lokasi</div><div class="info-separator">:</div><div class="info-value">{{ $step2['lokasi'] }}</div></div>
+                <div class="info-row"><div class="info-label">Deskripsi Singkat</div><div class="info-separator">:</div><div class="info-value">{{ $step2['deskripsi_singkat'] ?? '-' }}</div></div>
+                <div class="info-row"><div class="info-label">Fokus Utama</div><div class="info-separator">:</div><div class="info-value">{{ $step2['fokus_utama'] ?? '-' }}</div></div>
+                <div class="info-row"><div class="info-label">Alamat</div><div class="info-separator">:</div><div class="info-value">{{ $step2['alamat'] }}</div></div>
+                <div class="info-row"><div class="info-label">Provinsi</div><div class="info-separator">:</div><div class="info-value">{{ $step2['provinsi'] }}</div></div>
+                <div class="info-row"><div class="info-label">Kabupaten/Kota</div><div class="info-separator">:</div><div class="info-value">{{ $step2['kabupaten_kota'] }}</div></div>
+                <div class="info-row"><div class="info-label">Kode Pos</div><div class="info-separator">:</div><div class="info-value">{{ $step2['kodepos'] }}</div></div>
+                <div class="info-row"><div class="info-label">No. Telepon Organisasi</div><div class="info-separator">:</div><div class="info-value">{{ $step2['no_telp'] }}</div></div>
+                <div class="info-row"><div class="info-label">Website</div><div class="info-separator">:</div><div class="info-value">{{ $step2['website'] ?? '-' }}</div></div>
+
+                @if(isset($step2['logo_path']))
+                    <div class="info-row">
+                        <div class="info-label">Logo</div>
+                        <div class="info-separator">:</div>
+                        <div class="info-value">
+                            <img src="{{ asset('storage/' . $step2['logo_path']) }}" alt="Logo Organisasi" class="logo-preview" />
+                        </div>
+                    </div>
+                @endif
+            </div>
+
+            <form method="POST" action="{{ route('register.organisasi.finalize') }}" class="form-button">
+                @csrf
+                <button type="submit" class="btn-primary-custom">Buat Akun</button>
+            </form>
+        </div>
     </div>
-@endif
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Preview Pendaftaran Organisasi</title>
+
     <style>
         body {
-            margin: 0;
-            background-color: #fddde6;
-            font-family: Arial, sans-serif;
-            line-height: 1.6;
-            color: #333;
+            background-color: #fddde6 !important;
         }
-
-        .header-bar {
-            background-color: #f48ca5;
-            color: white;
-            font-size: 26px;
-            font-weight: bold;
-            text-align: center;
-            padding: 20px 0;
-            user-select: none;
-        }
-
         .preview-wrapper {
-            display: flex;
-            justify-content: center;
-            padding: 40px 20px;
+            width: 100%;
+            padding: 40px 50px;
+            box-sizing: border-box;
         }
 
         .preview-card {
             background-color: white;
             width: 100%;
             max-width: 1000px;
+            margin: 0 auto;
             padding: 40px 50px;
             border-radius: 10px;
             box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
@@ -52,7 +80,7 @@
             margin-bottom: 40px;
             font-size: 36px;
             font-weight: 700;
-            color: #d6336c;
+            color:rgb(2, 2, 2);
             letter-spacing: 1.2px;
         }
 
@@ -120,52 +148,4 @@
             height: auto;
         }
     </style>
-</head>
-<body>
-    <div class="header-bar">WeCare</div>
-
-    <div class="preview-wrapper">
-        <div class="preview-card">
-            <h3>Preview Pendaftaran Organisasi</h3>
-
-            <div>
-                <div class="section-title">Informasi Kontak</div>
-                <div class="info-row"><div class="info-label">Nama Kontak</div><div class="info-separator">:</div><div class="info-value">{{ $step1['name'] }}</div></div>
-                <div class="info-row"><div class="info-label">Email</div><div class="info-separator">:</div><div class="info-value">{{ $step1['email'] }}</div></div>
-                <div class="info-row"><div class="info-label">No. Telepon</div><div class="info-separator">:</div><div class="info-value">{{ $step1['phone'] }}</div></div>
-            </div>
-
-            <div>
-                <div class="section-title">Detail Organisasi</div>
-                <div class="info-row"><div class="info-label">Nama Organisasi</div><div class="info-separator">:</div><div class="info-value">{{ $step2['nama_organisasi'] }}</div></div>
-                <div class="info-row"><div class="info-label">Tipe Organisasi</div><div class="info-separator">:</div><div class="info-value">{{ $step2['tipe_organisasi'] }}</div></div>
-                <div class="info-row"><div class="info-label">Tanggal Berdiri</div><div class="info-separator">:</div><div class="info-value">{{ $step2['tanggal_berdiri'] }}</div></div>
-                <div class="info-row"><div class="info-label">Lokasi</div><div class="info-separator">:</div><div class="info-value">{{ $step2['lokasi'] }}</div></div>
-                <div class="info-row"><div class="info-label">Deskripsi Singkat</div><div class="info-separator">:</div><div class="info-value">{{ $step2['deskripsi_singkat'] ?? '-' }}</div></div>
-                <div class="info-row"><div class="info-label">Fokus Utama</div><div class="info-separator">:</div><div class="info-value">{{ $step2['fokus_utama'] ?? '-' }}</div></div>
-                <div class="info-row"><div class="info-label">Alamat</div><div class="info-separator">:</div><div class="info-value">{{ $step2['alamat'] }}</div></div>
-                <div class="info-row"><div class="info-label">Provinsi</div><div class="info-separator">:</div><div class="info-value">{{ $step2['provinsi'] }}</div></div>
-                <div class="info-row"><div class="info-label">Kabupaten/Kota</div><div class="info-separator">:</div><div class="info-value">{{ $step2['kabupaten_kota'] }}</div></div>
-                <div class="info-row"><div class="info-label">Kode Pos</div><div class="info-separator">:</div><div class="info-value">{{ $step2['kodepos'] }}</div></div>
-                <div class="info-row"><div class="info-label">No. Telepon Organisasi</div><div class="info-separator">:</div><div class="info-value">{{ $step2['no_telp'] }}</div></div>
-                <div class="info-row"><div class="info-label">Website</div><div class="info-separator">:</div><div class="info-value">{{ $step2['website'] ?? '-' }}</div></div>
-
-                @if(isset($step2['logo_path']))
-                    <div class="info-row">
-                        <div class="info-label">Logo</div>
-                        <div class="info-separator">:</div>
-                        <div class="info-value">
-                            <img src="{{ asset('storage/' . $step2['logo_path']) }}" alt="Logo Organisasi" class="logo-preview" />
-                        </div>
-                    </div>
-                @endif
-            </div>
-
-            <form method="POST" action="{{ route('register.organisasi.konfirmasi') }}" class="form-button">
-                @csrf
-                <button type="submit" class="btn-primary-custom">Buat Akun</button>
-            </form>
-        </div>
-    </div>
-</body>
-</html>
+@endsection

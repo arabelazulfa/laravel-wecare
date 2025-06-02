@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta content="width=device-width, initial-scale=1" name="viewport" />
@@ -10,6 +11,7 @@
     body {
       font-family: "Poppins", sans-serif;
     }
+
     input.otp-box {
       width: 3rem;
       height: 3rem;
@@ -20,27 +22,39 @@
     }
   </style>
 </head>
+
 <body class="bg-[#FCE9E9] min-h-screen flex flex-col items-center pt-8 px-4">
   <div class="bg-[#F19494] rounded-lg w-full max-w-md text-white text-center py-2 font-semibold text-lg mb-6">
     WeCare
   </div>
 
-  <form method="POST" action="{{ route('otp.verify') }}" autocomplete="off" class="bg-[#FDCACA] rounded-xl w-full max-w-md p-6" spellcheck="false">
+  <form method="POST" action="{{ route('otp.verify') }}" autocomplete="off"
+    class="bg-[#FDCACA] rounded-xl w-full max-w-md p-6" spellcheck="false">
     @csrf
+    @php
+    $role = session('role');
+  @endphp
+
     <h2 class="text-center text-black text-xl mb-6 font-medium">Masukkan Kode OTP</h2>
-    <p class="text-center text-black mb-6">
-      Kami telah mengirimkan kode OTP ke email/nomor telepon Anda.
-    </p>
+
+    @if ($role === 'organisasi')
+    <p class="text-center text-black mb-6">Silakan masukkan OTP yang dikirim ke email organisasi Anda.</p>
+  @else
+    <p class="text-center text-black mb-6">Masukkan kode OTP yang dikirim ke email Anda.</p>
+  @endif
+
+
 
     <label class="block text-black text-sm font-semibold mb-2 text-center">Kode OTP</label>
     <div class="flex justify-center gap-2 mb-4">
       @for ($i = 0; $i < 6; $i++)
-        <input type="text" maxlength="1" class="otp-box" required>
-      @endfor
+      <input type="text" maxlength="1" class="otp-box" required>
+    @endfor
     </div>
     <input type="hidden" name="otp" id="otp">
 
-    <button type="submit" class="w-full bg-[#4A7CFD] text-white font-semibold py-2 rounded-lg mb-3 hover:bg-[#3a66d9] transition-colors">
+    <button type="submit"
+      class="w-full bg-[#4A7CFD] text-white font-semibold py-2 rounded-lg mb-3 hover:bg-[#3a66d9] transition-colors">
       Verifikasi
     </button>
   </form>
@@ -80,4 +94,5 @@
     }
   </script>
 </body>
+
 </html>

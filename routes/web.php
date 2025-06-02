@@ -50,6 +50,10 @@ Route::post('/register/organisasi/step2', [RegisterController::class, 'storeOrga
 // Step 3: Preview Data
 Route::get('/register/organisasi/preview', [RegisterController::class, 'showOrganisasiPreview'])->name('register.organisasi.preview');
 
+Route::post('/register/organisasi/finalize', [RegisterController::class, 'finalizeOrganisasiRegistration'])
+    ->name('register.organisasi.finalize');
+
+
 Route::get('/register/organisasi/konfirmasi', [RegisterController::class, 'showKonfirmasi'])
     ->name('register.organisasi.konfirmasi');
 Route::post('/register/organisasi/konfirmasi', [RegisterController::class, 'showKonfirmasi'])

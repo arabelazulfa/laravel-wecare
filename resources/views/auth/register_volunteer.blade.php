@@ -46,7 +46,8 @@
   });
 </script>
 
-<form method="POST" action="{{ route('register.volunteer') }}" enctype="multipart/form-data" 
+<div class="flex items-center justify-center min-h-screen">
+  <form method="POST" action="{{ route('register.volunteer') }}" enctype="multipart/form-data" 
       class="bg-[#FDCACA] rounded-xl w-full max-w-md p-6 space-y-4 shadow-lg">
     @csrf
     <h2 class="text-center text-black text-2xl font-semibold mb-4">Daftar Volunteer</h2>
@@ -197,6 +198,6 @@
       Sudah punya akun?
       <a href="/login" class="text-[#4A7CFD] font-semibold hover:underline">Masuk</a>
     </p>
-</form>
-
+  </form>
+</div>
 @endsection

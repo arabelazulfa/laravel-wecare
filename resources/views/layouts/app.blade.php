@@ -12,25 +12,23 @@
         }
     </style>
 </head>
-<body class="bg-gradient-to-b from-[#FCE9E9] to-[#FDCACA] min-h-screen flex flex-col items-center justify-start px-4 py-6">
-
-    {{-- Header --}}
-    <div class="w-full">
+<body class="bg-gradient-to-b from-[#FCE9E9] to-[#FDCACA] min-h-screen flex flex-col px-4 py-6">
+  {{-- Header --}}
+  <div class="w-full">
     <div class="bg-[#F19494] text-white text-center py-4 rounded-xl shadow-md w-full mb-6">
-        <h1 class="text-4xl font-bold tracking-wider uppercase">WeCare</h1>
+      <h1 class="text-4xl font-bold tracking-wider uppercase">WeCare</h1>
     </div>
-</div>
+  </div>
 
+  {{-- Content --}}
+  <main class="w-full max-w-md md:max-w-lg lg:max-w-[1000px] bg-white shadow-md rounded-xl px-6 py-8 mx-auto">
+    @yield('content')
+  </main>
 
-    {{-- Content --}}
-    <main class="w-full max-w-md bg-white shadow-md rounded-xl px-6 py-8">
-        @yield('content')
-    </main>
-
-    {{-- Footer --}}
-    <footer class="mt-8 text-xs text-gray-500 text-center">
-        &copy; {{ date('Y') }} WeCare. All rights reserved.
-    </footer>
-
+  {{-- Footer --}}
+  <footer class="mt-auto text-xs text-gray-500 text-center">
+    &copy; {{ date('Y') }} WeCare. All rights reserved.
+  </footer>
 </body>
+
 </html>

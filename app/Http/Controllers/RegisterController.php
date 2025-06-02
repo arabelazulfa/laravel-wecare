@@ -13,18 +13,15 @@ class RegisterController extends Controller
 {
     public function storeVolunteer(Request $request)
     {
-        // Validasi form termasuk file KTP
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email',
             'password' => 'required|min:6|confirmed',
-            'ktp' => 'required|image|mimes:jpeg,png,jpg|max:2048', // validasi file KTP
+            'ktp' => 'required|image|mimes:jpeg,png,jpg|max:2048',
         ]);
 
-        // Upload KTP ke storage/app/public/ktp_images
         $ktpPath = $request->file('ktp')->store('ktp_images', 'public');
 
-        // Simpan user
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
@@ -36,27 +33,23 @@ class RegisterController extends Controller
             'ktp_path' => $ktpPath,
         ]);
 
-
-
-        // Generate OTP 6 digit
         $otp = rand(100000, 999999);
 
-        // Simpan OTP dan email ke session
         session([
             'otp' => $otp,
             'otp_email' => $user->email,
-            'otp_expires_at' => now()->addMinutes(5), // Set OTP expired dalam 10 menit
+            'otp_expires_at' => now()->addMinutes(5),
         ]);
 
-        Mail::to($request->email)->send(new OtpMail($otp));
+        Mail::to($user->email)->send(new OtpMail($otp));
 
-        // Redirect ke halaman OTP
-        return redirect()->route('otp.form')->with('success', 'Kode OTP telah dikirim ke email Anda.');
+        return redirect()->route('otp.form')
+            ->with('success', 'Kode OTP telah dikirim ke email Anda.')
+            ->with('role', 'volunteer');
     }
 
     public function storeOrganisasiStep1(Request $request)
     {
-        // Validasi input form step 1
         $request->validate([
             'contact_name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email',
@@ -64,85 +57,71 @@ class RegisterController extends Controller
             'password' => 'required|min:6|confirmed',
         ]);
 
-        // Simpan data sementara di session untuk step 2
         session([
             'register_data' => [
                 'name' => $request->contact_name,
                 'email' => $request->email,
                 'phone' => $request->phone,
-                'password' => bcrypt($request->password), // password sudah hash
-                'role' => 'organisasi',
+                'password' => Hash::make($request->password), // lebih baik pakai Hash::make
+                'role' => 'organizer', // gunakan 'organizer' sesuai enum di DB
             ],
         ]);
 
-        // Redirect ke halaman form step 2
         return redirect()->route('register.organisasi.step2');
     }
+
     public function storeOrganisasiDetail(Request $request)
     {
-    $validated = $request->validate([
-        'nama_organisasi' => 'required|string|max:255',
-        'tipe_organisasi' => 'required|string',
-        'tanggal_berdiri' => 'required|date',
-        'lokasi' => 'required|string',
-        'deskripsi_singkat' => 'nullable|string',
-        'fokus_utama' => 'nullable|string',
-        'alamat' => 'required|string',
-        'provinsi' => 'required|string',
-        'kabupaten_kota' => 'required|string',
-        'kodepos' => 'required|string',
-        'no_telp' => 'required|string',
-        'website' => 'nullable|url',
-        'logo' => 'nullable|image|max:2048',
-    ]);
+        $validated = $request->validate([
+            'nama_organisasi' => 'required|string|max:255',
+            'tipe_organisasi' => 'required|string',
+            'tanggal_berdiri' => 'required|date',
+            'lokasi' => 'required|string',
+            'deskripsi_singkat' => 'nullable|string',
+            'fokus_utama' => 'nullable|string',
+            'alamat' => 'required|string',
+            'provinsi' => 'required|string',
+            'kabupaten_kota' => 'required|string',
+            'kodepos' => 'required|string',
+            'no_telp' => 'required|string',
+            'website' => 'nullable|url',
+            'logo' => 'nullable|image|max:2048',
+        ]);
 
-     // Tangani upload file secara terpisah
-    if ($request->hasFile('logo')) {
-        $logoPath = $request->file('logo')->store('logos', 'public');
-        $validated['logo_path'] = $logoPath;
-    }
+        if ($request->hasFile('logo')) {
+            $logoPath = $request->file('logo')->store('logos', 'public');
+            $validated['logo_path'] = $logoPath;
+        }
 
-    // Hapus objek file sebelum disimpan ke session
-    unset($validated['logo']);
+        unset($validated['logo']); // hapus file upload objek
 
-    // Simpan ke session
-    session(['organisasi_detail' => $validated]);
+        session(['organisasi_detail' => $validated]);
 
-    // Kirim OTP
-    $registerData = session('register_data');
-    $email = $registerData['email'] ?? null;
-
-    if (!$email) {
-        return redirect()->route('register.organisasi.step1')->with('error', 'Email tidak ditemukan, silakan ulangi pendaftaran.');
-    }
-
-
-    return redirect()->route('register.organisasi.preview');
+        // Langsung ke preview, OTP dikirim di finalize step
+        return redirect()->route('register.organisasi.preview');
     }
 
     public function showOrganisasiStep2()
     {
-        // Cek apakah data dari step 1 tersedia
         if (!session()->has('register_data')) {
             return redirect()->route('register.organisasi.step1')->with('error', 'Silakan isi data kontak terlebih dahulu.');
         }
 
-        return view('auth.register2_organisasi'); // Pastikan nama path view-nya sesuai
+        return view('auth.register2_organisasi');
     }
+
     public function showOrganisasiPreview()
-    {   
-    // Ambil data dari session
-    $step1 = session('register_data');
-    $step2 = session('organisasi_detail');
+    {
+        $step1 = session('register_data');
+        $step2 = session('organisasi_detail');
 
-    // Jika salah satu tidak ada, redirect balik
-    if (!$step1 || !$step2) {
-        return redirect()->route('register.organisasi.step1')->with('error', 'Data tidak lengkap, silakan isi dari awal.');
-    }
+        if (!$step1 || !$step2) {
+            return redirect()->route('register.organisasi.step1')->with('error', 'Data tidak lengkap, silakan isi dari awal.');
+        }
 
-        // Tampilkan halaman preview
         return view('auth.register3_organisasi', compact('step1', 'step2'));
     }
+
     public function finalizeOrganisasiRegistration()
     {
         $step1 = session('register_data');
@@ -152,56 +131,50 @@ class RegisterController extends Controller
             return redirect()->route('register.organisasi.step1')->with('error', 'Data tidak lengkap.');
         }
 
-        // Simpan user
         $user = User::create([
             'name' => $step1['name'],
             'email' => $step1['email'],
             'password' => $step1['password'],
-            'role' => $step1['role'],
+            'role' => 'organizer', // pastikan ini sesuai enum
             'phone' => $step1['phone'],
         ]);
 
-        // Simpan profile organisasi (pastikan kamu punya model OrganizationProfile)
         OrganizationProfile::create([
             'user_id' => $user->id,
-            'nama_organisasi' => $step2['nama_organisasi'],
-            'tipe_organisasi' => $step2['tipe_organisasi'],
-            'tanggal_berdiri' => $step2['tanggal_berdiri'],
-            'lokasi' => $step2['lokasi'],
-            'deskripsi_singkat' => $step2['deskripsi_singkat'] ?? null,
-            'fokus_utama' => $step2['fokus_utama'] ?? null,
-            'alamat' => $step2['alamat'],
-            'provinsi' => $step2['provinsi'],
-            'kabupaten_kota' => $step2['kabupaten_kota'],
-            'kodepos' => $step2['kodepos'],
-            'no_telp' => $step2['no_telp'],
+            'org_name' => $step2['nama_organisasi'],
+            'org_type' => $step2['tipe_organisasi'],
+            'established_date' => $step2['tanggal_berdiri'],
+            'location' => $step2['lokasi'],
+            'description' => $step2['deskripsi_singkat'] ?? null,
+            'focus_area' => $step2['fokus_utama'] ?? null,
+            'province' => $step2['provinsi'],
+            'city' => $step2['kabupaten_kota'],
+            'postal_code' => $step2['kodepos'],
+            'org_phone' => $step2['no_telp'],
             'website' => $step2['website'] ?? null,
-            'logo_path' => $step2['logo_path'] ?? null,
+            'logo' => $step2['logo_path'] ?? null,
+
         ]);
 
-        // Bersihkan session
+
         session()->forget(['register_data', 'organisasi_detail']);
 
-        // Generate OTP
         $otp = rand(100000, 999999);
 
-        // Simpan session OTP
         session([
             'otp' => $otp,
             'otp_email' => $user->email,
             'otp_expires_at' => now()->addMinutes(5),
         ]);
 
-        // Kirim OTP ke email
         Mail::to($user->email)->send(new OtpMail($otp));
 
-        // Redirect ke halaman OTP
-        return redirect()->route('otp.form', ['role' => 'organisasi', 'email' => $user->email])
+        return redirect()->route('otp.form', ['role' => 'organizer', 'email' => $user->email])
             ->with('success', 'Kode OTP telah dikirim ke email Anda.');
     }
-    public function showKonfirmasi()
-    {
-    return view('auth.register_organisasi_konfirmasi'); // buat file blade-nya juga
-    }
 
+    public function showKonfirmasi(Request $request)
+    {
+        return view('auth.otp', ['role' => 'organizer']);
+    }
 }
