@@ -80,52 +80,39 @@ class RegisterController extends Controller
             'email' => 'required|email|unique:users,email',
             'phone' => 'required|string|max:20',
             'password' => 'required|min:6|confirmed',
-            // Validasi fields untuk organization_profiles:
-            'org_name' => 'required|string|max:255',
-            'org_type' => 'required|string|max:255',
-            'established_date' => 'nullable|date',
-            'location' => 'nullable|string|max:255',
-            'province' => 'nullable|string|max:255',
-            'city' => 'nullable|string|max:255',
-            'postal_code' => 'nullable|string|max:20',
-            'org_phone' => 'nullable|string|max:20',
-            'website' => 'nullable|url',
-            'description' => 'nullable|string',
-            'focus_area' => 'nullable|string|max:255',
-            // sesuaikan dengan kebutuhan
         ]);
 
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-            'role' => 'organisasi',
-        ]);
-
-        // Simpan ke organization_profiles
-        OrganizationProfile::create([
-            'user_id' => $user->id,
-            'org_name' => $request->org_name,
-            'org_type' => $request->org_type,
-            'established_date' => $request->established_date,
-            'location' => $request->location,
-            'province' => $request->province,
-            'city' => $request->city,
-            'postal_code' => $request->postal_code,
-            'org_phone' => $request->org_phone,
-            'website' => $request->website,
-            'description' => $request->description,
-            'focus_area' => $request->focus_area,
-            'status' => 'pending', // misal status awal
-        ]);
-
-        $otp = rand(100000, 999999);
+        // Simpan data sementara di session untuk step 2
         session([
-            'otp' => $otp,
-            'otp_email' => $user->email,
+            'register_data' => [
+                'name' => $request->contact_name,
+                'email' => $request->email,
+                'phone' => $request->phone,
+                'password' => bcrypt($request->password), // password sudah hash
+                'role' => 'organisasi',
+            ],
         ]);
 
-        Mail::to($request->email)->send(new OtpMail($otp));
+        // Redirect ke halaman form step 2
+        return redirect()->route('register.organisasi.step2');
+    }
+    public function storeOrganisasiDetail(Request $request)
+    {
+        $validated = $request->validate([
+            'nama_organisasi' => 'required|string|max:255',
+            'tipe_organisasi' => 'required|string',
+            'tanggal_berdiri' => 'required|date',
+            'lokasi' => 'required|string',
+            'deskripsi_singkat' => 'nullable|string',
+            'fokus_utama' => 'nullable|string',
+            'alamat' => 'required|string',
+            'provinsi' => 'required|string',
+            'kabupaten_kota' => 'required|string',
+            'kodepos' => 'required|string',
+            'no_telp' => 'required|string',
+            'website' => 'nullable|url',
+            'logo' => 'nullable|image|max:2048',
+        ]);
 
         // Simpan data, upload logo jika ada, dll.
     }
