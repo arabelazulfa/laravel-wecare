@@ -80,24 +80,46 @@ class RegisterController extends Controller
     }
     public function storeOrganisasiDetail(Request $request)
     {
-        $validated = $request->validate([
-            'nama_organisasi' => 'required|string|max:255',
-            'tipe_organisasi' => 'required|string',
-            'tanggal_berdiri' => 'required|date',
-            'lokasi' => 'required|string',
-            'deskripsi_singkat' => 'nullable|string',
-            'fokus_utama' => 'nullable|string',
-            'alamat' => 'required|string',
-            'provinsi' => 'required|string',
-            'kabupaten_kota' => 'required|string',
-            'kodepos' => 'required|string',
-            'no_telp' => 'required|string',
-            'website' => 'nullable|url',
-            'logo' => 'nullable|image|max:2048',
-        ]);
+    $validated = $request->validate([
+        'nama_organisasi' => 'required|string|max:255',
+        'tipe_organisasi' => 'required|string',
+        'tanggal_berdiri' => 'required|date',
+        'lokasi' => 'required|string',
+        'deskripsi_singkat' => 'nullable|string',
+        'fokus_utama' => 'nullable|string',
+        'alamat' => 'required|string',
+        'provinsi' => 'required|string',
+        'kabupaten_kota' => 'required|string',
+        'kodepos' => 'required|string',
+        'no_telp' => 'required|string',
+        'website' => 'nullable|url',
+        'logo' => 'nullable|image|max:2048',
+    ]);
 
-        // Simpan data, upload logo jika ada, dll.
+     // Tangani upload file secara terpisah
+    if ($request->hasFile('logo')) {
+        $logoPath = $request->file('logo')->store('logos', 'public');
+        $validated['logo_path'] = $logoPath;
     }
+
+    // Hapus objek file sebelum disimpan ke session
+    unset($validated['logo']);
+
+    // Simpan ke session
+    session(['organisasi_detail' => $validated]);
+
+    // Kirim OTP
+    $registerData = session('register_data');
+    $email = $registerData['email'] ?? null;
+
+    if (!$email) {
+        return redirect()->route('register.organisasi.step1')->with('error', 'Email tidak ditemukan, silakan ulangi pendaftaran.');
+    }
+
+
+    return redirect()->route('register.organisasi.preview');
+    }
+
     public function showOrganisasiStep2()
     {
         // Cek apakah data dari step 1 tersedia
