@@ -34,6 +34,12 @@ Route::get('/register/organisasi/step2', function () {
 //Route::get('/register/organisasi/step2', [RegisterController::class, 'showOrganisasiStep2'])->name('register.organisasi.step2');
 Route::post('/register/organisasi/step2', [RegisterController::class, 'storeOrganisasiDetail'])->name('register.organisasi.detail.store');
 
+// Step 3: Preview Data
+Route::get('/register/organisasi/preview', [RegisterController::class, 'showOrganisasiPreview'])->name('register.organisasi.preview');
+
+// Step Final: Simpan ke database
+Route::post('/register/organisasi/submit', [RegisterController::class, 'submitOrganisasiRegistration'])->name('register.organisasi.submit');
+
 // auth-protected pages
 Route::middleware('auth')->group(function () {
 
