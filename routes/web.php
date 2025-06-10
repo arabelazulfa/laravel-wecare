@@ -15,6 +15,7 @@ use App\Http\Controllers\AktivitasController;
 use App\Http\Controllers\SertifikasiController;
 use App\Http\Controllers\OrganisasiController;
 use App\Models\OrganizationProfile;
+
 use Illuminate\Support\Facades\Auth;
 
 Route::get('/', function () {
@@ -80,6 +81,7 @@ Route::post('/logout', function () {
 Route::get('/aktivitas', function () {
     return view('auth.aktivitas_organisasi1');
 });
+
 Route::get('/aktivitas/tambah', function () {
     return view('auth.aktivitas_organisasi2');
 })->name('aktivitas.tambah');
@@ -87,6 +89,11 @@ Route::get('/aktivitas/tambah', function () {
 Route::get('/aktivitas/tambah/lanjut', function () {
     return view('auth.aktivitas_organisasi3');
 })->name('aktivitas.langkah2');
+
+
+Route::get('/aktivitas', function () {
+    return view('auth.aktivitas_organisasi1');
+});
 
 
 // auth-protected pages
@@ -141,9 +148,11 @@ Route::middleware('auth')->group(function () {
     action: [NotificationController::class, 'markAsRead'])
     ->name('notifications.read');
 
+
     Route::get('/dashboardorg/aktivitas',
     [AktivitasController::class, 'index'])
     ->name('aktivitas');
+
 
     // Route::get('/volunteer/events', [EventController::class, 'showForVolunteer'])->name('volunteer.events');
 });
