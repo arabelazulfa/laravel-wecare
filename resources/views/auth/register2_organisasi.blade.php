@@ -30,13 +30,13 @@
 
       <div>
         <label for="nama-organisasi" class="block mb-1 font-semibold text-gray-700">Nama Organisasi</label>
-        <input id="nama-organisasi" name="nama_organisasi" type="text" placeholder="Masukkan Nama"
+        <input id="nama-organisasi" name="org_name" type="text" placeholder="Masukkan Nama"
           class="w-full rounded-lg px-4 py-3 bg-white shadow focus:outline-none focus:ring-2 focus:ring-[#F19494]" />
       </div>
 
       <div>
         <label for="tipe-organisasi" class="block mb-1 font-semibold text-gray-700">Tipe Organisasi</label>
-        <select id="tipe-organisasi" name="tipe_organisasi"
+        <select id="tipe-organisasi" name="org_type"
           class="w-full rounded-lg px-4 py-3 bg-white shadow text-black focus:outline-none focus:ring-2 focus:ring-[#F19494]">
           <option value="" disabled selected>Pilih</option>
           <option value="Komunitas">Komunitas</option>
@@ -47,25 +47,25 @@
 
       <div>
         <label for="tanggal-berdiri" class="block mb-1 font-semibold text-gray-700">Tanggal Berdiri</label>
-        <input id="tanggal-berdiri" name="tanggal_berdiri" type="date"
+        <input id="tanggal-berdiri" name="established_date" type="date"
           class="w-full rounded-lg px-4 py-3 bg-white shadow focus:outline-none focus:ring-2 focus:ring-[#F19494]" />
       </div>
 
       <div>
         <label for="lokasi" class="block mb-1 font-semibold text-gray-700">Lokasi</label>
-        <input id="lokasi" name="lokasi" type="text" placeholder="Masukkan Detail Lokasi"
+        <input id="lokasi" name="location" type="text" placeholder="Masukkan Detail Lokasi"
           class="w-full rounded-lg px-4 py-3 bg-white shadow focus:outline-none focus:ring-2 focus:ring-[#F19494]" />
       </div>
 
       <div>
         <label for="deskripsi-singkat" class="block mb-1 font-semibold text-gray-700">Deskripsi Singkat</label>
-        <textarea id="deskripsi-singkat" name="deskripsi_singkat" rows="3" placeholder="Masukkan Deskripsi Singkat"
+        <textarea id="deskripsi-singkat" name="description" rows="3" placeholder="Masukkan Deskripsi Singkat"
           class="w-full rounded-lg px-4 py-3 bg-white shadow resize-none focus:outline-none focus:ring-2 focus:ring-[#F19494]"></textarea>
       </div>
 
       <div>
         <label for="fokus-utama" class="block mb-1 font-semibold text-gray-700">Fokus Utama</label>
-        <select id="fokus-utama" name="fokus_utama"
+        <select id="fokus-utama" name="focus_area"
           class="w-full rounded-lg px-4 py-3 bg-white shadow text-black focus:outline-none focus:ring-2 focus:ring-[#F19494]">
           <option value="" disabled selected>Pilih</option>
           <option value="Pendidikan">Pendidikan</option>
@@ -74,33 +74,29 @@
         </select>
       </div>
 
-      <div>
-        <label for="alamat" class="block mb-1 font-semibold text-gray-700">Alamat</label>
-        <input id="alamat" name="alamat" type="text" placeholder="Jl..."
-          class="w-full rounded-lg px-4 py-3 bg-white shadow focus:outline-none focus:ring-2 focus:ring-[#F19494]" />
-      </div>
+
 
       <div class="flex space-x-4">
         <div class="flex-1">
           <label for="provinsi" class="block mb-1 font-semibold text-gray-700">Provinsi</label>
-          <input id="provinsi" name="provinsi" type="text" placeholder="Masukkan"
+          <input id="provinsi" name="province" type="text" placeholder="Masukkan"
             class="w-full rounded-lg px-4 py-3 bg-white shadow focus:outline-none focus:ring-2 focus:ring-[#F19494]" />
         </div>
         <div class="flex-1">
           <label for="kabupaten-kota" class="block mb-1 font-semibold text-gray-700">Kabupaten/Kota</label>
-          <input id="kabupaten-kota" name="kabupaten_kota" type="text" placeholder="Masukkan"
+          <input id="kabupaten-kota" name="city" type="text" placeholder="Masukkan"
             class="w-full rounded-lg px-4 py-3 bg-white shadow focus:outline-none focus:ring-2 focus:ring-[#F19494]" />
         </div>
         <div class="flex-[0.8]">
           <label for="kodepos" class="block mb-1 font-semibold text-gray-700">Kodepos</label>
-          <input id="kodepos" name="kodepos" type="text" placeholder="Masukkan"
+          <input id="kodepos" name="postal_code" type="text" placeholder="Masukkan"
             class="w-full rounded-lg px-4 py-3 bg-white shadow focus:outline-none focus:ring-2 focus:ring-[#F19494]" />
         </div>
       </div>
 
       <div>
         <label for="no-telp" class="block mb-1 font-semibold text-gray-700">No. Telp Organisasi</label>
-        <input id="no-telp" name="no_telp" type="text" placeholder="Masukkan Nomor Telepon"
+        <input id="no-telp" name="org_phone" type="text" placeholder="Masukkan Nomor Telepon"
           class="w-full rounded-lg px-4 py-3 bg-white shadow focus:outline-none focus:ring-2 focus:ring-[#F19494]" />
       </div>
 

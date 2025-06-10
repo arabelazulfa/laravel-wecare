@@ -72,33 +72,30 @@ class RegisterController extends Controller
 
     public function storeOrganisasiDetail(Request $request)
     {
-        $validated = $request->validate([
-            'nama_organisasi' => 'required|string|max:255',
-            'tipe_organisasi' => 'required|string',
-            'tanggal_berdiri' => 'required|date',
-            'lokasi' => 'required|string',
-            'deskripsi_singkat' => 'nullable|string',
-            'fokus_utama' => 'nullable|string',
-            'alamat' => 'required|string',
-            'provinsi' => 'required|string',
-            'kabupaten_kota' => 'required|string',
-            'kodepos' => 'required|string',
-            'no_telp' => 'required|string',
-            'website' => 'nullable|url',
-            'logo' => 'nullable|image|max:2048',
-        ]);
+    $validated = $request->validate([
+        'org_name' => 'required|string|max:255',
+        'org_type' => 'required|string',
+        'established_date' => 'required|date',
+        'location' => 'required|string',
+        'description' => 'nullable|string',
+        'focus_area' => 'nullable|string',
+        'province' => 'required|string',
+        'city' => 'required|string',
+        'postal_code' => 'required|string',
+        'org_phone' => 'required|string',
+        'website' => 'nullable|url',
+        'logo' => 'nullable|image|max:2048',
+    ]);
 
-        if ($request->hasFile('logo')) {
-            $logoPath = $request->file('logo')->store('logos', 'public');
-            $validated['logo_path'] = $logoPath;
-        }
+    if ($request->hasFile('logo')) {
+        $logoPath = $request->file('logo')->store('logos', 'public');
+        $validated['logo'] = $logoPath;
+    }
 
-        unset($validated['logo']); // hapus file upload objek
+    // JANGAN UNSET logo
+    session(['organisasi_detail' => $validated]);
 
-        session(['organisasi_detail' => $validated]);
-
-        // Langsung ke preview, OTP dikirim di finalize step
-        return redirect()->route('register.organisasi.preview');
+    return redirect()->route('register.organisasi.preview');
     }
 
     public function showOrganisasiStep2()
@@ -141,18 +138,18 @@ class RegisterController extends Controller
 
         OrganizationProfile::create([
             'user_id' => $user->id,
-            'org_name' => $step2['nama_organisasi'],
-            'org_type' => $step2['tipe_organisasi'],
-            'established_date' => $step2['tanggal_berdiri'],
-            'location' => $step2['lokasi'],
-            'description' => $step2['deskripsi_singkat'] ?? null,
-            'focus_area' => $step2['fokus_utama'] ?? null,
-            'province' => $step2['provinsi'],
-            'city' => $step2['kabupaten_kota'],
-            'postal_code' => $step2['kodepos'],
-            'org_phone' => $step2['no_telp'],
+            'org_name' => $step2['org_name'],
+            'org_type' => $step2['org_type'],
+            'established_date' => $step2['established_date'],
+            'location' => $step2['location'],
+            'description' => $step2['description'] ?? null,
+            'focus_area' => $step2['focus_area'] ?? null,
+            'province' => $step2['province'],
+            'city' => $step2['city'],
+            'postal_code' => $step2['postal_code'],
+            'org_phone' => $step2['org_phone'],
             'website' => $step2['website'] ?? null,
-            'logo' => $step2['logo_path'] ?? null,
+            'logo' => $step2['logo'] ?? null,
 
         ]);
 

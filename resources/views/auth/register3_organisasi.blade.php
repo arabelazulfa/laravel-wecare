@@ -24,25 +24,24 @@
 
             <div>
                 <div class="section-title">Detail Organisasi</div>
-                <div class="info-row"><div class="info-label">Nama Organisasi</div><div class="info-separator">:</div><div class="info-value">{{ $step2['nama_organisasi'] }}</div></div>
-                <div class="info-row"><div class="info-label">Tipe Organisasi</div><div class="info-separator">:</div><div class="info-value">{{ $step2['tipe_organisasi'] }}</div></div>
-                <div class="info-row"><div class="info-label">Tanggal Berdiri</div><div class="info-separator">:</div><div class="info-value">{{ $step2['tanggal_berdiri'] }}</div></div>
-                <div class="info-row"><div class="info-label">Lokasi</div><div class="info-separator">:</div><div class="info-value">{{ $step2['lokasi'] }}</div></div>
-                <div class="info-row"><div class="info-label">Deskripsi Singkat</div><div class="info-separator">:</div><div class="info-value">{{ $step2['deskripsi_singkat'] ?? '-' }}</div></div>
-                <div class="info-row"><div class="info-label">Fokus Utama</div><div class="info-separator">:</div><div class="info-value">{{ $step2['fokus_utama'] ?? '-' }}</div></div>
-                <div class="info-row"><div class="info-label">Alamat</div><div class="info-separator">:</div><div class="info-value">{{ $step2['alamat'] }}</div></div>
-                <div class="info-row"><div class="info-label">Provinsi</div><div class="info-separator">:</div><div class="info-value">{{ $step2['provinsi'] }}</div></div>
-                <div class="info-row"><div class="info-label">Kabupaten/Kota</div><div class="info-separator">:</div><div class="info-value">{{ $step2['kabupaten_kota'] }}</div></div>
-                <div class="info-row"><div class="info-label">Kode Pos</div><div class="info-separator">:</div><div class="info-value">{{ $step2['kodepos'] }}</div></div>
-                <div class="info-row"><div class="info-label">No. Telepon Organisasi</div><div class="info-separator">:</div><div class="info-value">{{ $step2['no_telp'] }}</div></div>
+                <div class="info-row"><div class="info-label">Nama Organisasi</div><div class="info-separator">:</div><div class="info-value">{{ $step2['org_name'] }}</div></div>
+                <div class="info-row"><div class="info-label">Tipe Organisasi</div><div class="info-separator">:</div><div class="info-value">{{ $step2['org_type'] }}</div></div>
+                <div class="info-row"><div class="info-label">Tanggal Berdiri</div><div class="info-separator">:</div><div class="info-value">{{ $step2[ 'established_date'] }}</div></div>
+                <div class="info-row"><div class="info-label">Lokasi</div><div class="info-separator">:</div><div class="info-value">{{ $step2[  'location'] }}</div></div>
+                <div class="info-row"><div class="info-label">Deskripsi Singkat</div><div class="info-separator">:</div><div class="info-value">{{ $step2['description'] ?? '-' }}</div></div>
+                <div class="info-row"><div class="info-label">Fokus Utama</div><div class="info-separator">:</div><div class="info-value">{{ $step2['focus_area'] ?? '-' }}</div></div>
+                <div class="info-row"><div class="info-label">Provinsi</div><div class="info-separator">:</div><div class="info-value">{{ $step2['province'] }}</div></div>
+                <div class="info-row"><div class="info-label">Kabupaten/Kota</div><div class="info-separator">:</div><div class="info-value">{{ $step2['city'] }}</div></div>
+                <div class="info-row"><div class="info-label">Kode Pos</div><div class="info-separator">:</div><div class="info-value">{{ $step2['postal_code'] }}</div></div>
+                <div class="info-row"><div class="info-label">No. Telepon Organisasi</div><div class="info-separator">:</div><div class="info-value">{{ $step2['org_phone'] }}</div></div>
                 <div class="info-row"><div class="info-label">Website</div><div class="info-separator">:</div><div class="info-value">{{ $step2['website'] ?? '-' }}</div></div>
 
-                @if(isset($step2['logo_path']))
+                @if(isset($step2['logo']))
                     <div class="info-row">
                         <div class="info-label">Logo</div>
                         <div class="info-separator">:</div>
                         <div class="info-value">
-                            <img src="{{ asset('storage/' . $step2['logo_path']) }}" alt="Logo Organisasi" class="logo-preview" />
+                            <img src="{{ asset('storage/' . $step2['logo']) }}" alt="Logo Organisasi" class="logo-preview" />
                         </div>
                     </div>
                 @endif
