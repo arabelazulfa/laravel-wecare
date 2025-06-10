@@ -10,6 +10,12 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\OtpController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\AktivitasController;
+use App\Http\Controllers\SertifikasiController;
+use App\Http\Controllers\OrganisasiController;
+use App\Models\OrganizationProfile;
+
 use Illuminate\Support\Facades\Auth;
 
 Route::get('/', function () {
@@ -86,6 +92,20 @@ Route::middleware('auth')->group(function () {
     // Dashboard untuk organisasi
     Route::get('/dashboardorg', [DashboardController::class, 'organisasi'])
         ->name('dashboard.organisasi');
+    Route::get('/dashboard/profile', [DashboardController::class, 'profile'])
+        ->name('dashboard.profile');
+    Route::get('/dashboard/edit-profile', [DashboardController::class, 'edit'])
+        ->name('dashboard.editprofile');
+    Route::get('/aktivitas', [AktivitasController::class, 'index'])
+        ->name('aktivitas.index');
+    Route::get('/aktivitas/tambah', [AktivitasController::class, 'create'])
+        ->name('aktivitas.tambah');
+    Route::get('/sertifikasi', [SertifikasiController::class, 'index'])
+        ->name('sertifikasi.index');
+    Route::get('/edit-organisasi', [OrganisasiController::class, 'edit'])
+        ->name('organisasi.edit');
+    Route::put('/organisasi/update/{id}', [OrganisasiController::class, 'update'])
+        ->name('organisasi.update');
 
     // Events CRUD (HTML pages & forms)
     Route::resource('events', EventController::class);
@@ -106,14 +126,13 @@ Route::middleware('auth')->group(function () {
     Route::resource('users', UserController::class)
         ->except(['create', 'store']);  // biasanya daftar lewat /register
 
-    Route::get(
-        '/notifications/{id}/read',
-        [NotificationController::class, 'markAsRead']
-    )
-        ->name('notifications.read');
+    Route::get('/profile', [ProfileController::class, 'show'])->name('profile.show');
+    Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::post('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
 
-    Route::get('/sertifikat', [CertificateController::class, 'index'])->name('sertifikat.index');
-
+    Route::get('/notifications/{id}/read',
+    action: [NotificationController::class, 'markAsRead'])
+    ->name('notifications.read');
 
     // Route::get('/volunteer/events', [EventController::class, 'showForVolunteer'])->name('volunteer.events');
 });
