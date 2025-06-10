@@ -71,6 +71,10 @@ Route::post('/logout', function () {
     return redirect('/login');
 })->name('logout');
 
+Route::get('/aktivitas', function () {
+    return view('auth.aktivitas_organisasi1');
+});
+
 
 // auth-protected pages
 Route::middleware('auth')->group(function () {
