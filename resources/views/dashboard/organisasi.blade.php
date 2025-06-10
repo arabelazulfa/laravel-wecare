@@ -1,4 +1,4 @@
-@extends('dashboard')
+@extends('layouts.dashboardorg')
 
 @section('content')
 <div class="container mx-auto p-6">
