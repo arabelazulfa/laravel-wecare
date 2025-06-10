@@ -13,42 +13,55 @@
 
   <!-- Sidebar -->
   <aside class="bg-[#f28b8b] text-white w-52 min-h-[90vh] rounded-2xl p-4 flex flex-col shadow-md">
-    <div class="text-xl font-bold mb-6">WeCare</div>
-    <nav class="flex flex-col space-y-3 text-sm font-medium">
-      <a href="{{ route('dashboard.organisasi') }}"
-        class="flex items-center gap-3 px-4 py-2 rounded-lg 
-     {{ request()->routeIs('dashboard.organisasi') ? 'bg-white text-[#f28b8b] shadow' : 'hover:bg-[#f49b9b] text-white transition' }}">
-        <i class="fas fa-home text-base"></i> <span>Dashboard</span>
-      </a>
-      
-      <a href="/aktivitas"
-        class="flex items-center gap-3 px-4 py-2 rounded-lg 
-          {{ request()->is('aktivitas') ? 'bg-white text-[#f28b8b] shadow' : 'hover:bg-[#f49b9b] text-white transition' }}">
-        <i class="fas fa-wave-square text-base"></i> <span>Aktivitas</span>
-      </a>
+  <div class="text-xl font-bold mb-6">WeCare</div>
+  <nav class="flex flex-col space-y-3 text-sm font-medium">
 
-      <a href="/sertifikasi"
-        class="flex items-center gap-3 px-4 py-2 rounded-lg 
-          {{ request()->is('sertifikasi') ? 'bg-white text-[#f28b8b] shadow' : 'hover:bg-[#f49b9b] text-white transition' }}">
-        <i class="fas fa-certificate text-base"></i> <span>Sertifikasi</span>
-      </a>
+    {{-- Dashboard --}}
+    <a href="{{ route('dashboard.organisasi') }}"
+      class="flex items-center gap-3 px-4 py-2 rounded-lg
+        {{ request()->routeIs('dashboard.*') 
+            ? 'bg-white text-[#f28b8b] shadow' 
+            : 'hover:bg-[#f49b9b] text-white transition' }}">
+      <i class="fas fa-home text-base"></i> <span>Dashboard</span>
+    </a>
 
-      <a href="/edit-organisasi"
-        class="flex items-center gap-3 px-4 py-2 rounded-lg 
-          {{ request()->is('edit-organisasi') ? 'bg-white text-[#f28b8b] shadow' : 'hover:bg-[#f49b9b] text-white transition' }}">
-        <i class="fas fa-user-edit text-base"></i> <span>Edit Data Organisasi</span>
-      </a>
+    {{-- Aktivitas --}}
+    <a href="{{ route('aktivitas.index') }}"
+      class="flex items-center gap-3 px-4 py-2 rounded-lg
+        {{ request()->routeIs('aktivitas.*') 
+            ? 'bg-white text-[#f28b8b] shadow' 
+            : 'hover:bg-[#f49b9b] text-white transition' }}">
+      <i class="fas fa-wave-square text-base"></i> <span>Aktivitas</span>
+    </a>
 
+    {{-- Sertifikasi --}}
+    <a href="{{ route('sertifikasi.index') }}"
+      class="flex items-center gap-3 px-4 py-2 rounded-lg
+        {{ request()->routeIs('sertifikasi.*') 
+            ? 'bg-white text-[#f28b8b] shadow' 
+            : 'hover:bg-[#f49b9b] text-white transition' }}">
+      <i class="fas fa-certificate text-base"></i> <span>Sertifikasi</span>
+    </a>
 
-    </nav>
-  </aside>
+    {{-- Edit Organisasi --}}
+    <a href="{{ route('organisasi.edit') }}"
+      class="flex items-center gap-3 px-4 py-2 rounded-lg
+        {{ request()->routeIs('organisasi.edit') 
+            ? 'bg-white text-[#f28b8b] shadow' 
+            : 'hover:bg-[#f49b9b] text-white transition' }}">
+      <i class="fas fa-user-edit text-base"></i> <span>Edit Data Organisasi</span>
+    </a>
+
+  </nav>
+</aside>
+
 
   <!-- Main Content -->
   <main class="flex-1 ml-8">
     <!-- Header -->
     <header class="bg-[#f28b8b] text-white rounded-2xl px-6 py-4 flex items-center justify-between shadow-md">
       <div class="font-semibold text-xl">
-        Aktivitas
+        @yield('title')
       </div>
       <!-- Icons & Profile Dropdown -->
       <div class="flex space-x-6 text-white text-lg items-center">
@@ -65,10 +78,9 @@
             <i class="far fa-user-circle fa-lg"></i>
           </button>
           <div id="profileMenu"
-            class="hidden absolute right-0 mt-2 w-40 bg-rose-400 text-white rounded-md shadow-lg z-50">
+            class="hidden absolute right-0 mt-2 w-40 bg-[#f28b8b] text-white rounded-md shadow-lg z-50">
             <ul class="p-3 space-y-2 font-semibold text-sm">
-              <li><a href="/dashboard" class="block hover:underline">Dashboard</a></li>
-              <li>
+              <li><a href="{{ route('profile.show') }}" class="block hover:underline">Profile</a></li>
                 <form method="POST" action="{{ route('logout') }}">
                   @csrf
                   <button type="submit" class="w-full text-left hover:underline">Log Out</button>
