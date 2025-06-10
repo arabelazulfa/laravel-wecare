@@ -37,12 +37,6 @@
           <ul class="p-3 space-y-2 font-semibold text-sm">
             <li><a href="/dashboard" class="block hover:underline">Dashboard</a></li>
             <li>
-              <a href="{{ route('users.show', Auth::id()) }}" class="block hover:underline">
-                Profil
-              </a>
-            </li>
-
-            <li>
               <form method="POST" action="{{ route('logout') }}">
                 @csrf
                 <button type="submit" class="w-full text-left hover:underline">Log Out</button>
