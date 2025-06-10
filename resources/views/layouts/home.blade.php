@@ -24,9 +24,23 @@
       <a href="/messages" title="Messages">
         <i class="far fa-comment-alt fa-lg cursor-pointer hover:scale-110 transition-transform duration-200"></i>
       </a>
-      <a href="/notifications" title="Notifications">
-        <i class="far fa-bell fa-lg cursor-pointer hover:scale-110 transition-transform duration-200"></i>
-      </a>
+      
+      <!-- Notifikasi -->
+      <div class="relative">
+        <button id="notifButton" type="button">
+          <i class="far fa-bell fa-lg cursor-pointer hover:scale-110 transition-transform duration-200"></i>
+        </button>
+      
+        <div id="notifOverlay" class="hidden absolute top-8 right-0 z-50">
+          @if($notifications->isEmpty())
+        <p class="bg-white text-gray-500 text-sm px-20 py-10 rounded shadow">
+        Belum ada notifikasi
+        </p>
+      @else
+        <x-notification-overlay :notifications="$notifications" />
+      @endif
+        </div>
+      </div>
 
       <!-- Profile button with dropdown -->
       <div class="relative">
@@ -53,22 +67,34 @@
     @yield('content')
   </section>
 
-  <!-- Script untuk handle dropdown -->
   <script>
+  document.addEventListener('DOMContentLoaded', function () {
     const profileBtn = document.getElementById('profileButton');
     const profileMenu = document.getElementById('profileMenu');
+    const notifBtn = document.getElementById('notifButton');
+    const notifOverlay = document.getElementById('notifOverlay');
 
     profileBtn.addEventListener('click', function (e) {
-      e.stopPropagation();
+      e.stopPropagation(); // biar klik di luar bisa nutup
       profileMenu.classList.toggle('hidden');
     });
+    notifBtn.addEventListener('click', function (e) {
+      e.stopPropagation();
+      notifOverlay.classList.toggle('hidden');
+    });
 
-    document.addEventListener('click', function (e) {
-      if (!profileMenu.contains(e.target) && !profileBtn.contains(e.target)) {
+    // Klik di luar menu nutup dropdown
+    window.addEventListener('click', function (e) {
+      if (!profileMenu.classList.contains('hidden')) {
         profileMenu.classList.add('hidden');
       }
+
+      if (!notifOverlay.classList.contains('hidden')) {
+        notifOverlay.classList.add('hidden');
+      }
     });
-  </script>
+  });
+</script>
 
 </body>
 </html>
