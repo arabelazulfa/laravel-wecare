@@ -119,8 +119,8 @@ Route::middleware('auth')->group(function () {
         ->only(['index', 'show']);
 
     // Notifikasi (tampilkan halaman daftar notifikasi)
-    Route::resource('notifications', NotificationController::class)
-        ->only(['index']);
+    // Route::resource('notifications', NotificationController::class)
+    //     ->only(['index']);
 
     // Kelola profil user (admin / user sendiri)
     Route::resource('users', UserController::class)
