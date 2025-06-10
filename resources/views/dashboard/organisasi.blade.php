@@ -1,5 +1,7 @@
 @extends('layouts.dashboardorg')
 
+@section('title', 'Dashboard')
+
 @section('content')
 <div class="container mx-auto p-6">
     <h1 class="text-2xl font-bold mb-6">Daftar Relawan yang Mendaftar Event</h1>

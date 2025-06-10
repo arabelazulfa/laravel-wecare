@@ -10,7 +10,11 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\OtpController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\AktivitasController;
+use App\Http\Controllers\SertifikasiController;
+use App\Http\Controllers\OrganisasiController;
+use App\Models\OrganizationProfile;
 use Illuminate\Support\Facades\Auth;
 
 Route::get('/', function () {
@@ -18,7 +22,7 @@ Route::get('/', function () {
 });
 
 Route::get('/register', function () {
-    return view('daftar');  
+    return view('daftar');
 })->name('register');
 
 Route::get('/login', function () {
@@ -27,9 +31,9 @@ Route::get('/login', function () {
 Route::post('/login', [LoginController::class, 'login']);
 
 Route::get('/register/volunteer', function () {
-    return view('auth.register_volunteer'); 
+    return view('auth.register_volunteer');
 })->name('register.volunteer');
- 
+
 Route::post('/register/volunteer', [RegisterController::class, 'storeVolunteer'])->name('store.volunteer');
 
 // Form registrasi organisasi step 1 (GET)
@@ -73,7 +77,9 @@ Route::post('/logout', function () {
 })->name('logout');
 
 
-
+Route::get('/aktivitas', function () {
+    return view('auth.aktivitas_organisasi1');
+});
 Route::get('/aktivitas/tambah', function () {
     return view('auth.aktivitas_organisasi2');
 })->name('aktivitas.tambah');
@@ -93,6 +99,20 @@ Route::middleware('auth')->group(function () {
     // Dashboard untuk organisasi
     Route::get('/dashboardorg', [DashboardController::class, 'organisasi'])
         ->name('dashboard.organisasi');
+    Route::get('/dashboard/profile', [DashboardController::class, 'profile'])
+        ->name('dashboard.profile');
+    Route::get('/dashboard/edit-profile', [DashboardController::class, 'edit'])
+        ->name('dashboard.editprofile');
+    Route::get('/aktivitas', [AktivitasController::class, 'index'])
+        ->name('aktivitas.index');
+    Route::get('/aktivitas/tambah', [AktivitasController::class, 'create'])
+        ->name('aktivitas.tambah');
+    Route::get('/sertifikasi', [SertifikasiController::class, 'index'])
+        ->name('sertifikasi.index');
+    Route::get('/edit-organisasi', [OrganisasiController::class, 'edit'])
+        ->name('organisasi.edit');
+    Route::put('/organisasi/update/{id}', [OrganisasiController::class, 'update'])
+        ->name('organisasi.update');
 
     // Events CRUD (HTML pages & forms)
     Route::resource('events', EventController::class);
@@ -106,15 +126,19 @@ Route::middleware('auth')->group(function () {
         ->only(['index', 'show']);
 
     // Notifikasi (tampilkan halaman daftar notifikasi)
-    Route::resource('notifications', NotificationController::class)
-        ->only(['index']);
+    // Route::resource('notifications', NotificationController::class)
+    //     ->only(['index']);
 
     // Kelola profil user (admin / user sendiri)
     Route::resource('users', UserController::class)
         ->except(['create', 'store']);  // biasanya daftar lewat /register
 
+    Route::get('/profile', [ProfileController::class, 'show'])->name('profile.show');
+    Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::post('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
+
     Route::get('/notifications/{id}/read',
-    [NotificationController::class, 'markAsRead'])
+    action: [NotificationController::class, 'markAsRead'])
     ->name('notifications.read');
 
     Route::get('/dashboardorg/aktivitas',
