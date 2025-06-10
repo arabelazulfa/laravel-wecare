@@ -84,7 +84,7 @@ Route::middleware('auth')->group(function () {
         ->name('dashboard');
 
     // Dashboard untuk organisasi
-    Route::get('/dashboard/organisasi', [DashboardController::class, 'organisasi'])
+    Route::get('/dashboardorg', [DashboardController::class, 'organisasi'])
         ->name('dashboard.organisasi');
 
     // Events CRUD (HTML pages & forms)
