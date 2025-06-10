@@ -19,7 +19,7 @@ class LoginController extends Controller
             $user = Auth::user();
             if ($user->role === 'volunteer') {
                 return redirect()->route('volunteer.events');
-            } elseif ($user->role === 'organisasi') {
+            } elseif ($user->role === 'organizer') {
                 return redirect()->route('dashboard.organisasi');
             } else {
                 return redirect('/');

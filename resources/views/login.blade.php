@@ -1,5 +1,15 @@
 @extends('layouts.app')
 
+@if ($errors->any())
+  <div class="bg-red-100 text-red-600 p-3 rounded mb-4">
+    <ul class="text-sm pl-5 list-disc">
+      @foreach ($errors->all() as $error)
+        <li>{{ $error }}</li>
+      @endforeach
+    </ul>
+  </div>
+@endif
+
 @section('content')
 <div class="flex justify-center items-start min-h-screen pt-8">
     <form method="POST" action="{{ url('/login') }}" autocomplete="off" class="bg-[#FDCACA] rounded-xl w-full max-w-md p-6 relative" spellcheck="false">
