@@ -17,7 +17,7 @@ Route::get('/', function () {
 });
 
 Route::get('/register', function () {
-    return view('daftar');  
+    return view('daftar');
 })->name('register');
 
 Route::get('/login', function () {
@@ -26,9 +26,9 @@ Route::get('/login', function () {
 Route::post('/login', [LoginController::class, 'login']);
 
 Route::get('/register/volunteer', function () {
-    return view('auth.register_volunteer'); 
+    return view('auth.register_volunteer');
 })->name('register.volunteer');
- 
+
 Route::post('/register/volunteer', [RegisterController::class, 'storeVolunteer'])->name('store.volunteer');
 
 // Form registrasi organisasi step 1 (GET)
@@ -106,9 +106,14 @@ Route::middleware('auth')->group(function () {
     Route::resource('users', UserController::class)
         ->except(['create', 'store']);  // biasanya daftar lewat /register
 
-    Route::get('/notifications/{id}/read',
-    [NotificationController::class, 'markAsRead'])
-    ->name('notifications.read');
+    Route::get(
+        '/notifications/{id}/read',
+        [NotificationController::class, 'markAsRead']
+    )
+        ->name('notifications.read');
+
+    Route::get('/sertifikat', [CertificateController::class, 'index'])->name('sertifikat.index');
+
 
     // Route::get('/volunteer/events', [EventController::class, 'showForVolunteer'])->name('volunteer.events');
 });

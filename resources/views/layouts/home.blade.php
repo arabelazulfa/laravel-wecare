@@ -5,7 +5,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>WeCare Navbar</title>
+  <title>WeCare Event</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link
     rel="stylesheet"
@@ -33,7 +33,7 @@
       
         <div id="notifOverlay" class="hidden absolute top-8 right-0 z-50">
           @if($notifications->isEmpty())
-        <p class="bg-white text-gray-500 text-sm px-20 py-10 rounded shadow">
+        <p class="bg-white text-gray-500 text-sm px-20 py-10 rounded shadow whitespace-nowrap">
         Belum ada notifikasi
         </p>
       @else

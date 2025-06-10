@@ -19,9 +19,12 @@
       <a href="#" class="flex items-center gap-3 bg-white text-[#f28b8b] rounded-lg px-4 py-2 shadow hover:brightness-95">
         <i class="fas fa-home text-base"></i> <span>Dashboard</span>
       </a>
-      <a href="#" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-[#f49b9b] transition">
+      
+      <a href="{{ route('sertifikat.index') }}"
+        class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-[#f49b9b] transition">
         <i class="fas fa-certificate text-base"></i> <span>Sertifikat</span>
       </a>
+
       <a href="#" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-[#f49b9b] transition">
         <i class="fas fa-user text-base"></i> <span>Profil</span>
       </a>
@@ -49,7 +52,7 @@
           
             <div id="notifOverlay" class="hidden absolute top-8 right-0 z-50">
               @if($notifications->isEmpty())
-          <p class="bg-white text-gray-500 text-sm px-20 py-10 rounded shadow">
+          <p class="bg-white text-gray-500 text-sm px-20 py-10 rounded shadow whitespace-nowrap">
           Belum ada notifikasi
           </p>
         @else
