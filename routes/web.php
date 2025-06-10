@@ -79,6 +79,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])
         ->name('dashboard');
 
+    // Dashboard untuk organisasi
+    Route::get('/dashboard/organisasi', [DashboardController::class, 'organisasi'])
+        ->name('dashboard.organisasi');
+
     // Events CRUD (HTML pages & forms)
     Route::resource('events', EventController::class);
 

@@ -20,11 +20,12 @@ class LoginController extends Controller
             if ($user->role === 'volunteer') {
                 return redirect()->route('volunteer.events');
             } elseif ($user->role === 'organisasi') {
-                return redirect()->route('dashboard');
+                return redirect()->route('dashboard.organisasi');
             } else {
                 return redirect('/');
             }
         }
+
 
         return back()->withErrors([
             'email' => 'Email atau password salah.',
