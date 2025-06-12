@@ -16,12 +16,13 @@
   <aside class="bg-[#f28b8b] text-white w-52 min-h-[90vh] rounded-2xl p-4 flex flex-col shadow-md">
     <div class="text-xl font-bold mb-6">WeCare</div>
     <nav class="flex flex-col space-y-3 text-sm font-medium">
-      <a href="#" class="flex items-center gap-3 bg-white text-[#f28b8b] rounded-lg px-4 py-2 shadow hover:brightness-95">
+      <a href="{{ route('dashboard') }}" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-[#f49b9b] transition
+         {{ request()->routeIs('dashboard') ? 'bg-white text-[#f28b8b] shadow' : '' }}">
         <i class="fas fa-home text-base"></i> <span>Dashboard</span>
       </a>
       
-      <a href="{{ route('sertifikat.index') }}"
-        class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-[#f49b9b] transition">
+      <a href="{{ route('certificates.index') }}" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-[#f49b9b] transition
+         {{ request()->routeIs('certificates.index') ? 'bg-white text-[#f28b8b] shadow' : '' }}">
         <i class="fas fa-certificate text-base"></i> <span>Sertifikat</span>
       </a>
 
@@ -36,8 +37,9 @@
     <!-- Header -->
     <header class="bg-[#f28b8b] text-white rounded-2xl px-6 py-4 flex items-center justify-between shadow-md">
       <div class="font-semibold text-xl">
-        Dashboard
-        </div>
+        @yield('header', 'Dashboard')
+      </div>
+
         <!-- Icons & Profile Dropdown -->
         <div class="flex space-x-6 text-white text-lg items-center">
           <a href="/messages" title="Messages">
@@ -84,11 +86,10 @@
     </header>
 
     <!-- Content -->
-    <section class="mt-8 bg-white rounded-xl shadow px-6 py-5 max-w-5xl">
-      <h2 class="font-semibold text-lg text-[#f28b8b] mb-3">Event yang Diikuti</h2>
-      <p class="text-sm text-gray-600">Belum ada event yang diikuti saat ini.</p>
+    <section class="mt-8 bg-white rounded-xl shadow px-6 py-5 w-full">
+      @yield('content')
     </section>
-  </main>
+    </main>
 
 <script>
   document.addEventListener('DOMContentLoaded', function () {
@@ -118,7 +119,6 @@
     });
   });
 </script>
-
 
 </body>
 </html>
