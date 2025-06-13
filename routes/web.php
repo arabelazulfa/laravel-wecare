@@ -14,7 +14,6 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\AktivitasController;
 use App\Http\Controllers\SertifikasiController;
 use App\Http\Controllers\OrganisasiController;
-
 use App\Models\OrganizationProfile;
 
 use Illuminate\Support\Facades\Auth;
@@ -79,28 +78,51 @@ Route::post('/logout', function () {
 })->name('logout');
 
 
-Route::get('/aktivitas', function () {
-    return view('auth.aktivitas_organisasi1');
-});
+// Route::get('/aktivitas', function () {
+//     return view('auth.aktivitas_organisasi1');
+// });
 
 Route::get('/aktivitas/tambah', function () {
     return view('auth.aktivitas_organisasi2');
 })->name('aktivitas.tambah');
 
-Route::get('/aktivitas/tambah/lanjut', function () {
-    return view('auth.aktivitas_organisasi3');
-})->name('aktivitas.langkah2');
+// Route::get('/aktivitas/tambah/lanjut', function () {
+//     return view('auth.aktivitas_organisasi3');
+// })->name('aktivitas.langkah2');
 
+// Langkah 1: Form awal
+Route::get('/aktivitas/tambah', [AktivitasController::class, 'create'])->name('aktivitas.tambah');
 
-Route::get('/aktivitas', function () {
-    return view('auth.aktivitas_organisasi1');
-});
+// Proses langkah 1 ke langkah 2
+Route::post('/aktivitas/proses-langkah1', [AktivitasController::class, 'keLangkah2'])->name('aktivitas.keLangkah2');
 
-Route::middleware(['auth', 'role:organisasi'])->group(function () {
-    Route::get('/aktivitas/tambah', [AktivitasController::class, 'index'])->name('aktivitas.index'); // Tampilkan form 1
-    Route::post('/aktivitas/proses-langkah1', [AktivitasController::class, 'keLangkah2'])->name('aktivitas.keLangkah2'); // Form 1 submit ke sini
-    Route::get('/aktivitas/langkah2', [AktivitasController::class, 'langkah2'])->name('aktivitas.langkah2'); // Tampilkan form 2
-    Route::post('/aktivitas/simpan', [AktivitasController::class, 'simpan'])->name('aktivitas.simpan'); // Submit form 2
+// Langkah 2: Form divisi/tugas
+Route::get('/aktivitas/langkah2', [AktivitasController::class, 'langkah2'])->name('aktivitas.langkah2');
+
+// Proses langkah 2 ke langkah 3
+Route::post('/aktivitas/proses-langkah2', [AktivitasController::class, 'keLangkah3'])->name('aktivitas.keLangkah3');
+
+// Langkah 3: Konfirmasi/simpan
+Route::get('/aktivitas/langkah3', [AktivitasController::class, 'langkah3'])->name('aktivitas.langkah3');
+Route::post('/aktivitas/simpan', [AktivitasController::class, 'simpan'])->name('aktivitas.simpan');
+
+Route::get('/aktivitas', [AktivitasController::class, 'daftarAktivitas'])->name('dashboardorg');
+
+Route::middleware(['auth'])->group(function () {
+    // Daftar aktivitas
+    Route::get('/aktivitas', [AktivitasController::class, 'index'])->name('aktivitas.index');
+
+    // Langkah 1: Form awal
+    Route::get('/aktivitas/tambah', [AktivitasController::class, 'create'])->name('aktivitas.tambah');
+
+    // Proses langkah 1 → simpan ke session & redirect ke langkah 2
+    Route::post('/aktivitas/langkah2', [AktivitasController::class, 'keLangkah2'])->name('aktivitas.keLangkah2');
+
+    // Langkah 2: Form detail tugas relawan
+    Route::get('/aktivitas/langkah2', [AktivitasController::class, 'langkah2'])->name('aktivitas.langkah2');
+
+    // Proses final: Simpan ke database
+    Route::post('/aktivitas/simpan', [AktivitasController::class, 'simpan'])->name('aktivitas.simpan');
 });
 
 // auth-protected pages
