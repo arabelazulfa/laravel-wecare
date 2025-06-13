@@ -8,6 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class OrganizationProfile extends Model
 {
     use HasFactory;
+    protected $primaryKey = 'user_id';
+    public $incrementing = false;
+    protected $keyType = 'int';
 
     protected $fillable = [
         'user_id',
@@ -15,18 +18,29 @@ class OrganizationProfile extends Model
         'org_type',
         'established_date',
         'location',
-        'description',
-        'focus_area',
         'province',
-        'city',
-        'postal_code',
-        'org_phone',
         'website',
         'logo',
+        'description',
+        'focus_area',
+        'status',
+        'rejection_reason',
     ];
+
 
     public function user()
     {
         return $this->belongsTo(User::class);
     }
+
+    public function events()
+    {
+        return $this->hasMany(Event::class, 'organization_id');
+    }
+
+    public function reviews()
+    {
+        return $this->hasMany(Review::class, 'organization_id');
+    }
+
 }

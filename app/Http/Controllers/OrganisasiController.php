@@ -7,23 +7,46 @@ use App\Models\OrganizationProfile;
 
 class OrganisasiController extends Controller
 {
-    public function edit()
+
+    public function edit($user_id)
     {
-    $profile = auth()->user()->organizationProfile; // Sesuai relasi
-    return view('dashboard.editdata', compact('profile'));
+        $profile = OrganizationProfile::with('user')->where('user_id', $user_id)->firstOrFail();
+
+        return view('dashboard.editdata', compact('profile'));
     }
 
-    public function update(Request $request, $id)
-    {
-        $org = OrganizationProfile::findOrFail($id);
 
-        $org->update([
-            'nama_organisasi' => $request->nama_organisasi,
-            'tipe_organisasi' => $request->tipe_organisasi,
-            // tambahkan kolom lain sesuai kebutuhan
+    public function update(Request $request, $user_id)
+    {
+        $profile = OrganizationProfile::with('user')->where('user_id', $user_id)->firstOrFail();
+
+        $validated = $request->validate([
+            'name' => 'required',
+            'email' => 'required|email',
+            'phone' => 'required',
+            'nama_organisasi' => 'required',
+            'tipe_organisasi' => 'required',
+            'established_date' => 'nullable|date',
+            'location' => 'required',
+            'description' => 'nullable',
+            'focus_area' => 'nullable',
+            'province' => 'nullable',
+            'city' => 'nullable',
+            'postal_code' => 'nullable',
+            'org_phone' => 'nullable',
+            'website' => 'nullable|url',
+            'logo' => 'nullable|image|max:2048',
         ]);
 
-        return redirect()->back()->with('success', 'Data organisasi berhasil diperbarui');
+        if ($request->hasFile('logo')) {
+            $path = $request->file('logo')->store('logos', 'public');
+            $validated['logo'] = $path;
+        }
+
+        $profile->update($validated);
+
+        return redirect()->route('dashboard.editdata', $user_id)->with('success', 'Data berhasil diperbarui.');
     }
+
 }
 

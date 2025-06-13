@@ -125,10 +125,11 @@ Route::middleware('auth')->group(function () {
         ->name('sertifikasi.index');
     Route::post('/sertifikat/upload/{id}', [SertifikasiController::class, 'upload'])->name('sertifikat.upload');
 
-    Route::get('/edit-organisasi', [OrganisasiController::class, 'edit'])
+    Route::get('/organisasi/{user_id}/edit', [OrganisasiController::class, 'edit'])
         ->name('organisasi.edit');
-    Route::put('/organisasi/update/{id}', [OrganisasiController::class, 'update'])
+    Route::put('/organisasi/{user_id}', [OrganisasiController::class, 'update'])
         ->name('organisasi.update');
+
 
     // Events CRUD (HTML pages & forms)
     Route::resource('events', EventController::class);
@@ -149,9 +150,9 @@ Route::middleware('auth')->group(function () {
     Route::resource('users', UserController::class)
         ->except(['create', 'store']);  // biasanya daftar lewat /register
 
-    Route::get('/profile', [ProfileController::class, 'show'])->name('profile.show');
-    Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::post('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
+    // Route::get('/profile', [ProfileController::class, 'show'])->name('profile.show');
+    // Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
+    // Route::post('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
 
     Route::get('/notifications/{id}/read',
     action: [NotificationController::class, 'markAsRead'])

@@ -13,47 +13,54 @@
 
   <!-- Sidebar -->
   <aside class="bg-[#f28b8b] text-white w-52 min-h-[90vh] rounded-2xl p-4 flex flex-col shadow-md">
-  <div class="text-xl font-bold mb-6">WeCare</div>
-  <nav class="flex flex-col space-y-3 text-sm font-medium">
+    <div class="text-xl font-bold mb-6">WeCare</div>
+    <nav class="flex flex-col space-y-3 text-sm font-medium">
 
-    {{-- Dashboard --}}
-    <a href="{{ route('dashboard.organisasi') }}"
-      class="flex items-center gap-3 px-4 py-2 rounded-lg
-        {{ request()->routeIs('dashboard.*') 
-            ? 'bg-white text-[#f28b8b] shadow' 
-            : 'hover:bg-[#f49b9b] text-white transition' }}">
-      <i class="fas fa-home text-base"></i> <span>Dashboard</span>
-    </a>
+      {{-- Dashboard --}}
+      <a href="{{ route('dashboard.organisasi') }}" class="flex items-center gap-3 px-4 py-2 rounded-lg
+        {{ request()->routeIs('dashboard.organisasi')
+  ? 'bg-white text-[#f28b8b] shadow'
+  : 'hover:bg-[#f49b9b] text-white transition' }}">
+        <i class="fas fa-home text-base"></i> <span>Dashboard</span>
+      </a>
 
-    {{-- Aktivitas --}}
-    <a href="{{ route('aktivitas.index') }}"
-      class="flex items-center gap-3 px-4 py-2 rounded-lg
-        {{ request()->routeIs('aktivitas.*') 
-            ? 'bg-white text-[#f28b8b] shadow' 
-            : 'hover:bg-[#f49b9b] text-white transition' }}">
-      <i class="fas fa-wave-square text-base"></i> <span>Aktivitas</span>
-    </a>
+      {{-- Aktivitas --}}
+      <a href="{{ route('aktivitas.index') }}" class="flex items-center gap-3 px-4 py-2 rounded-lg
+        {{ request()->routeIs('aktivitas.*')
+  ? 'bg-white text-[#f28b8b] shadow'
+  : 'hover:bg-[#f49b9b] text-white transition' }}">
+        <i class="fas fa-wave-square text-base"></i> <span>Aktivitas</span>
+      </a>
 
-    {{-- Sertifikasi --}}
-    <a href="{{ route('sertifikasi.index') }}"
-      class="flex items-center gap-3 px-4 py-2 rounded-lg
-        {{ request()->routeIs('sertifikasi.*') 
-            ? 'bg-white text-[#f28b8b] shadow' 
-            : 'hover:bg-[#f49b9b] text-white transition' }}">
-      <i class="fas fa-certificate text-base"></i> <span>Sertifikasi</span>
-    </a>
+      {{-- Sertifikasi --}}
+      <a href="{{ route('sertifikasi.index') }}" class="flex items-center gap-3 px-4 py-2 rounded-lg
+        {{ request()->routeIs('sertifikasi.*')
+  ? 'bg-white text-[#f28b8b] shadow'
+  : 'hover:bg-[#f49b9b] text-white transition' }}">
+        <i class="fas fa-certificate text-base"></i> <span>Sertifikasi</span>
+      </a>
 
-    {{-- Edit Organisasi --}}
-    <a href="{{ route('organisasi.edit') }}"
-      class="flex items-center gap-3 px-4 py-2 rounded-lg
-        {{ request()->routeIs('organisasi.edit') 
-            ? 'bg-white text-[#f28b8b] shadow' 
-            : 'hover:bg-[#f49b9b] text-white transition' }}">
+      {{-- Edit Organisasi --}}
+      @php
+    use App\Models\OrganizationProfile;
+
+    $profile = OrganizationProfile::where('user_id', auth()->id())->first();
+  @endphp
+
+      @if ($profile)
+      <a href="{{ route('organisasi.edit', ['user_id' => $profile->user_id]) }}" class="flex items-center gap-3 px-4 py-2 rounded-lg
+      {{ request()->routeIs('organisasi.edit')
+    ? 'bg-white text-[#f28b8b] shadow'
+    : 'hover:bg-[#f49b9b] text-white transition' }}">
       <i class="fas fa-user-edit text-base"></i> <span>Edit Data Organisasi</span>
-    </a>
+      </a>
+    @else
+      <p class="text-sm text-red-500">Data organisasi tidak ditemukan.</p>
+    @endif
 
-  </nav>
-</aside>
+
+    </nav>
+  </aside>
 
 
   <!-- Main Content -->
@@ -80,11 +87,11 @@
           <div id="profileMenu"
             class="hidden absolute right-0 mt-2 w-40 bg-[#f28b8b] text-white rounded-md shadow-lg z-50">
             <ul class="p-3 space-y-2 font-semibold text-sm">
-              <li><a href="{{ route('profile.show') }}" class="block hover:underline">Profile</a></li>
-                <form method="POST" action="{{ route('logout') }}">
-                  @csrf
-                  <button type="submit" class="w-full text-left hover:underline">Log Out</button>
-                </form>
+              <li><a href="{{ route('dashboard.profile') }}" class="block hover:underline">Profile</a></li>
+              <form method="POST" action="{{ route('logout') }}">
+                @csrf
+                <button type="submit" class="w-full text-left hover:underline">Log Out</button>
+              </form>
               </li>
             </ul>
           </div>
