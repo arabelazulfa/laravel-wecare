@@ -95,6 +95,12 @@ Route::get('/aktivitas', function () {
     return view('auth.aktivitas_organisasi1');
 });
 
+Route::middleware(['auth', 'role:organisasi'])->group(function () {
+    Route::get('/aktivitas/tambah', [AktivitasController::class, 'index'])->name('aktivitas.index'); // Tampilkan form 1
+    Route::post('/aktivitas/proses-langkah1', [AktivitasController::class, 'keLangkah2'])->name('aktivitas.keLangkah2'); // Form 1 submit ke sini
+    Route::get('/aktivitas/langkah2', [AktivitasController::class, 'langkah2'])->name('aktivitas.langkah2'); // Tampilkan form 2
+    Route::post('/aktivitas/simpan', [AktivitasController::class, 'simpan'])->name('aktivitas.simpan'); // Submit form 2
+});
 
 // auth-protected pages
 Route::middleware('auth')->group(function () {

@@ -3,7 +3,7 @@
 @section('title', 'Aktivitas')
 
 @section('content')
-  <section class="bg-white rounded-xl shadow px-6 py-5 max-w-5xl">
+  <section class="bg-white rounded-xl shadow px-6 py-5 max-w-5xl mt-8">
     <div class="flex items-center justify-between mb-4">
       <h2 class="font-bold text-black text-sm">Aktivitas saya</h2>
 
