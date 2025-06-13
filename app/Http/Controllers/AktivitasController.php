@@ -8,55 +8,79 @@ use Illuminate\Support\Facades\Auth;
 
 class AktivitasController extends Controller
 {
-    // Langkah 1: Tampilkan form pertama
+    // ================== TAMPILKAN DAFTAR AKTIVITAS ==================
     public function index()
     {
-        return view('auth.aktivitas_organisasi1');
+        $events = Event::where('organizer_id', Auth::id())->get();
+        return view('auth.aktivitas_organisasi1',  compact('events'));
     }
 
-    // Langkah 2: Tampilkan form kedua
-    public function langkah2()
+    // ================== LANGKAH 1: TAMPILKAN FORM PERTAMA ==================
+    public function create()
     {
         return view('auth.aktivitas_organisasi2');
     }
 
-    // Langkah 1: Tangani data dan arahkan ke langkah 2
+    // ================== PROSES DARI LANGKAH 1 KE LANGKAH 2 ==================
     public function keLangkah2(Request $request)
     {
         $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'required|string',
-            'category' => 'required',
+            'category' => 'required|string',
             'registration_deadline' => 'required|date',
-            'event_type' => 'required',
+            'event_type' => 'required|string',
             'location' => 'required|string',
-            'alamat' => 'required|string',
+            'date' => 'required|date',
+            'time' => 'required|date_format:H:i',
             'photo' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
         ]);
 
-        // Simpan sementara ke session
-        $data = $request->all();
+        $data = $request->only([
+            'title', 'description', 'category', 'registration_deadline',
+            'event_type', 'location','date','time'
+        ]);
 
-        // Simpan file foto jika diunggah
+        // Simpan foto jika diunggah
         if ($request->hasFile('photo')) {
             $filename = $request->file('photo')->store('banners', 'public');
             $data['photo'] = $filename;
         }
 
-        $request->session()->put('aktivitas_step1', $data);
+        // Simpan data langkah 1 ke session
+        $request->session()->put('aktivitas.step1', $data);
 
         return redirect()->route('aktivitas.langkah2');
     }
 
-    // Langkah 3: Simpan ke database
+    // ================== LANGKAH 2: TAMPILKAN FORM KEDUA ==================
+    public function langkah2()
+    {
+        return view('auth.aktivitas_organisasi3');
+    }
+
+    // ================== LANGKAH AKHIR: SIMPAN SEMUA DATA ==================
     public function simpan(Request $request)
     {
-        $step1 = $request->session()->get('aktivitas_step1');
+        // Validasi langkah 2
+        $request->validate([
+            'jenis_acara' => 'required|string|max:255',
+            'divisi' => 'required|string|max:255',
+            'tugas_relawan' => 'required|string',
+            'kriteria' => 'required|string',
+            'total_jam_kerja' => 'required|integer',
+            'jumlah_relawan' => 'required|integer|min:1',
+            'butuh_cv' => 'required|in:ya,tidak',
+            'mode_darurat' => 'required|in:ya,tidak',
+        ]);
+
+        $step1 = $request->session()->get('aktivitas.step1');
 
         if (!$step1) {
-            return redirect()->route('aktivitas.index')->with('error', 'Data tidak ditemukan. Silakan ulangi langkah 1.');
+            return redirect()->route('aktivitas.create')->with('error', 'Data dari langkah pertama tidak ditemukan. Silakan isi kembali.');
         }
 
+        // Simpan ke database
         $event = new Event();
         $event->organizer_id = Auth::id();
         $event->title = $step1['title'];
@@ -65,25 +89,25 @@ class AktivitasController extends Controller
         $event->registration_deadline = $step1['registration_deadline'];
         $event->event_type = $step1['event_type'];
         $event->location = $step1['location'];
-        $event->alamat = $step1['alamat'];
-        $event->photo = $step1['photo'] ?? null; // jika ada
+        $event->date = $step1['date'];
+        $event->time = $step1['time'];
+        $event->photo = $step1['photo'] ?? null;
 
         $event->jenis_acara = $request->jenis_acara;
         $event->divisi = $request->divisi;
-        $event->tugas = $request->tugas;
+        $event->tugas_relawan = $request->tugas_relawan;
         $event->kriteria = $request->kriteria;
-        $event->total_jam = $request->total_jam;
-        $event->jumlah_relawanan = $request->jumlah_relawan;
-        $event->perlu_cv = $request->perlu_cv;
+        $event->total_jam_kerja = $request->total_jam_kerja;
+        $event->jumlah_relawan = $request->jumlah_relawan;
+        $event->butuh_cv = $request->butuh_cv;
         $event->mode_darurat = $request->mode_darurat;
-
         $event->status = 'pending';
-        $event->created_at = now();
-        $event->updated_at = now();
+
         $event->save();
 
-        $request->session()->forget('aktivitas_step1');
+        // Bersihkan session setelah simpan
+        $request->session()->forget('aktivitas.step1');
 
-        return redirect()->route('dashboardorg')->with('success', 'Aktivitas berhasil ditambahkan.');
+        return redirect()->route('aktivitas.index')->with('success', 'Aktivitas berhasil ditambahkan.');
     }
 }
