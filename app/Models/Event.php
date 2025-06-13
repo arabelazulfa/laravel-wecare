@@ -26,7 +26,18 @@ class Event extends Model
         'photo',
         'status',
         'rejection_reason',
+
+    // Tambahkan kolom baru yang sudah kamu buat
+        'jenis_acara',
+        'divisi',
+        'tugas_relawan',
+        'kriteria',
+        'total_jam_kerja',
+        'jumlah_relawan',
+        'butuh_cv',
+        'mode_darurat',
     ];
+
 
     // Jika kolom created_at dan updated_at sudah ada, maka model otomatis akan menggunakan timestamp
 
