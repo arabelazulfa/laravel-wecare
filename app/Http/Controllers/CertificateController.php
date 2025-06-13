@@ -3,12 +3,14 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Certificate;
+use Illuminate\Support\Facades\Auth;
 
 class CertificateController extends Controller
 {
     public function index()
     {
-        // nanti bisa kirim data sertifikat dari database ke view, sekarang dummy dulu
-        return view('sertifikat');
+        $certificates = Certificate::where('user_id', Auth::id())->get();
+        return view('sertifikat', compact('certificates'));
     }
 }

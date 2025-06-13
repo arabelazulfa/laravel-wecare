@@ -14,6 +14,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\AktivitasController;
 use App\Http\Controllers\SertifikasiController;
 use App\Http\Controllers\OrganisasiController;
+
 use App\Models\OrganizationProfile;
 
 use Illuminate\Support\Facades\Auth;
@@ -122,6 +123,8 @@ Route::middleware('auth')->group(function () {
         ->name('aktivitas.tambah');
     Route::get('/sertifikasi', [SertifikasiController::class, 'index'])
         ->name('sertifikasi.index');
+    Route::post('/sertifikat/upload/{id}', [SertifikasiController::class, 'upload'])->name('sertifikat.upload');
+
     Route::get('/edit-organisasi', [OrganisasiController::class, 'edit'])
         ->name('organisasi.edit');
     Route::put('/organisasi/update/{id}', [OrganisasiController::class, 'update'])
