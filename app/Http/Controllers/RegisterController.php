@@ -2,22 +2,34 @@
  
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\User;
-use Illuminate\Support\Facades\Hash;
-use App\Mail\OtpMail;
-use Illuminate\Support\Facades\Mail;
+use App\Models\VolunteerProfile;
 use App\Models\OrganizationProfile;
+use App\Mail\OtpMail;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Storage;
 
 class RegisterController extends Controller
 {
     public function storeVolunteer(Request $request)
     {
+        $validInterests = ['Kemanusiaan', 'Kesehatan', 'Pendidikan', 'Kepemimpinan', 'Ketenagakerjaan', 'Lingkungan', 'Bencana Alam'];
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email',
             'password' => 'required|min:6|confirmed',
             'ktp' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+
+            // field tambahan
+            'phone'         => 'required|string|max:20',
+            'gender'        => 'required|string|in:Laki-Laki,Perempuan',
+            'birthdate'     => 'required|date',
+            'minat1'     => 'required|string|in:' . implode(',', $validInterests),
+            'minat2'     => 'required|string|in:' . implode(',', $validInterests),
+            'city'          => 'nullable|string|max:255',
+            'profession'    => 'nullable|string|max:255',
         ]);
 
         $ktpPath = $request->file('ktp')->store('ktp_images', 'public');
@@ -31,6 +43,16 @@ class RegisterController extends Controller
             'gender' => $request->gender,
             'birthdate' => $request->birthdate,
             'ktp_path' => $ktpPath,
+        ]);
+
+        VolunteerProfile::create([
+            'user_id'    => $user->id,
+            'interest1'  => $request->minat1,
+            'interest2'  => $request->minat2,
+            'city'       => $request->city,      // kalau kolom-nya city
+            'profession' => $request->profession,
+            'ktp_file'   => $ktpPath,
+            // simpan field lain kalau ada
         ]);
 
         $otp = rand(100000, 999999);

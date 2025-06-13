@@ -3,8 +3,12 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="csrf-token" content="{{ csrf_token() }}">
+
   <title>WeCare Dashboard</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <script src="//unpkg.com/alpinejs" defer></script>
+
   <link
     rel="stylesheet"
     href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
@@ -26,8 +30,8 @@
         <i class="fas fa-certificate text-base"></i> <span>Sertifikat</span>
       </a>
 
-      <a href="#" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-[#f49b9b] transition">
-        <i class="fas fa-user text-base"></i> <span>Profil</span>
+      <a href="{{ route('volunteer.profile.show') }}" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-[#f49b9b] transition">
+        <i class="fas fa-user text-base"></i> <span>Profile</span>
       </a>
     </nav>
   </aside>

@@ -132,6 +132,7 @@
           <option disabled selected>Pilih Minat</option>
           <option>Kemanusiaan</option>
           <option>Kesehatan</option>
+          <option>Pendidikan</option>
           <option>Kepemimpinan</option>
           <option>Ketenagakerjaan</option>
           <option>Lingkungan</option>
@@ -144,6 +145,7 @@
           <option disabled selected>Pilih Minat</option>
           <option>Kemanusiaan</option>
           <option>Kesehatan</option>
+          <option>Pendidikan</option>
           <option>Kepemimpinan</option>
           <option>Ketenagakerjaan</option>
           <option>Lingkungan</option>
