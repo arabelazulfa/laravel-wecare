@@ -9,10 +9,10 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
 </head>
 
-<body class="bg-[#fff0f0] min-h-screen flex items-start p-6 font-sans">
+<body class="bg-[#fff0f0] h-auto flex items-start p-6 font-sans">
 
   <!-- Sidebar -->
-  <aside class="bg-[#f28b8b] text-white w-52 min-h-[90vh] rounded-2xl p-4 flex flex-col shadow-md">
+  <aside class="bg-[#f28b8b] text-white w-52 h-screen rounded-2xl p-4 flex flex-col shadow-md">
     <div class="text-xl font-bold mb-6">WeCare</div>
     <nav class="flex flex-col space-y-3 text-sm font-medium">
 
@@ -25,12 +25,14 @@
       </a>
 
       {{-- Aktivitas --}}
-      <a href="{{ route('aktivitas.index') }}" class="flex items-center gap-3 px-4 py-2 rounded-lg
-        {{ request()->routeIs('aktivitas.*')
-  ? 'bg-white text-[#f28b8b] shadow'
-  : 'hover:bg-[#f49b9b] text-white transition' }}">
-        <i class="fas fa-wave-square text-base"></i> <span>Aktivitas</span>
+      <a href="{{ route('aktivitas.index') }}"
+        class="flex items-center gap-3 px-4 py-2 rounded-lg
+        {{ request()->is('aktivitas*') || request()->is('events*')
+              ? 'bg-white text-[#f28b8b] shadow'
+              : 'hover:bg-[#f49b9b] text-white transition' }}">
+          <i class="fas fa-wave-square text-base"></i> <span>Aktivitas</span>
       </a>
+
 
       {{-- Sertifikasi --}}
       <a href="{{ route('sertifikasi.index') }}" class="flex items-center gap-3 px-4 py-2 rounded-lg
@@ -75,9 +77,39 @@
         <a href="/messages" title="Messages">
           <i class="far fa-comment-alt fa-lg cursor-pointer hover:scale-110 transition-transform duration-200"></i>
         </a>
-        <a href="/notifications" title="Notifications">
-          <i class="far fa-bell fa-lg cursor-pointer hover:scale-110 transition-transform duration-200"></i>
-        </a>
+        <div class="relative">
+          <button id="notifButton" title="Notifikasi" class="relative focus:outline-none">
+            <i class="far fa-bell fa-lg cursor-pointer hover:scale-110 transition-transform duration-200"></i>
+            @if(isset($unreadCount) && $unreadCount > 0)
+        <span class="absolute -top-1 -right-1 bg-red-500 text-white rounded-full text-xs px-1.5">
+          {{ $unreadCount }}
+        </span>
+      @endif
+          </button>
+
+          <div id="notifDropdown"
+            class="hidden absolute right-0 mt-3 w-80 bg-white text-black rounded-lg shadow-xl z-50">
+            <div class="p-4">
+              <h4 class="font-bold text-sm mb-2">Notifikasi Terbaru</h4>
+              <div class="max-h-64 overflow-y-auto space-y-2">
+                @forelse($notifications ?? [] as $notif)
+              <a href="{{ $notif->data['url'] ?? '#' }}" class="block p-3 rounded-md text-sm border 
+             {{ $notif->read_at ? 'bg-gray-100' : 'bg-pink-100 border-pink-200' }}">
+                <div class="font-semibold">{{ $notif->data['title'] ?? 'Notifikasi' }}</div>
+                <div class="text-xs text-gray-600">{{ $notif->created_at->diffForHumans() }}</div>
+              </a>
+        @empty
+          <p class="text-gray-500 text-sm">Tidak ada notifikasi baru.</p>
+        @endforelse
+              </div>
+              <div class="text-right mt-2">
+                <a href="{{ route('notifications.index') }}" class="text-pink-600 text-sm hover:underline">Lihat
+                  Semua</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
 
         <!-- Profile button with dropdown -->
         <div class="relative">
@@ -100,7 +132,9 @@
     </header>
 
     <!-- Content: Tambah Aktivitas -->
-    @yield('content')
+    <div class="mt-8">
+      @yield('content')
+    </div>
   </main>
 
   <script>
@@ -120,6 +154,25 @@
       });
     });
   </script>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const notifBtn = document.getElementById('notifButton');
+      const notifDropdown = document.getElementById('notifDropdown');
+
+      notifBtn.addEventListener('click', function (e) {
+        e.stopPropagation();
+        notifDropdown.classList.toggle('hidden');
+      });
+
+      window.addEventListener('click', function () {
+        if (!notifDropdown.classList.contains('hidden')) {
+          notifDropdown.classList.add('hidden');
+        }
+      });
+    });
+  </script>
+
 
 </body>
 

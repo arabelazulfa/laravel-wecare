@@ -19,7 +19,8 @@ class Event extends Model
         'category',
         'location',
         'date',
-        'time',
+        'start_time',
+        'end_time',
         'registration_deadline',
         'description',
         'event_type',
@@ -27,7 +28,7 @@ class Event extends Model
         'status',
         'rejection_reason',
 
-    // Tambahkan kolom baru yang sudah kamu buat
+        // Tambahkan kolom baru yang sudah kamu buat
         'jenis_acara',
         'divisi',
         'tugas_relawan',
@@ -45,7 +46,8 @@ class Event extends Model
     protected $casts = [
         'date' => 'date',
         'registration_deadline' => 'date',
-        'time' => 'datetime:H:i', // kalau pakai time, bisa disesuaikan
+        'start_time' => 'datetime:H:i',
+        'end_time' => 'datetime:H:i',
     ];
 
     // Contoh relasi: Event punya organizer (user)
@@ -57,5 +59,11 @@ class Event extends Model
     {
         return $this->belongsToMany(User::class, 'event_registrations')->withTimestamps();
     }
+
+    public function organizerProfile()
+    {
+        return $this->belongsTo(\App\Models\OrganizationProfile::class, 'organizer_id', 'user_id');
+    }
+
 
 }

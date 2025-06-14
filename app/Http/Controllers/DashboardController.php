@@ -8,6 +8,7 @@ use App\Models\EventRegistration;
 use App\Models\OrganizationProfile;
 use App\Models\Event;
 use App\Models\EventReview;
+use App\Models\Gallery;
 
 
 class DashboardController extends Controller
@@ -32,7 +33,7 @@ class DashboardController extends Controller
         $pendaftaranRelawan = EventRegistration::with('relawan')->get()->map(function ($reg) {
             return (object) [
                 'id' => $reg->relawan->id,
-                'nama' 
+                'nama'
                 => $reg->relawan->name,
                 'lokasi' => $reg->relawan->lokasi,
                 'deskripsi' => $reg->relawan->deskripsi,
@@ -40,16 +41,22 @@ class DashboardController extends Controller
             ];
         });
 
-        return view('dashboard.organisasi', compact('pendaftaranRelawan'));
+        $user = auth()->user(); // ini organisasi
+
+        $notifications = $user->notifications()->latest()->take(5)->get();
+        $unreadCount = $user->unreadNotifications()->count();
+
+        return view('dashboard.organisasi', compact('pendaftaranRelawan', 'notifications', 'unreadCount'));
     }
     public function profile()
     {
         $profile = OrganizationProfile::where('user_id', auth()->id())->first();
         $events = Event::where('organizer_id', auth()->id())->latest()->get();
+        $galleries = Gallery::where('user_id', auth()->id())->get();
 
         $reviews = EventReview::whereIn('event_id', $events->pluck('id'))->latest()->get();
 
-        return view('dashboard.profile', compact('profile', 'events', 'reviews'));
+        return view('dashboard.profile', compact('profile', 'events', 'reviews', 'galleries'));
     }
 
     public function updateLogo(Request $request)
@@ -58,7 +65,8 @@ class DashboardController extends Controller
             'logo' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
-        $profile = auth()->user()->organizationProfile;
+        $profile = OrganizationProfile::where('user_id', auth()->id())->first();
+
 
         // Hapus logo lama kalau ada
         if ($profile->logo && Storage::exists('public/logos/' . $profile->logo)) {

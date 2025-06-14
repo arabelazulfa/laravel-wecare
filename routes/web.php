@@ -14,6 +14,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\AktivitasController;
 use App\Http\Controllers\SertifikasiController;
 use App\Http\Controllers\OrganisasiController;
+use App\Http\Controllers\GalleryController;
 use App\Models\OrganizationProfile;
 
 use Illuminate\Support\Facades\Auth;
@@ -108,6 +109,11 @@ Route::post('/aktivitas/simpan', [AktivitasController::class, 'simpan'])->name('
 
 Route::get('/aktivitas', [AktivitasController::class, 'daftarAktivitas'])->name('dashboardorg');
 
+Route::get('/aktivitas/{event}/edit', [EventController::class, 'edit'])->name('events.edit');
+Route::put('/aktivitas/{event}', [EventController::class, 'update'])->name('events.update');
+Route::get('/events/{id}/edit', [EventController::class, 'edit'])->name('events.edit');
+Route::resource('events', EventController::class);
+
 Route::middleware(['auth'])->group(function () {
     // Daftar aktivitas
     Route::get('/aktivitas', [AktivitasController::class, 'index'])->name('aktivitas.index');
@@ -126,7 +132,7 @@ Route::middleware(['auth'])->group(function () {
 });
 Route::get('/events/{id}', [EventController::class, 'show'])->name('events.show');
 Route::get('/events/{id}/participants', [EventController::class, 'participants'])->name('events.participants');
-Route::get('/events/{id}/presentation', [EventController::class, 'presentation'])->name('events.presentation');
+Route::get('/events/{id}/presention', [EventController::class, 'presention'])->name('events.presention');
 
 // auth-protected pages
 Route::middleware('auth')->group(function () {
@@ -145,6 +151,11 @@ Route::middleware('auth')->group(function () {
     Route::post('/dashboard/update-logo', [DashboardController::class, 'updateLogo'])
         ->name('dashboard.updateLogo');
 
+    // Galeri Organisasi
+    Route::get('/dashboard/galeri', [GalleryController::class, 'index'])->name('dashboard.gallery');
+    Route::post('/dashboard/galeri', [GalleryController::class, 'store'])->name('gallery.store');
+    Route::delete('/dashboard/galeri/{gallery}', [GalleryController::class, 'destroy'])->name('gallery.destroy');
+
 
     Route::get('/aktivitas', [AktivitasController::class, 'index'])
         ->name('aktivitas.index');
@@ -159,10 +170,20 @@ Route::middleware('auth')->group(function () {
     Route::put('/organisasi/{user_id}', [OrganisasiController::class, 'update'])
         ->name('organisasi.update');
 
-    Route::get('/dashboardorg/aktivitas',
-    [AktivitasController::class, 'index'])
-    ->name('aktivitas');
-    
+    Route::get(
+        '/dashboardorg/aktivitas',
+        [AktivitasController::class, 'index']
+    )
+        ->name('aktivitas');
+
+    Route::get('/notifications', function () {
+        $notifications = auth()->user()->notifications()->paginate(10);
+        return view('dashboard.notifications', compact('notifications'));
+    })->name('notifications.index');
+
+
+
+
     //////PROFIL VOLUNTEER//////
     Route::get('/volunteer/profile', [ProfileController::class, 'showVolunteer'])
         ->name('volunteer.profile.show');
@@ -177,9 +198,14 @@ Route::middleware('auth')->group(function () {
     // Update password
     Route::post('/volunteer/profile/update-password', [ProfileController::class, 'updatePassword'])->name('volunteer.profile.updatePassword');
 
-    Route::get('/notifications/{id}/read', action: [NotificationController::class, 'markAsRead'])->name('notifications.read');
-    
-        // Events CRUD (HTML pages & forms)
+    Route::get('/notifications/{id}/read', [NotificationController::class, 'markAsRead'])->name('notifications.read');
+
+
+    // Registrasi volunteer ke event (jika pakai form web)
+    Route::resource('event-registrations', EventRegistrationController::class)
+        ->only(['create', 'store', 'destroy']);     // sesuaikan kebutuhan
+
+    // Events CRUD (HTML pages & forms)
     Route::resource('events', EventController::class);
     Route::get('/volunteer-events/{id}', [EventController::class, 'showVolunteerDetail'])->name('events.detail.volunteer');
     Route::post('/event-register', [EventRegistrationController::class, 'register'])

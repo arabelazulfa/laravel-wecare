@@ -5,7 +5,8 @@ namespace App\Providers;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Auth;
-use App\Models\Notification;
+use Illuminate\Notifications\DatabaseNotification;
+
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -25,7 +26,7 @@ class AppServiceProvider extends ServiceProvider
         // Inject data notifikasi ke view dashboard & home
          View::composer('*', function ($view) {
             if (Auth::check()) {
-                $notifications = Notification::where('user_id', Auth::id())
+                $notifications = auth()->user()->notifications()
                     ->orderBy('created_at', 'desc')
                     ->take(5)
                     ->get();

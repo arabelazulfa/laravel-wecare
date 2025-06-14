@@ -62,8 +62,12 @@
             </div>
 
             <div>
-                <label class="block text-sm font-medium mb-1">Waktu Mulai</label>
-                <input type="time" name="time" id="time" required class="w-full rounded-lg border-none bg-white bg-opacity-60 px-4 py-2 text-sm" placeholder="Waktu Mulai">
+                <label class="block text-sm font-medium mb-1">Waktu Pelaksanaan</label>
+                <div class="flex space-x-2">
+                    <input type="time" name="start_time" required class="w-full rounded-lg border-none bg-white bg-opacity-60 px-4 py-2 text-sm" placeholder="Waktu Mulai">
+                    <span class="self-center text-sm text-gray-600">-</span>
+                    <input type="time" name="end_time" required class="w-full rounded-lg border-none bg-white bg-opacity-60 px-4 py-2 text-sm" placeholder="Waktu Selesai">
+                </div>
             </div>
 
             <!-- Banner -->

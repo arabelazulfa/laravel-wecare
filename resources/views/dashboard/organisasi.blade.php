@@ -3,10 +3,11 @@
 @section('title', 'Dashboard')
 
 @section('content')
-<div class="container mx-auto p-6">
-    <h1 class="text-2xl font-bold mb-6">Daftar Relawan yang Mendaftar Event</h1>
+<div class="container mx-auto pt-0 px-6 pb-6">
 
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <h1 class="text-2xl font-bold mt-0 mb-6">Daftar Relawan yang Mendaftar Event</h1>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         @foreach ($pendaftaranRelawan as $relawan)
         <div class="bg-white rounded-2xl shadow p-4">
             <h2 class="text-xl font-semibold mb-1">{{ $relawan->nama }}</h2>

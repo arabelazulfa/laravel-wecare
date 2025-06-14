@@ -44,7 +44,8 @@
                             {{ \Carbon\Carbon::parse($activity->date)->translatedFormat('d M Y') }}
                         </p>
                         <p class="text-sm text-gray-600 flex items-center">
-                            <i class="fas fa-clock mr-2 text-gray-500"></i>{{ \Carbon\Carbon::parse($activity->time)->format('H:i') }} WIB
+                            <i class="fas fa-clock mr-2 text-gray-500"></i>
+                            {{ \Carbon\Carbon::parse($activity->start_time)->format('H:i') }} - {{ \Carbon\Carbon::parse($activity->end_time)->format('H:i') }} WIB
                         </p>
                     </div>
                 </div>
