@@ -159,17 +159,11 @@ Route::middleware('auth')->group(function () {
     Route::put('/organisasi/{user_id}', [OrganisasiController::class, 'update'])
         ->name('organisasi.update');
 
+    Route::get('/dashboardorg/aktivitas',
+    [AktivitasController::class, 'index'])
+    ->name('aktivitas');
 
-    // Events CRUD (HTML pages & forms)
-    Route::resource('events', EventController::class);
-
-    // Registrasi volunteer ke event (jika pakai form web)
-    Route::resource('event-registrations', EventRegistrationController::class)
-        ->only(['create', 'store', 'destroy']);     // sesuaikan kebutuhan
-
-    // Sertifikat (download / view)
-    Route::resource('certificates', CertificateController::class)
-        ->only(['index', 'show']);
+    
 
     //////PROFIL VOLUNTEER//////
     Route::get('/volunteer/profile', [ProfileController::class, 'showVolunteer'])
@@ -187,11 +181,16 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/notifications/{id}/read', action: [NotificationController::class, 'markAsRead'])->name('notifications.read');
 
+    // Registrasi volunteer ke event (jika pakai form web)
+    Route::resource('event-registrations', EventRegistrationController::class)
+        ->only(['create', 'store', 'destroy']);     // sesuaikan kebutuhan
+    
+        // Events CRUD (HTML pages & forms)
+    Route::resource('events', EventController::class);
 
-    Route::get('/dashboardorg/aktivitas',
-    [AktivitasController::class, 'index'])
-    ->name('aktivitas');
-
+    // Sertifikat (download / view)
+    Route::resource('certificates', CertificateController::class)
+        ->only(['index', 'show']);
 
     // Route::get('/volunteer/events', [EventController::class, 'showForVolunteer'])->name('volunteer.events');
 });
