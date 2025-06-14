@@ -30,5 +30,11 @@ class EventController extends Controller
         return view('events.volunteer-event', compact('events'));
     }
 
+    public function participants($id)
+    {
+        $event = Event::with('participants')->findOrFail($id);
 
+    // Pastikan relasi 'participants' ada di model Event
+        return view('events.participants', compact('event'));
+    }
 }

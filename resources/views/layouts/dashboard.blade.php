@@ -17,12 +17,17 @@
     <div class="text-xl font-bold mb-6">WeCare</div>
     <nav class="flex flex-col space-y-3 text-sm font-medium">
       <a href="{{ route('dashboard') }}" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-[#f49b9b] transition
-         {{ request()->routeIs('dashboard') ? 'bg-white text-[#f28b8b] shadow' : '' }}">
+          {{ request()->routeIs('dashboard') ? 'bg-white text-[#f28b8b] shadow' : '' }}">
         <i class="fas fa-home text-base"></i> <span>Dashboard</span>
       </a>
-      
+
+      <a href="{{ route('activities.index') }}" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-[#f49b9b] transition
+          {{ request()->is('aktivitas*') || request()->is('events/*') ? 'bg-white text-[#f28b8b] shadow' : '' }}">
+        <i class="fas fa-stream text-base"></i> <span>Aktivitas</span>
+      </a>
+
       <a href="{{ route('certificates.index') }}" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-[#f49b9b] transition
-         {{ request()->routeIs('certificates.index') ? 'bg-white text-[#f28b8b] shadow' : '' }}">
+          {{ request()->routeIs('certificates.index') ? 'bg-white text-[#f28b8b] shadow' : '' }}">
         <i class="fas fa-certificate text-base"></i> <span>Sertifikat</span>
       </a>
 
@@ -30,6 +35,7 @@
         <i class="fas fa-user text-base"></i> <span>Profil</span>
       </a>
     </nav>
+
   </aside>
 
   <!-- Main Content -->

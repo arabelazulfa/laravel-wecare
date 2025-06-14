@@ -124,6 +124,9 @@ Route::middleware(['auth'])->group(function () {
     // Proses final: Simpan ke database
     Route::post('/aktivitas/simpan', [AktivitasController::class, 'simpan'])->name('aktivitas.simpan');
 });
+Route::get('/events/{id}', [EventController::class, 'show'])->name('events.show');
+Route::get('/events/{id}/participants', [EventController::class, 'participants'])->name('events.participants');
+Route::get('/events/{id}/presentation', [EventController::class, 'presentation'])->name('events.presentation');
 
 // auth-protected pages
 Route::middleware('auth')->group(function () {

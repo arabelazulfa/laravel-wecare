@@ -3,7 +3,19 @@
 @section('title', 'Aktivitas')
 
 @section('content')
-<section class="bg-white rounded-xl shadow px-6 py-5 max-w-5xl mt-8">
+
+{{-- Judul dan tombol di luar kontainer putih --}}
+<div class="flex items-center justify-between max-w-5xl mx-auto mt-8 mb-2 px-2">
+    <h2 class="font-bold text-black text-xl">Aktivitas saya</h2>
+    <a href="{{ route('aktivitas.tambah') }}">
+        <button class="bg-green-600 text-white text-xs font-semibold rounded-full px-4 py-2 flex items-center space-x-2 hover:bg-green-700 transition">
+            <i class="fas fa-plus text-xs"></i>
+            <span>Tambah Aktivitas</span>
+        </button>
+    </a>
+</div>
+
+<section class="bg-white rounded-xl shadow px-6 py-5 max-w-5xl mx-auto">
 
     {{-- Alert jika ada pesan sukses dari session --}}
     @if(session('success'))
@@ -12,29 +24,31 @@
         </div>
     @endif
 
-    <div class="flex items-center justify-between mb-4">
-        <h2 class="font-bold text-black text-sm">Aktivitas saya</h2>
-
-        <a href="{{ route('aktivitas.tambah') }}">
-            <button class="bg-green-600 text-white text-xs font-semibold rounded-full px-3 py-1 flex items-center space-x-1" type="button">
-                <i class="fas fa-plus text-[10px]"></i>
-                <span>Tambah Aktivitas</span>
-            </button>
-        </a>
-    </div>
-
     @if(isset($events) && $events->count())
         @foreach($events as $activity)
-            <div class="bg-white rounded-lg shadow-sm p-4 flex items-start space-x-4 mb-4 border border-gray-200">
-                <img src="{{ asset('storage/' . $activity->photo) }}" alt="Banner" class="w-24 h-24 object-cover rounded-lg">
-                <div class="flex-1">
-                    <h3 class="text-base font-semibold">{{ $activity->title }}</h3>
-                    <p class="text-sm text-gray-600">{{ $activity->location }}</p>
-                    <p class="text-sm text-gray-600">
-                        {{ \Carbon\Carbon::parse($activity->date)->format('d M Y') }} — {{ $activity->time }}
-                    </p>
+            <a href="{{ route('events.show', $activity->id) }}" class="block hover:no-underline">
+                <div class="bg-white rounded-xl shadow-sm border border-gray-200 mb-4 p-4 flex items-center space-x-4 hover:shadow-md transition">
+                    {{-- Banner / Foto --}}
+                    <div class="w-24 h-24 overflow-hidden rounded-lg">
+                        <img src="{{ asset('storage/' . $activity->photo) }}" alt="Banner" class="w-full h-full object-cover">
+                    </div>
+
+                    {{-- Informasi Aktivitas --}}
+                    <div class="flex-1">
+                        <h3 class="text-base font-bold text-gray-800">{{ $activity->title }}</h3>
+                        <p class="text-sm text-gray-600 flex items-center">
+                            <i class="fas fa-map-marker-alt mr-2 text-gray-500"></i>{{ $activity->location }}
+                        </p>
+                        <p class="text-sm text-gray-600 flex items-center">
+                            <i class="fas fa-calendar-alt mr-2 text-gray-500"></i>
+                            {{ \Carbon\Carbon::parse($activity->date)->translatedFormat('d M Y') }}
+                        </p>
+                        <p class="text-sm text-gray-600 flex items-center">
+                            <i class="fas fa-clock mr-2 text-gray-500"></i>{{ \Carbon\Carbon::parse($activity->time)->format('H:i') }} WIB
+                        </p>
+                    </div>
                 </div>
-            </div>
+            </a>
         @endforeach
     @else
         <p class="text-sm text-gray-600">Belum ada aktivitas yang ditambahkan.</p>

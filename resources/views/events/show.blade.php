@@ -1,9 +1,7 @@
-<!-- <h1>{{ $event->title }}</h1>
-<p>{{ $event->description }}</p>
-<p>{{ $event->location }} - {{ $event->date }}</p> -->
 @extends('layouts.dashboardorg')
 
-@section('title', $event->title)
+@section('title', 'Aktivitas')
+
 
 @section('content')
 <div class="mt-6 max-w-4xl mx-auto bg-white rounded-2xl shadow-md overflow-hidden">
@@ -32,9 +30,18 @@
             <span class="bg-blue-100 text-blue-700 text-xs font-semibold px-3 py-1 rounded-full">{{ $event->event_type }}</span>
         </div>
 
-        <a href="#" class="inline text-xs text-center bg-[#4A90E2] text-white font-bold py-2 px-4 rounded-xl hover:bg-[#357ABD] transition">
-            Edit
-        </a>
+        <!-- Tombol Aksi -->
+        <div class="flex flex-wrap gap-2 mb-6">
+            <a href="#" class="inline-block text-xs bg-[#4A90E2] text-white font-bold py-2 px-4 rounded-xl hover:bg-[#357ABD] transition">
+                Edit
+            </a>
+            <a href="{{ route('events.participants', $event->id) }}" class="inline-block text-xs bg-sky-400 hover:bg-sky-500 text-white font-bold py-2 px-4 rounded-xl hover:bg-pink-500 transition">
+                Daftar Peserta
+            </a>
+            <a href="{{ route('events.presentation', $event->id) }}" class="inline-block text-xs bg-violet-400 hover:bg-violet-500 text-white font-bold py-2 px-4 rounded-xl hover:bg-pink-500 transition">
+                Set Presentasi
+            </a>
+        </div>
 
         <hr class="my-6 border-gray-200">
 
@@ -45,4 +52,3 @@
     </div>
 </div>
 @endsection
-
