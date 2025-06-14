@@ -40,7 +40,7 @@ class OrganizationProfile extends Model
 
     public function reviews()
     {
-        return $this->hasMany(Review::class, 'organization_id');
+        return $this->hasMany(EventReview::class, 'organization_id');
     }
 
 }

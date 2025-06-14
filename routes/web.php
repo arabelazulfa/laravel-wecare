@@ -139,6 +139,10 @@ Route::middleware('auth')->group(function () {
         ->name('dashboard.profile');
     Route::get('/dashboard/edit-profile', [DashboardController::class, 'edit'])
         ->name('dashboard.editprofile');
+    Route::post('/dashboard/update-logo', [DashboardController::class, 'updateLogo'])
+        ->name('dashboard.updateLogo');
+
+
     Route::get('/aktivitas', [AktivitasController::class, 'index'])
         ->name('aktivitas.index');
     Route::get('/aktivitas/tambah', [AktivitasController::class, 'create'])

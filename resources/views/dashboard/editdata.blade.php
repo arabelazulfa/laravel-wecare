@@ -16,7 +16,8 @@
 
         <h2 class="text-2xl font-bold text-black-600 mb-6">Edit Data Organisasi</h2>
 
-        <form action="{{ route('organisasi.update', $profile->user_id) }}" method="POST">
+        <form action="{{ route('organisasi.update', $profile->user_id) }}" method="POST" enctype="multipart/form-data">
+
             @csrf
             @method('PUT')
 
