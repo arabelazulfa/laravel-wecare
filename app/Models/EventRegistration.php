@@ -14,7 +14,12 @@ class EventRegistration extends Model
     protected $fillable = [
         'event_id',
         'user_id',
+        'division',
+        'reason',
+        'why_you',
+        'cv_file',
         'status', // kalau ada kolom status (misal: pending, approved, dll)
+        'registered_at',
         // tambahin field lain kalau ada
     ];
 

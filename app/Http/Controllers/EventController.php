@@ -21,11 +21,18 @@ class EventController extends Controller
 
     // EventController.php
 
+    // public function showForVolunteer()
+    // {
+    //     $events = Event::with('organizer.organizationProfile')
+    //         ->where('status', 'active')
+    //         ->get();
+
+    //     return view('events.volunteer-event', compact('events'));
+    // }
+
     public function showForVolunteer()
     {
-        $events = Event::with('organizer.organizationProfile')
-            ->where('status', 'active')
-            ->get();
+        $events = Event::latest()->get(); // TANPA FILTER status dulu
 
         return view('events.volunteer-event', compact('events'));
     }
@@ -37,4 +44,11 @@ class EventController extends Controller
     // Pastikan relasi 'participants' ada di model Event
         return view('events.participants', compact('event'));
     }
+
+    public function showVolunteerDetail($id)
+    {
+        $event = Event::with(['participants', 'organizer.organizationProfile'])->findOrFail($id);
+        return view('events.detailvol', compact('event'));
+    }
+
 }
