@@ -38,6 +38,11 @@ class OtpController extends Controller
             // Tambahkan update info jika ada input lanjut (jika tidak dari form, bisa diabaikan)
             $user->email_verified_at = now(); // contoh penanda user sudah verifikasi
             $user->save();
+
+            // Kirim notifikasi kalau dia ORGANIZER
+            if ($user->role === 'organizer') {
+                $user->notify(new \App\Notifications\OrganizationRegistered());
+        }
         }
 
         // Hapus session otp

@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Models\VolunteerProfile;
 use App\Models\OrganizationProfile;
 use App\Mail\OtpMail;
+use App\Notifications\OrganizationRegistered;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
@@ -196,4 +197,6 @@ class RegisterController extends Controller
     {
         return view('auth.otp', ['role' => 'organizer']);
     }
+
+    
 }
