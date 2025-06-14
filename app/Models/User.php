@@ -58,8 +58,8 @@ class User extends Authenticatable
     }
 
     public function volunteerProfile()
-{
-    return $this->hasOne(VolunteerProfile::class); // sesuaikan model
-}
+    {
+    return $this->hasOne(VolunteerProfile::class, 'user_id'); // sesuaikan model
+    }
 
 }

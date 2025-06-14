@@ -1,7 +1,4 @@
 <?php
-
-namespace App\Notifications;
-
 // app/Notifications/OrganizationRegistered.php
 
 namespace App\Notifications;

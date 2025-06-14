@@ -141,9 +141,16 @@ Route::middleware('auth')->group(function () {
     // Dashboard
     Route::get('/dashboard', [DashboardController::class, 'index'])
         ->name('dashboard');
+    
+        Route::get('/profildaftar/{id}', function ($id) {
+        $user = \App\Models\User::with('volunteerProfile')->findOrFail($id);
+        return view('dashboard.profildaftar', compact('user'));
+    })->name('profildaftar');
+
+
 
     // Dashboard untuk organisasi
-    Route::get('/dashboardorg', [DashboardController::class, 'organisasi'])
+    Route::get('/dashboardorg', [DashboardController::class, 'organisasi', 'daftarRelawan'])
         ->name('dashboard.organisasi');
     Route::get('/dashboard/profile', [DashboardController::class, 'profile'])
         ->name('dashboard.profile');
@@ -211,14 +218,16 @@ Route::middleware('auth')->group(function () {
     Route::resource('events', EventController::class);
     Route::get('/volunteer-events/{id}', [EventController::class, 'showVolunteerDetail'])->name('events.detail.volunteer');
     Route::post('/event-register', [EventRegistrationController::class, 'register'])
-     ->name('event.register')
-     ->middleware('auth');
+        ->name('event.register')
+        ->middleware('auth');
 
 
     // Sertifikat (download / view)
     Route::resource('certificates', CertificateController::class)
         ->only(['index', 'show']);
 
+
     // Route::get('/volunteer/events', [EventController::class, 'showForVolunteer'])->name('volunteer.events');
 });
+
 

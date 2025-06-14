@@ -9,6 +9,7 @@ use App\Models\OrganizationProfile;
 use App\Models\Event;
 use App\Models\EventReview;
 use App\Models\Gallery;
+use App\Models\User;
 
 
 class DashboardController extends Controller
@@ -32,13 +33,13 @@ class DashboardController extends Controller
     {
         $pendaftaranRelawan = EventRegistration::with('relawan')->get()->map(function ($reg) {
             return (object) [
-                'id' => $reg->relawan->id,
-                'nama'
-                => $reg->relawan->name,
-                'lokasi' => $reg->relawan->lokasi,
-                'deskripsi' => $reg->relawan->deskripsi,
-                'minat' => $reg->relawan->minat,
+                'id' => $reg->user->id ?? null,
+                'name' => $reg->user->name ?? 'Tidak diketahui',
+                'city' => optional($reg->user->volunteerProfile)->city ?? 'Tidak tersedia',
+                'reason' => $reg->reason ?? 'Belum diisi',
+                'division' => $reg->division ?? 'Belum ditentukan',
             ];
+
         });
 
         $user = auth()->user(); // ini organisasi
@@ -84,6 +85,7 @@ class DashboardController extends Controller
 
         return back()->with('success', 'Logo berhasil diperbarui.');
     }
+
 
 
 
