@@ -32,13 +32,14 @@ class AktivitasController extends Controller
             'event_type' => 'required|string',
             'location' => 'required|string',
             'date' => 'required|date',
-            'time' => 'required|date_format:H:i',
+            'start_time' => 'required|date_format:H:i',
+            'end_time' => 'required|date_format:H:i|after:start_time',
             'photo' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
         ]);
 
         $data = $request->only([
             'title', 'description', 'category', 'registration_deadline',
-            'event_type', 'location','date','time'
+            'event_type', 'location','date','start_time', 'end_time'
         ]);
 
         // Simpan foto jika diunggah
@@ -90,7 +91,8 @@ class AktivitasController extends Controller
         $event->event_type = $step1['event_type'];
         $event->location = $step1['location'];
         $event->date = $step1['date'];
-        $event->time = $step1['time'];
+        $event->start_time = $step1['start_time'];
+        $event->end_time = $step1['end_time'];
         $event->photo = $step1['photo'] ?? null;
 
         $event->jenis_acara = $request->jenis_acara;

@@ -25,12 +25,14 @@
       </a>
 
       {{-- Aktivitas --}}
-      <a href="{{ route('aktivitas.index') }}" class="flex items-center gap-3 px-4 py-2 rounded-lg
-        {{ request()->routeIs('aktivitas.*')
-  ? 'bg-white text-[#f28b8b] shadow'
-  : 'hover:bg-[#f49b9b] text-white transition' }}">
-        <i class="fas fa-wave-square text-base"></i> <span>Aktivitas</span>
+      <a href="{{ route('aktivitas.index') }}"
+        class="flex items-center gap-3 px-4 py-2 rounded-lg
+        {{ request()->is('aktivitas*') || request()->is('events*')
+              ? 'bg-white text-[#f28b8b] shadow'
+              : 'hover:bg-[#f49b9b] text-white transition' }}">
+          <i class="fas fa-wave-square text-base"></i> <span>Aktivitas</span>
       </a>
+
 
       {{-- Sertifikasi --}}
       <a href="{{ route('sertifikasi.index') }}" class="flex items-center gap-3 px-4 py-2 rounded-lg

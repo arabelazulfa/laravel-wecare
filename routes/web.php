@@ -108,6 +108,11 @@ Route::post('/aktivitas/simpan', [AktivitasController::class, 'simpan'])->name('
 
 Route::get('/aktivitas', [AktivitasController::class, 'daftarAktivitas'])->name('dashboardorg');
 
+Route::get('/aktivitas/{event}/edit', [EventController::class, 'edit'])->name('events.edit');
+Route::put('/aktivitas/{event}', [EventController::class, 'update'])->name('events.update');
+Route::get('/events/{id}/edit', [EventController::class, 'edit'])->name('events.edit');
+Route::resource('events', EventController::class);
+
 Route::middleware(['auth'])->group(function () {
     // Daftar aktivitas
     Route::get('/aktivitas', [AktivitasController::class, 'index'])->name('aktivitas.index');
@@ -126,7 +131,7 @@ Route::middleware(['auth'])->group(function () {
 });
 Route::get('/events/{id}', [EventController::class, 'show'])->name('events.show');
 Route::get('/events/{id}/participants', [EventController::class, 'participants'])->name('events.participants');
-Route::get('/events/{id}/presentation', [EventController::class, 'presentation'])->name('events.presentation');
+Route::get('/events/{id}/presention', [EventController::class, 'presention'])->name('events.presention');
 
 // auth-protected pages
 Route::middleware('auth')->group(function () {

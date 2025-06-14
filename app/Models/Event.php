@@ -19,7 +19,8 @@ class Event extends Model
         'category',
         'location',
         'date',
-        'time',
+        'start_time',
+        'end_time',
         'registration_deadline',
         'description',
         'event_type',
@@ -45,7 +46,8 @@ class Event extends Model
     protected $casts = [
         'date' => 'date',
         'registration_deadline' => 'date',
-        'time' => 'datetime:H:i', // kalau pakai time, bisa disesuaikan
+        'start_time' => 'datetime:H:i',
+        'end_time' => 'datetime:H:i',
     ];
 
     // Contoh relasi: Event punya organizer (user)
