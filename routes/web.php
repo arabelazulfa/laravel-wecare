@@ -142,6 +142,10 @@ Route::middleware('auth')->group(function () {
         ->name('dashboard.profile');
     Route::get('/dashboard/edit-profile', [DashboardController::class, 'edit'])
         ->name('dashboard.editprofile');
+    Route::post('/dashboard/update-logo', [DashboardController::class, 'updateLogo'])
+        ->name('dashboard.updateLogo');
+
+
     Route::get('/aktivitas', [AktivitasController::class, 'index'])
         ->name('aktivitas.index');
     Route::get('/aktivitas/tambah', [AktivitasController::class, 'create'])
@@ -167,21 +171,21 @@ Route::middleware('auth')->group(function () {
     Route::resource('certificates', CertificateController::class)
         ->only(['index', 'show']);
 
-    // Notifikasi (tampilkan halaman daftar notifikasi)
-    // Route::resource('notifications', NotificationController::class)
-    //     ->only(['index']);
+    //////PROFIL VOLUNTEER//////
+    Route::get('/volunteer/profile', [ProfileController::class, 'showVolunteer'])
+        ->name('volunteer.profile.show');
 
-    // Kelola profil user (admin / user sendiri)
-    Route::resource('users', UserController::class)
-        ->except(['create', 'store']);  // biasanya daftar lewat /register
+    // Upload foto profil
+    Route::post('/volunteer/profile/update-photo', [ProfileController::class, 'updatePhoto'])
+        ->name('volunteer.profile.updatePhoto');
 
-    // Route::get('/profile', [ProfileController::class, 'show'])->name('profile.show');
-    // Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
-    // Route::post('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
+    // PATCH field dinamis
+    Route::patch('/volunteer/profile/update-field', [ProfileController::class, 'updateField'])->name('volunteer.profile.updateField');
 
-    Route::get('/notifications/{id}/read',
-    action: [NotificationController::class, 'markAsRead'])
-    ->name('notifications.read');
+    // Update password
+    Route::post('/volunteer/profile/update-password', [ProfileController::class, 'updatePassword'])->name('volunteer.profile.updatePassword');
+
+    Route::get('/notifications/{id}/read', action: [NotificationController::class, 'markAsRead'])->name('notifications.read');
 
 
     Route::get('/dashboardorg/aktivitas',

@@ -19,33 +19,36 @@ class OrganisasiController extends Controller
     public function update(Request $request, $user_id)
     {
         $profile = OrganizationProfile::with('user')->where('user_id', $user_id)->firstOrFail();
-
+        // dd($request->file('logo'));
         $validated = $request->validate([
-            'name' => 'required',
-            'email' => 'required|email',
-            'phone' => 'required',
-            'nama_organisasi' => 'required',
-            'tipe_organisasi' => 'required',
+            'name' => 'sometimes|required|string',
+            'email' => 'sometimes|required|email',
+            'phone' => 'sometimes|required|string',
+            'org_name' => 'sometimes|required|string',
+            'org_type' => 'sometimes|required|string',
             'established_date' => 'nullable|date',
-            'location' => 'required',
-            'description' => 'nullable',
-            'focus_area' => 'nullable',
-            'province' => 'nullable',
-            'city' => 'nullable',
-            'postal_code' => 'nullable',
-            'org_phone' => 'nullable',
+            'location' => 'sometimes|required|string',
+            'description' => 'nullable|string',
+            'focus_area' => 'nullable|string',
+            'province' => 'nullable|string',
+            'city' => 'nullable|string',
+            'postal_code' => 'nullable|string',
+            'org_phone' => 'nullable|string',
             'website' => 'nullable|url',
             'logo' => 'nullable|image|max:2048',
         ]);
 
+
         if ($request->hasFile('logo')) {
-            $path = $request->file('logo')->store('logos', 'public');
-            $validated['logo'] = $path;
+            $logoPath = $request->file('logo')->store('logos', 'public');
+            $profile->logo = $logoPath;
+            $validated['logo'] = $logoPath;
         }
 
-        $profile->update($validated);
+        $profile->save();
 
-        return redirect()->route('dashboard.editdata', $user_id)->with('success', 'Data berhasil diperbarui.');
+
+        return redirect()->route('organisasi.edit', $user_id)->with('success', 'Data berhasil diperbarui.');
     }
 
 }

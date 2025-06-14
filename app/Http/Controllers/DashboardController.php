@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use App\Models\EventRegistration;
 use App\Models\OrganizationProfile;
 use App\Models\Event;
 use App\Models\EventReview;
+
 
 class DashboardController extends Controller
 {
@@ -30,7 +32,8 @@ class DashboardController extends Controller
         $pendaftaranRelawan = EventRegistration::with('relawan')->get()->map(function ($reg) {
             return (object) [
                 'id' => $reg->relawan->id,
-                'nama' => $reg->relawan->name,
+                'nama' 
+                => $reg->relawan->name,
                 'lokasi' => $reg->relawan->lokasi,
                 'deskripsi' => $reg->relawan->deskripsi,
                 'minat' => $reg->relawan->minat,
@@ -48,6 +51,32 @@ class DashboardController extends Controller
 
         return view('dashboard.profile', compact('profile', 'events', 'reviews'));
     }
+
+    public function updateLogo(Request $request)
+    {
+        $request->validate([
+            'logo' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+
+        $profile = auth()->user()->organizationProfile;
+
+        // Hapus logo lama kalau ada
+        if ($profile->logo && Storage::exists('public/logos/' . $profile->logo)) {
+            Storage::delete('public/logos/' . $profile->logo);
+        }
+
+        // Simpan logo baru
+        $file = $request->file('logo');
+        $filename = time() . '_' . $file->getClientOriginalName();
+        $file->storeAs('public/logos', $filename);
+
+        // Update di database
+        $profile->logo = $filename;
+        $profile->save();
+
+        return back()->with('success', 'Logo berhasil diperbarui.');
+    }
+
 
 
 }
