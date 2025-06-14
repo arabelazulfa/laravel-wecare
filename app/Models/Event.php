@@ -28,7 +28,7 @@ class Event extends Model
         'status',
         'rejection_reason',
 
-    // Tambahkan kolom baru yang sudah kamu buat
+        // Tambahkan kolom baru yang sudah kamu buat
         'jenis_acara',
         'divisi',
         'tugas_relawan',
@@ -58,6 +58,11 @@ class Event extends Model
     public function participants()
     {
         return $this->hasMany(Participation::class, 'event_id');
+    }
+
+    public function organizerProfile()
+    {
+        return $this->belongsTo(\App\Models\OrganizationProfile::class, 'organizer_id', 'user_id');
     }
 
 

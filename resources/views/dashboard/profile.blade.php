@@ -1,6 +1,6 @@
 @extends('layouts.dashboardorg')
 
-@section('title', 'Your Profile')
+@section('title', 'Profil Organisasi')
 
 @section('content')
     <!-- Header Profile -->
@@ -32,12 +32,12 @@
                 <span class="font-normal">{{ $profile->focus_area ?? 'Belum ditentukan' }}</span>
             </p>
             <p class="flex items-center gap-2">
-                <i class="fas fa-map-marker-alt text-green-600"></i>
+                <i class="fas fa-map-marker-alt text-red-600"></i>
                 <span class="font-semibold">Lokasi:</span>
                 <span>{{ $profile->city ?? '-' }}, {{ $profile->province ?? '-' }}</span>
             </p>
             <p class="flex items-center gap-2">
-                <i class="fas fa-calendar-alt text-blue-600"></i>
+                <i class="fas fa-calendar-alt text-blue-500"></i>
                 <span class="font-semibold">Bergabung sejak:</span>
                 <span>
                     {{ $profile->established_date ? \Carbon\Carbon::parse($profile->established_date)->translatedFormat('d F Y') : 'Tanggal tidak tersedia' }}
@@ -54,13 +54,23 @@
 
     <!-- Galeri Placeholder -->
     <div class="mt-8">
-        <h3 class="font-semibold mb-3 text-lg text-black">Galeri Organisasi</h3>
-        <div class="flex gap-4">
-            {{-- Tambahkan data dari galeri jika sudah ada --}}
-            <img src="{{ asset('images/sample1.jpg') }}" class="w-32 h-20 rounded object-cover">
-            <img src="{{ asset('images/sample2.jpg') }}" class="w-32 h-20 rounded object-cover">
+        <div class="flex justify-between items-center mb-3">
+            <h3 class="font-semibold text-lg text-black">Galeri Organisasi</h3>
+            <a href="{{ route('dashboard.gallery') }}"
+                class="bg-blue-500 hover:bg-blue-600 text-white text-xs px-3 py-1.5 rounded shadow">
+                Kelola Galeri
+            </a>
+        </div>
+
+        <div class="flex gap-4 flex-wrap">
+            @forelse($galleries as $gallery)
+                <img src="{{ asset('storage/' . $gallery->image) }}" class="w-32 h-20 rounded object-cover">
+            @empty
+                <p class="text-sm text-gray-500 italic">Belum ada gambar di galeri.</p>
+            @endforelse
         </div>
     </div>
+
 
     <!-- Aktivitas Terbaru -->
     <div class="mt-8">

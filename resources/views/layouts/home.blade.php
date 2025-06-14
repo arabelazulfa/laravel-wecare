@@ -20,45 +20,52 @@
     <div class="text-white font-semibold text-xl">WeCare</div>
 
     <!-- Icons & Profile Dropdown -->
+    @auth
     <div class="flex space-x-6 text-white text-lg items-center">
       <a href="/messages" title="Messages">
-        <i class="far fa-comment-alt fa-lg cursor-pointer hover:scale-110 transition-transform duration-200"></i>
+      <i class="far fa-comment-alt fa-lg cursor-pointer hover:scale-110 transition-transform duration-200"></i>
       </a>
+    @endauth
       
       <!-- Notifikasi -->
+      @auth
       <div class="relative">
-        <button id="notifButton" type="button">
-          <i class="far fa-bell fa-lg cursor-pointer hover:scale-110 transition-transform duration-200"></i>
-        </button>
-      
-        <div id="notifOverlay" class="hidden absolute top-8 right-0 z-50">
-          @if($notifications->isEmpty())
-        <p class="bg-white text-gray-500 text-sm px-20 py-10 rounded shadow whitespace-nowrap">
-        Belum ada notifikasi
-        </p>
+      <button id="notifButton" type="button">
+        <i class="far fa-bell fa-lg cursor-pointer hover:scale-110 transition-transform duration-200"></i>
+      </button>
+
+      <div id="notifOverlay" class="hidden absolute top-8 right-0 z-50">
+        @if($notifications->isEmpty())
+      <p class="bg-white text-gray-500 text-sm px-20 py-10 rounded shadow whitespace-nowrap">
+      Belum ada notifikasi
+      </p>
       @else
-        <x-notification-overlay :notifications="$notifications" />
+      <x-notification-overlay :notifications="$notifications" />
       @endif
-        </div>
       </div>
+      </div>
+    @endauth
 
       <!-- Profile button with dropdown -->
+      @auth
       <div class="relative">
-        <button id="profileButton" class="text-white hover:scale-110 transition-transform duration-200">
-          <i class="far fa-user-circle fa-lg"></i>
-        </button>
-        <div id="profileMenu" class="hidden absolute right-0 mt-2 w-40 bg-rose-400 text-white rounded-md shadow-lg z-50">
-          <ul class="p-3 space-y-2 font-semibold text-sm">
-            <li><a href="/dashboard" class="block hover:underline">Dashboard</a></li>
-            <li>
-              <form method="POST" action="{{ route('logout') }}">
-                @csrf
-                <button type="submit" class="w-full text-left hover:underline">Log Out</button>
-              </form>
-            </li>
-          </ul>
-        </div>
+      <button id="profileButton" class="text-white hover:scale-110 transition-transform duration-200">
+        <i class="far fa-user-circle fa-lg"></i>
+      </button>
+      <div id="profileMenu" class="hidden absolute right-0 mt-2 w-40 bg-rose-400 text-white rounded-md shadow-lg z-50">
+        <ul class="p-3 space-y-2 font-semibold text-sm">
+        <li><a href="/dashboard" class="block hover:underline">Dashboard</a></li>
+        <li>
+          <form method="POST" action="{{ route('logout') }}">
+          @csrf
+          <button type="submit" class="w-full text-left hover:underline">Log Out</button>
+          </form>
+        </li>
+        </ul>
       </div>
+      </div>
+    @endauth
+
     </div>
   </nav>
 

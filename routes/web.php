@@ -14,6 +14,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\AktivitasController;
 use App\Http\Controllers\SertifikasiController;
 use App\Http\Controllers\OrganisasiController;
+use App\Http\Controllers\GalleryController;
 use App\Models\OrganizationProfile;
 
 use Illuminate\Support\Facades\Auth;
@@ -150,6 +151,11 @@ Route::middleware('auth')->group(function () {
     Route::post('/dashboard/update-logo', [DashboardController::class, 'updateLogo'])
         ->name('dashboard.updateLogo');
 
+    // Galeri Organisasi
+    Route::get('/dashboard/galeri', [GalleryController::class, 'index'])->name('dashboard.gallery');
+    Route::post('/dashboard/galeri', [GalleryController::class, 'store'])->name('gallery.store');
+    Route::delete('/dashboard/galeri/{gallery}', [GalleryController::class, 'destroy'])->name('gallery.destroy');
+
 
     Route::get('/aktivitas', [AktivitasController::class, 'index'])
         ->name('aktivitas.index');
@@ -164,17 +170,19 @@ Route::middleware('auth')->group(function () {
     Route::put('/organisasi/{user_id}', [OrganisasiController::class, 'update'])
         ->name('organisasi.update');
 
+    Route::get(
+        '/dashboardorg/aktivitas',
+        [AktivitasController::class, 'index']
+    )
+        ->name('aktivitas');
 
-    // Events CRUD (HTML pages & forms)
-    Route::resource('events', EventController::class);
+    Route::get('/notifications', function () {
+        $notifications = auth()->user()->notifications()->paginate(10);
+        return view('dashboard.notifications', compact('notifications'));
+    })->name('notifications.index');
 
-    // Registrasi volunteer ke event (jika pakai form web)
-    Route::resource('event-registrations', EventRegistrationController::class)
-        ->only(['create', 'store', 'destroy']);     // sesuaikan kebutuhan
 
-    // Sertifikat (download / view)
-    Route::resource('certificates', CertificateController::class)
-        ->only(['index', 'show']);
+
 
     //////PROFIL VOLUNTEER//////
     Route::get('/volunteer/profile', [ProfileController::class, 'showVolunteer'])
@@ -190,13 +198,19 @@ Route::middleware('auth')->group(function () {
     // Update password
     Route::post('/volunteer/profile/update-password', [ProfileController::class, 'updatePassword'])->name('volunteer.profile.updatePassword');
 
-    Route::get('/notifications/{id}/read', action: [NotificationController::class, 'markAsRead'])->name('notifications.read');
+    Route::get('/notifications/{id}/read', [NotificationController::class, 'markAsRead'])->name('notifications.read');
 
 
-    Route::get('/dashboardorg/aktivitas',
-    [AktivitasController::class, 'index'])
-    ->name('aktivitas');
+    // Registrasi volunteer ke event (jika pakai form web)
+    Route::resource('event-registrations', EventRegistrationController::class)
+        ->only(['create', 'store', 'destroy']);     // sesuaikan kebutuhan
 
+    // Events CRUD (HTML pages & forms)
+    Route::resource('events', EventController::class);
+
+    // Sertifikat (download / view)
+    Route::resource('certificates', CertificateController::class)
+        ->only(['index', 'show']);
 
     // Route::get('/volunteer/events', [EventController::class, 'showForVolunteer'])->name('volunteer.events');
 });
