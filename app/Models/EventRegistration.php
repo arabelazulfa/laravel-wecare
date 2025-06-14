@@ -29,4 +29,11 @@ class EventRegistration extends Model
     {
         return $this->belongsTo(User::class);
     }
+    // App\Models\EventRegistration.php
+
+    public function relawan()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
+
 }

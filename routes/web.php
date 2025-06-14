@@ -15,6 +15,7 @@ use App\Http\Controllers\AktivitasController;
 use App\Http\Controllers\SertifikasiController;
 use App\Http\Controllers\OrganisasiController;
 use App\Http\Controllers\GalleryController;
+use App\Http\Controllers\ChatController;
 use App\Models\OrganizationProfile;
 
 use Illuminate\Support\Facades\Auth;
@@ -182,6 +183,7 @@ Route::middleware('auth')->group(function () {
     })->name('notifications.index');
 
 
+    Route::get('/chat/{id}', [ChatController::class, 'show'])->name('chat.show');
 
 
     //////PROFIL VOLUNTEER//////
