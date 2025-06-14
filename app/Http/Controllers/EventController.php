@@ -21,11 +21,20 @@ class EventController extends Controller
         return view('events.show', compact('event'));
     }
 
+    // EventController.php
+
+    // public function showForVolunteer()
+    // {
+    //     $events = Event::with('organizer.organizationProfile')
+    //         ->where('status', 'active')
+    //         ->get();
+
+    //     return view('events.volunteer-event', compact('events'));
+    // }
+
     public function showForVolunteer()
     {
-        $events = Event::with('organizer.organizationProfile')
-            ->where('status', 'active')
-            ->get();
+        $events = Event::latest()->get(); // TANPA FILTER status dulu
 
         return view('events.volunteer-event', compact('events'));
     }
@@ -35,6 +44,13 @@ class EventController extends Controller
         $event = Event::with('participants')->findOrFail($id);
         return view('events.participants', compact('event'));
     }
+
+    public function showVolunteerDetail($id)
+    {
+        $event = Event::with(['participants', 'organizer.organizationProfile'])->findOrFail($id);
+        return view('events.detailvol', compact('event'));
+    }
+
 
     // ================== TAMPILKAN FORM EDIT ==================
     public function edit($id)

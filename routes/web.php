@@ -209,6 +209,11 @@ Route::middleware('auth')->group(function () {
 
     // Events CRUD (HTML pages & forms)
     Route::resource('events', EventController::class);
+    Route::get('/volunteer-events/{id}', [EventController::class, 'showVolunteerDetail'])->name('events.detail.volunteer');
+    Route::post('/event-register', [EventRegistrationController::class, 'register'])
+     ->name('event.register')
+     ->middleware('auth');
+
 
     // Sertifikat (download / view)
     Route::resource('certificates', CertificateController::class)

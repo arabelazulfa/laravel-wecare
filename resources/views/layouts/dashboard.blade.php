@@ -18,16 +18,11 @@
 
   <!-- Sidebar -->
   <aside class="bg-[#f28b8b] text-white w-52 min-h-[90vh] rounded-2xl p-4 flex flex-col shadow-md">
-    <div class="text-xl font-bold mb-6">WeCare</div>
+    <a href="{{ route('volunteer.events') }}" class="text-xl font-bold text-white hover:text-gray-200 mb-6">WeCare</a>
     <nav class="flex flex-col space-y-3 text-sm font-medium">
       <a href="{{ route('dashboard') }}" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-[#f49b9b] transition
           {{ request()->routeIs('dashboard') ? 'bg-white text-[#f28b8b] shadow' : '' }}">
         <i class="fas fa-home text-base"></i> <span>Dashboard</span>
-      </a>
-
-      <a href="{{ route('activities.index') }}" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-[#f49b9b] transition
-          {{ request()->is('aktivitas*') || request()->is('events/*') ? 'bg-white text-[#f28b8b] shadow' : '' }}">
-        <i class="fas fa-stream text-base"></i> <span>Aktivitas</span>
       </a>
 
       <a href="{{ route('certificates.index') }}" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-[#f49b9b] transition
@@ -79,7 +74,7 @@
             <button id="profileButton" class="text-white hover:scale-110 transition-transform duration-200">
               <i class="far fa-user-circle fa-lg"></i>
             </button>
-            <div id="profileMenu" class="hidden absolute right-0 mt-2 w-40 bg-rose-400 text-white rounded-md shadow-lg z-50">
+            <div id="profileMenu" class="hidden absolute right-0 mt-5 w-40 bg-[#f28b8b] text-white rounded-md shadow-lg z-50">
               <ul class="p-3 space-y-2 font-semibold text-sm">
                 <li><a href="/dashboard" class="block hover:underline">Dashboard</a></li>
                 <li>
