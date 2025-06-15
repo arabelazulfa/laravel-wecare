@@ -18,7 +18,7 @@
 
       {{-- Dashboard --}}
       <a href="{{ route('dashboard.organisasi') }}" class="flex items-center gap-3 px-4 py-2 rounded-lg
-        {{ request()->routeIs('dashboard.organisasi')
+        {{ request()->routeIs('dashboard.organisasi', 'profildaftar')
   ? 'bg-white text-[#f28b8b] shadow'
   : 'hover:bg-[#f49b9b] text-white transition' }}">
         <i class="fas fa-home text-base"></i> <span>Dashboard</span>
