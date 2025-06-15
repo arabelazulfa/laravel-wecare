@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -9,11 +10,9 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="//unpkg.com/alpinejs" defer></script>
 
-  <link
-    rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
-  />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
 </head>
+
 <body class="bg-[#fff0f0] min-h-screen flex items-start p-6 font-sans">
 
   <!-- Sidebar -->
@@ -30,7 +29,8 @@
         <i class="fas fa-certificate text-base"></i> <span>Sertifikat</span>
       </a>
 
-      <a href="{{ route('volunteer.profile.show') }}" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-[#f49b9b] transition">
+      <a href="{{ route('volunteer.profile.show') }}"
+        class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-[#f49b9b] transition">
         <i class="fas fa-user text-base"></i> <span>Profile</span>
       </a>
     </nav>
@@ -45,85 +45,145 @@
         @yield('header', 'Dashboard')
       </div>
 
-        <!-- Icons & Profile Dropdown -->
-        <div class="flex space-x-6 text-white text-lg items-center">
-          <a href="/messages" title="Messages">
-            <i class="far fa-comment-alt fa-lg cursor-pointer hover:scale-110 transition-transform duration-200"></i>
-          </a>
-        
-          <!-- Notifikasi -->
-          <div class="relative">
-            <button id="notifButton">
-              <i class="far fa-bell fa-lg cursor-pointer hover:scale-110 transition-transform duration-200"></i>
-            </button>
-          
-            <div id="notifOverlay" class="hidden absolute top-8 right-0 z-50">
-              @if($notifications->isEmpty())
-          <p class="bg-white text-gray-500 text-sm px-20 py-10 rounded shadow whitespace-nowrap">
-          Belum ada notifikasi
-          </p>
-        @else
-          <x-notification-overlay :notifications="$notifications" />
-        @endif
-            </div>
-          </div>
+      <!-- Icons & Profile Dropdown -->
+      <div class="flex space-x-6 text-white text-lg items-center">
+        <a href="/messages" title="Messages">
+          <i class="far fa-comment-alt fa-lg cursor-pointer hover:scale-110 transition-transform duration-200"></i>
+        </a>
 
+        <!-- Notifikasi -->
+        <div class="relative">
+          <button id="notifButton" title="Notifikasi" class="relative focus:outline-none">
+            <i class="far fa-bell fa-lg cursor-pointer hover:scale-110 transition-transform duration-200"></i>
+            @if(isset($unreadCount) && $unreadCount > 0)
+        <span class="absolute -top-1 -right-1 bg-red-500 text-white rounded-full text-xs px-1.5">
+          {{ $unreadCount }}
+        </span>
+      @endif
+          </button>
 
-          <!-- Profile button with dropdown -->
-          <div class="relative">
-            <button id="profileButton" class="text-white hover:scale-110 transition-transform duration-200">
-              <i class="far fa-user-circle fa-lg"></i>
-            </button>
-            <div id="profileMenu" class="hidden absolute right-0 mt-5 w-40 bg-[#f28b8b] text-white rounded-md shadow-lg z-50">
-              <ul class="p-3 space-y-2 font-semibold text-sm">
-                <li><a href="/dashboard" class="block hover:underline">Dashboard</a></li>
-                <li>
-                  <form method="POST" action="{{ route('logout') }}">
-                    @csrf
-                    <button type="submit" class="w-full text-left hover:underline">Log Out</button>
-                  </form>
-                </li>
-              </ul>
+          <div id="notifDropdown"
+            class="hidden absolute right-0 mt-3 w-80 bg-white text-black rounded-lg shadow-xl z-50">
+            <div class="p-4">
+              <h4 class="font-bold text-sm mb-2">Notifikasi Terbaru</h4>
+              <div class="max-h-64 overflow-y-auto space-y-2">
+                @forelse($notifications ?? [] as $notif)
+            <a href="{{ route('notifications.read', $notif->id) }}"
+            class="block p-3 rounded-md text-sm border {{ $notif->read_at ? 'bg-gray-100' : 'bg-pink-100 border-pink-200' }}">
+            <div class="font-semibold">{{ $notif->data['title'] ?? 'Notifikasi' }}</div>
+            <div class="text-sm">{!! $notif->data['message'] ?? '' !!}</div>
+            <div class="text-xs text-gray-600">{{ $notif->created_at->diffForHumans() }}</div>
+            </a>
+            
+        @empty
+          <p class="text-gray-500 text-sm">Tidak ada notifikasi baru.</p>
+        @endforelse
+              </div>
+              <div class="text-right mt-2">
+                <button onclick="document.getElementById('notifFullModal').classList.remove('hidden')"
+                  class="text-pink-600 text-sm hover:underline">
+                  Lihat Semua
+                </button>
+              </div>
             </div>
           </div>
         </div>
-        </nav>
+
+        <!-- Modal Notifikasi Lengkap -->
+        <div id="notifFullModal"
+          class="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50 hidden">
+          <div class="bg-white w-[90%] max-w-lg max-h-[80vh] overflow-y-auto rounded-xl p-6 shadow-lg relative">
+            <h2 class="text-lg font-bold mb-4">Semua Notifikasi</h2>
+
+            <div id="notifFullList" class="space-y-3">
+              @forelse ($notifications ?? [] as $notif)
+          <div class="p-4 border rounded-lg {{ $notif->read_at ? 'bg-gray-100' : 'bg-pink-100 border-pink-200' }}">
+          <div class="font-semibold">{{ $notif->data['title'] ?? 'Notifikasi' }}</div>
+          <div class="text-sm">{{ $notif->data['message'] ?? '' }}</div>
+          <div class="text-xs text-gray-600">{{ $notif->created_at->diffForHumans() }}</div>
+          </div>
+        @empty
+          <p class="text-sm text-gray-500">Belum ada notifikasi.</p>
+        @endforelse
+            </div>
+
+            <button onclick="document.getElementById('notifFullModal').classList.add('hidden')"
+              class="absolute top-3 right-4 text-xl font-bold text-gray-600 hover:text-black">&times;</button>
+          </div>
+        </div>
+
+
+        <!-- Profile button with dropdown -->
+        <div class="relative">
+          <button id="profileButton" class="text-white hover:scale-110 transition-transform duration-200">
+            <i class="far fa-user-circle fa-lg"></i>
+          </button>
+          <div id="profileMenu"
+            class="hidden absolute right-0 mt-5 w-40 bg-[#f28b8b] text-white rounded-md shadow-lg z-50">
+            <ul class="p-3 space-y-2 font-semibold text-sm">
+              <li><a href="/dashboard" class="block hover:underline">Dashboard</a></li>
+              <li>
+                <form method="POST" action="{{ route('logout') }}">
+                  @csrf
+                  <button type="submit" class="w-full text-left hover:underline">Log Out</button>
+                </form>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      </nav>
     </header>
 
     <!-- Content -->
     <section class="mt-8 bg-white rounded-xl shadow px-6 py-5 w-full">
       @yield('content')
     </section>
-    </main>
+  </main>
 
-<script>
-  document.addEventListener('DOMContentLoaded', function () {
-    const profileBtn = document.getElementById('profileButton');
-    const profileMenu = document.getElementById('profileMenu');
-    const notifBtn = document.getElementById('notifButton');
-    const notifOverlay = document.getElementById('notifOverlay');
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const profileBtn = document.getElementById('profileButton');
+      const profileMenu = document.getElementById('profileMenu');
+      //const notifBtn = document.getElementById('notifButton');
+      //const notifOverlay = document.getElementById('notifOverlay');
 
-    profileBtn.addEventListener('click', function (e) {
-      e.stopPropagation(); // biar klik di luar bisa nutup
-      profileMenu.classList.toggle('hidden');
+      profileBtn.addEventListener('click', function (e) {
+        e.stopPropagation(); // biar klik di luar bisa nutup
+        profileMenu.classList.toggle('hidden');
+      });
+
+      // Klik di luar menu nutup dropdown
+      window.addEventListener('click', function (e) {
+        if (!profileMenu.classList.contains('hidden')) {
+          profileMenu.classList.add('hidden');
+        }
+
+        // if (!notifOverlay.classList.contains('hidden')) {
+        //   notifOverlay.classList.add('hidden');
+        // }
+      });
     });
-    notifBtn.addEventListener('click', function (e) {
-      e.stopPropagation();
-      notifOverlay.classList.toggle('hidden');
-    });
+  </script>
 
-    // Klik di luar menu nutup dropdown
-    window.addEventListener('click', function (e) {
-      if (!profileMenu.classList.contains('hidden')) {
-        profileMenu.classList.add('hidden');
-      }
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const notifBtn = document.getElementById('notifButton');
+      const notifDropdown = document.getElementById('notifDropdown');
 
-      if (!notifOverlay.classList.contains('hidden')) {
-        notifOverlay.classList.add('hidden');
-      }
+      notifBtn.addEventListener('click', function (e) {
+        e.stopPropagation();
+        notifDropdown.classList.toggle('hidden');
+      });
+
+      window.addEventListener('click', function () {
+        if (!notifDropdown.classList.contains('hidden')) {
+          notifDropdown.classList.add('hidden');
+        }
+      });
     });
-  });
-</script>
+  </script>
 
 </body>
+
 </html>

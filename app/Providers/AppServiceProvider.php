@@ -24,17 +24,17 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         // Inject data notifikasi ke view dashboard & home
-         View::composer('*', function ($view) {
-            if (Auth::check()) {
-                $notifications = auth()->user()->notifications()
-                    ->orderBy('created_at', 'desc')
-                    ->take(5)
-                    ->get();
-            } else {
-                $notifications = collect(); // kasih collection kosong kalo belum login
+        View::composer(['layouts.home', 'layouts.dashboard'], function ($view) {
+            if (auth()->check()) {
+                $user = auth()->user();
+                $view->with([
+                    'notifications' => $user->notifications()
+                        ->latest()
+                        ->take(5)
+                        ->get(),
+                    'unreadCount' => $user->unreadNotifications()->count(),
+                ]);
             }
-
-            $view->with('notifications', $notifications);
         });
     }
 }
