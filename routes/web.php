@@ -132,8 +132,8 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/aktivitas/simpan', [AktivitasController::class, 'simpan'])->name('aktivitas.simpan');
 });
 Route::get('/events/{id}', [EventController::class, 'show'])->name('events.show');
-Route::get('/events/{id}/participants', [EventController::class, 'participants'])->name('events.participants');
-Route::get('/events/{id}/presention', [EventController::class, 'presention'])->name('events.presention');
+Route::get('/events/{id}/participants', [EventController::class, 'ShowParticipants'])->name('events.participants');
+Route::get('/events/{id}/presensi', [EventController::class, 'presensi'])->name('events.presensi');
 
 // auth-protected pages
 Route::middleware('auth')->group(function () {

@@ -135,19 +135,22 @@
         </div>
     </form>
 
-        {{-- Tombol Simpan --}}
+        {{-- Tombol Simpan dan Hapus --}}
         <div class="flex justify-between items-center mt-6">
-            <button type="submit" form="edit-form" class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1.5 rounded shadow">
-                Simpan Perubahan
-            </button>
-        
+            {{-- Tombol Hapus di kiri --}}
             <form action="{{ route('events.destroy', $event->id) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus event ini?');">
                 @csrf
                 @method('DELETE')
-                <button type="submit" class="bg-red-500 hover:bg-red-600 text-white px-3 py- rounded shadow">
+                <button type="submit" class="bg-red-500 hover:bg-red-600 text-white px-3 py-1.5 rounded shadow">
                     Hapus Event
                 </button>
             </form>
+
+            {{-- Tombol Simpan di kanan --}}
+            <button type="submit" form="edit-form" class="ml-auto bg-blue-500 hover:bg-blue-600 text-white px-3 py-1.5 rounded shadow">
+                Simpan Perubahan
+            </button>
         </div>
+
 </div>
 @endsection

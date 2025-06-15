@@ -125,4 +125,17 @@ class EventController extends Controller
     return redirect()->route('aktivitas.index')->with('success', 'Event berhasil dihapus.');
     }
 
+    public function showParticipants($id)
+    {
+    $event = Event::with('participants')->findOrFail($id);
+    return view('events.participants', compact('event'));
+    }
+
+    public function presensi($id)
+    {
+    $event = Event::with(['presensis.user'])->findOrFail($id);
+    return view('events.presensi', compact('event'));
+    }
+
+
 }
