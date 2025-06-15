@@ -9,7 +9,6 @@
   <title>WeCare Dashboard</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="//unpkg.com/alpinejs" defer></script>
-
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
 </head>
 
@@ -34,7 +33,6 @@
         <i class="fas fa-user text-base"></i> <span>Profile</span>
       </a>
     </nav>
-
   </aside>
 
   <!-- Main Content -->
@@ -45,7 +43,6 @@
         @yield('header', 'Dashboard')
       </div>
 
-      <!-- Icons & Profile Dropdown -->
       <div class="flex space-x-6 text-white text-lg items-center">
         <a href="/messages" title="Messages">
           <i class="far fa-comment-alt fa-lg cursor-pointer hover:scale-110 transition-transform duration-200"></i>
@@ -56,10 +53,10 @@
           <button id="notifButton" title="Notifikasi" class="relative focus:outline-none">
             <i class="far fa-bell fa-lg cursor-pointer hover:scale-110 transition-transform duration-200"></i>
             @if(isset($unreadCount) && $unreadCount > 0)
-        <span class="absolute -top-1 -right-1 bg-red-500 text-white rounded-full text-xs px-1.5">
-          {{ $unreadCount }}
-        </span>
-      @endif
+              <span class="absolute -top-1 -right-1 bg-red-500 text-white rounded-full text-xs px-1.5">
+                {{ $unreadCount }}
+              </span>
+            @endif
           </button>
 
           <div id="notifDropdown"
@@ -68,16 +65,17 @@
               <h4 class="font-bold text-sm mb-2">Notifikasi Terbaru</h4>
               <div class="max-h-64 overflow-y-auto space-y-2">
                 @forelse($notifications ?? [] as $notif)
-            <a href="{{ route('notifications.read', $notif->id) }}"
-            class="block p-3 rounded-md text-sm border {{ $notif->read_at ? 'bg-gray-100' : 'bg-pink-100 border-pink-200' }}">
-            <div class="font-semibold">{{ $notif->data['title'] ?? 'Notifikasi' }}</div>
-            <div class="text-sm">{!! $notif->data['message'] ?? '' !!}</div>
-            <div class="text-xs text-gray-600">{{ $notif->created_at->diffForHumans() }}</div>
-            </a>
-            
-        @empty
-          <p class="text-gray-500 text-sm">Tidak ada notifikasi baru.</p>
-        @endforelse
+                  @isset($notif)
+                    <a href="{{ route('notifications.read', $notif->id ?? '') }}"
+                      class="block p-3 rounded-md text-sm border {{ $notif->read_at ? 'bg-gray-100' : 'bg-pink-100 border-pink-200' }}">
+                      <div class="font-semibold">{{ $notif->data['title'] ?? 'Notifikasi' }}</div>
+                      <div class="text-sm">{!! $notif->data['message'] ?? '' !!}</div>
+                      <div class="text-xs text-gray-600">{{ $notif->created_at?->diffForHumans() ?? '' }}</div>
+                    </a>
+                  @endisset
+                @empty
+                  <p class="text-gray-500 text-sm">Tidak ada notifikasi baru.</p>
+                @endforelse
               </div>
               <div class="text-right mt-2">
                 <button onclick="document.getElementById('notifFullModal').classList.remove('hidden')"
@@ -89,31 +87,7 @@
           </div>
         </div>
 
-        <!-- Modal Notifikasi Lengkap -->
-        <div id="notifFullModal"
-          class="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50 hidden">
-          <div class="bg-white w-[90%] max-w-lg max-h-[80vh] overflow-y-auto rounded-xl p-6 shadow-lg relative">
-            <h2 class="text-lg font-bold mb-4">Semua Notifikasi</h2>
-
-            <div id="notifFullList" class="space-y-3">
-              @forelse ($notifications ?? [] as $notif)
-          <div class="p-4 border rounded-lg {{ $notif->read_at ? 'bg-gray-100' : 'bg-pink-100 border-pink-200' }}">
-          <div class="font-semibold">{{ $notif->data['title'] ?? 'Notifikasi' }}</div>
-          <div class="text-sm">{{ $notif->data['message'] ?? '' }}</div>
-          <div class="text-xs text-gray-600">{{ $notif->created_at->diffForHumans() }}</div>
-          </div>
-        @empty
-          <p class="text-sm text-gray-500">Belum ada notifikasi.</p>
-        @endforelse
-            </div>
-
-            <button onclick="document.getElementById('notifFullModal').classList.add('hidden')"
-              class="absolute top-3 right-4 text-xl font-bold text-gray-600 hover:text-black">&times;</button>
-          </div>
-        </div>
-
-
-        <!-- Profile button with dropdown -->
+        <!-- Profile -->
         <div class="relative">
           <button id="profileButton" class="text-white hover:scale-110 transition-transform duration-200">
             <i class="far fa-user-circle fa-lg"></i>
@@ -132,7 +106,6 @@
           </div>
         </div>
       </div>
-      </nav>
     </header>
 
     <!-- Content -->
@@ -141,27 +114,41 @@
     </section>
   </main>
 
+  <!-- Notifikasi Lengkap -->
+  <div id="notifFullModal" class="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50 hidden">
+    <div class="bg-white w-[90%] max-w-lg max-h-[80vh] overflow-y-auto rounded-xl p-6 shadow-lg relative">
+      <h2 class="text-lg font-bold mb-4">Semua Notifikasi</h2>
+      @forelse ($notifications ?? [] as $notif)
+        @php
+          $data = is_array($notif->data ?? null) ? $notif->data : [];
+          $title = $data['title'] ?? 'Notifikasi';
+          $message = $data['message'] ?? '';
+        @endphp
+        <div class="p-4 mb-3 border rounded-lg {{ $notif->read_at ? 'bg-gray-100' : 'bg-pink-100 border-pink-200' }}">
+          <div class="font-semibold">{{ $title }}</div>
+          <div class="text-sm">{!! $message !!}</div>
+          <div class="text-xs text-gray-600">{{ $notif->created_at->diffForHumans() ?? '' }}</div>
+        </div>
+      @empty
+        <p class="text-sm text-gray-500">Belum ada notifikasi.</p>
+      @endforelse
+      <button onclick="document.getElementById('notifFullModal').classList.add('hidden')"
+        class="absolute top-3 right-4 text-xl font-bold text-gray-600 hover:text-black">&times;</button>
+    </div>
+  </div>
+
   <script>
     document.addEventListener('DOMContentLoaded', function () {
       const profileBtn = document.getElementById('profileButton');
       const profileMenu = document.getElementById('profileMenu');
-      //const notifBtn = document.getElementById('notifButton');
-      //const notifOverlay = document.getElementById('notifOverlay');
-
       profileBtn.addEventListener('click', function (e) {
-        e.stopPropagation(); // biar klik di luar bisa nutup
+        e.stopPropagation();
         profileMenu.classList.toggle('hidden');
       });
-
-      // Klik di luar menu nutup dropdown
-      window.addEventListener('click', function (e) {
+      window.addEventListener('click', function () {
         if (!profileMenu.classList.contains('hidden')) {
           profileMenu.classList.add('hidden');
         }
-
-        // if (!notifOverlay.classList.contains('hidden')) {
-        //   notifOverlay.classList.add('hidden');
-        // }
       });
     });
   </script>
@@ -170,12 +157,10 @@
     document.addEventListener('DOMContentLoaded', function () {
       const notifBtn = document.getElementById('notifButton');
       const notifDropdown = document.getElementById('notifDropdown');
-
       notifBtn.addEventListener('click', function (e) {
         e.stopPropagation();
         notifDropdown.classList.toggle('hidden');
       });
-
       window.addEventListener('click', function () {
         if (!notifDropdown.classList.contains('hidden')) {
           notifDropdown.classList.add('hidden');
