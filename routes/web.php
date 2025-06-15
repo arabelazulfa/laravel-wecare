@@ -142,15 +142,15 @@ Route::middleware('auth')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])
         ->name('dashboard');
     
-        Route::get('/profildaftar/{id}', function ($id) {
-        $user = \App\Models\User::with('volunteerProfile')->findOrFail($id);
-        return view('dashboard.profildaftar', compact('user'));
-    })->name('profildaftar');
+    //     Route::get('/profildaftar/{id}', function ($id) {
+    //     $user = \App\Models\User::with('volunteerProfile')->findOrFail($id);
+    //     return view('dashboard.profildaftar', compact('user'));
+    // })->name('profildaftar');
 
 
 
     // Dashboard untuk organisasi
-    Route::get('/dashboardorg', [DashboardController::class, 'organisasi', 'daftarRelawan'])
+    Route::get('/dashboardorg', [DashboardController::class, 'organisasi'])
         ->name('dashboard.organisasi');
     Route::get('/dashboard/profile', [DashboardController::class, 'profile'])
         ->name('dashboard.profile');
@@ -158,6 +158,12 @@ Route::middleware('auth')->group(function () {
         ->name('dashboard.editprofile');
     Route::post('/dashboard/update-logo', [DashboardController::class, 'updateLogo'])
         ->name('dashboard.updateLogo');
+    Route::get('/profildaftar/{id}', [DashboardController::class, 'profildaftar'])
+        ->name('profildaftar');
+    Route::post('/participations/accept', [EventRegistrationController::class, 'accept'])
+        ->name('participations.accept');
+
+
 
     // Galeri Organisasi
     Route::get('/dashboard/galeri', [GalleryController::class, 'index'])->name('dashboard.gallery');

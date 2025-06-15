@@ -2,8 +2,10 @@
 
 namespace App\Models;
 
+
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\EventRegistration;
 
 class Event extends Model
 {
@@ -64,6 +66,11 @@ class Event extends Model
     {
         return $this->belongsTo(\App\Models\OrganizationProfile::class, 'organizer_id', 'user_id');
     }
+    public function registrations()
+    {
+        return $this->hasMany(\App\Models\EventRegistration::class);
+    }
+
 
 
 }
