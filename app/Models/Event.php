@@ -68,7 +68,7 @@ class Event extends Model
     }
     public function registrations()
     {
-        return $this->hasMany(\App\Models\EventRegistration::class);
+        return $this->hasMany(EventRegistration::class);
     }
 
 

@@ -6,12 +6,13 @@ use App\Models\Event;
 use App\Models\EventRegistration;
 use App\Notifications\EventRegistered;
 use App\Models\Participation;
+use App\Models\Events;
+use App\Models\User;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth; 
-use App\Models\Events;
-use App\Models\User;
+
 
 class EventRegistrationController extends Controller
 {

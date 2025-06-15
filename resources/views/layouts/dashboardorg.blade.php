@@ -25,12 +25,11 @@
       </a>
 
       {{-- Aktivitas --}}
-      <a href="{{ route('aktivitas.index') }}"
-        class="flex items-center gap-3 px-4 py-2 rounded-lg
+      <a href="{{ route('aktivitas.index') }}" class="flex items-center gap-3 px-4 py-2 rounded-lg
         {{ request()->is('aktivitas*') || request()->is('events*')
-              ? 'bg-white text-[#f28b8b] shadow'
-              : 'hover:bg-[#f49b9b] text-white transition' }}">
-          <i class="fas fa-wave-square text-base"></i> <span>Aktivitas</span>
+  ? 'bg-white text-[#f28b8b] shadow'
+  : 'hover:bg-[#f49b9b] text-white transition' }}">
+        <i class="fas fa-wave-square text-base"></i> <span>Aktivitas</span>
       </a>
 
 
@@ -93,18 +92,28 @@
               <h4 class="font-bold text-sm mb-2">Notifikasi Terbaru</h4>
               <div class="max-h-64 overflow-y-auto space-y-2">
                 @forelse($notifications ?? [] as $notif)
-              <a href="{{ $notif->data['url'] ?? '#' }}" class="block p-3 rounded-md text-sm border 
+              @if(is_object($notif) && isset($notif->data))
+            <a href="{{ route('notifications.read', $notif->id) }}" class="block p-3 rounded-md text-sm border
              {{ $notif->read_at ? 'bg-gray-100' : 'bg-pink-100 border-pink-200' }}">
-                <div class="font-semibold">{{ $notif->data['title'] ?? 'Notifikasi' }}</div>
-                <div class="text-xs text-gray-600">{{ $notif->created_at->diffForHumans() }}</div>
-              </a>
+              <div class="font-semibold">{{ $notif->data['title'] ?? 'Notifikasi' }}</div>
+              <div class="text-sm">{!! $notif->data['message'] ?? '' !!}</div>
+              <div class="text-xs text-gray-600">{{ $notif->created_at->diffForHumans() }}</div>
+            </a>
+          @else
+            <div class="block p-3 rounded-md text-sm border bg-gray-100 border-gray-200">
+            <div class="font-semibold">Notifikasi tidak valid</div>
+            </div>
+          @endif
         @empty
           <p class="text-gray-500 text-sm">Tidak ada notifikasi baru.</p>
         @endforelse
               </div>
               <div class="text-right mt-2">
-                <a href="{{ route('notifications.index') }}" class="text-pink-600 text-sm hover:underline">Lihat
-                  Semua</a>
+                <button onclick="document.getElementById('notifFullModal').classList.remove('hidden')"
+                  class="text-gray-600 text-sm hover:underline">
+                  Lihat Semua
+                </button>
+
               </div>
             </div>
           </div>
@@ -131,9 +140,35 @@
       </div>
     </header>
 
-    <!-- Content: Tambah Aktivitas -->
-    <div class="mt-8">
-      @yield('content')
+    <!-- Modal Notifikasi Lengkap -->
+    <div id="notifFullModal" class="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50 hidden">
+      <div class="bg-white w-[90%] max-w-lg max-h-[80vh] overflow-y-auto rounded-xl p-6 shadow-lg relative">
+        <h2 class="text-lg font-bold mb-4">Semua Notifikasi</h2>
+
+        <div id="notifFullList" class="space-y-3">
+          @forelse ($notifications ?? [] as $notif)
+        @if(is_object($notif))
+        <div class="p-4 border rounded-lg {{ $notif->read_at ? 'bg-gray-100' : 'bg-pink-100 border-pink-200' }}">
+        <div class="font-semibold">{{ $notif->data['title'] ?? 'Notifikasi' }}</div>
+        <div class="text-sm">{{ $notif->data['message'] ?? '' }}</div>
+        <div class="text-xs text-gray-600">{{ $notif->created_at->diffForHumans() }}</div>
+        </div>
+        @else
+        <div class="p-4 border rounded-lg bg-gray-100 border-gray-200">
+          <div class="font-semibold">Notifikasi tidak valid</div>
+        </div>
+        @endif
+      @empty
+        <p class="text-sm text-gray-500">Belum ada notifikasi.</p>
+      @endforelse
+        </div>
+
+        <button onclick="document.getElementById('notifFullModal').classList.add('hidden')"
+          class="absolute top-3 right-4 text-xl font-bold text-gray-600 hover:text-black">&times;</button>
+      </div>
+    </div>
+
+    @yield('content')
     </div>
   </main>
 
