@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\OtpMail;
 use App\Models\User;
+use App\Notifications\VolunteerRegistered;
 
 class OtpController extends Controller
 {
@@ -42,6 +43,11 @@ class OtpController extends Controller
             // Kirim notifikasi kalau dia ORGANIZER
             if ($user->role === 'organizer') {
                 $user->notify(new \App\Notifications\OrganizationRegistered());
+        }
+
+        // Kirim notifikasi kalau dia VOLUNTEER
+            if ($user->role === 'volunteer') {
+                $user->notify(new \App\Notifications\VolunteerRegistered());
         }
         }
 

@@ -57,10 +57,10 @@ class Event extends Model
     {
         return $this->belongsTo(User::class, 'organizer_id');
     }
-    public function participants()
-    {
-        return $this->belongsToMany(User::class, 'event_registrations')->withTimestamps();
-    }
+    // public function participants()
+    // {
+    //     return $this->belongsToMany(User::class, 'event_registrations')->withTimestamps();
+    // }
 
     public function organizerProfile()
     {
@@ -72,5 +72,19 @@ class Event extends Model
     }
 
 
+    public function participants()
+    {
+        return $this->belongsToMany(User::class, 'participations', 'event_id', 'user_id')->withTimestamps();
+    }
 
+    public function participations()
+    {
+    return $this->hasMany(\App\Models\Participation::class);
+    }
+
+    public function presensis()
+    {
+    return $this->hasMany(Presensi::class);
+    }
+    
 }

@@ -16,7 +16,13 @@
         <div class="flex items-center text-sm text-gray-600 mb-2 space-x-6">
             <span><i class="far fa-calendar-alt mr-1 text-[#f28b8b]"></i> {{ \Carbon\Carbon::parse($event->date)->format('d M Y') }}</span>
             <span><i class="fas fa-map-marker-alt mr-1 text-[#f28b8b]"></i> {{ $event->location }}</span>
-            <span><i class="far fa-clock mr-1 text-[#f28b8b]"></i> {{ $event->time }} WIB</span>
+            <span>
+                <i class="far fa-clock mr-1 text-[#f28b8b]"></i>
+                {{ \Carbon\Carbon::parse($event->start_time)->format('H.i') }}
+                –
+                {{ \Carbon\Carbon::parse($event->end_time)->format('H.i') }} WIB
+            </span>
+
         </div>
 
             <p class="text-sm text-gray-500 mb-4">
@@ -36,7 +42,7 @@
 
             <!-- Tombol Aksi -->
             <div class="flex flex-wrap gap-2 mb-6">
-                <a href="#"
+                <a href="{{ route('events.edit', $event->id) }}"
                     class="inline-block text-xs bg-[#4A90E2] text-white font-bold py-2 px-4 rounded-xl hover:bg-[#357ABD] transition">
                     Edit
                 </a>
@@ -44,7 +50,7 @@
                     class="inline-block text-xs bg-sky-400 hover:bg-sky-500 text-white font-bold py-2 px-4 rounded-xl hover:bg-pink-500 transition">
                     Daftar Peserta
                 </a>
-                <a href="{{ route('events.presentation', $event->id) }}"
+                <a href="{{ route('events.presensi', $event->id) }}"
                     class="inline-block text-xs bg-green-100 text-green-800 font-bold py-2 px-4 rounded-xl hover:bg-green-200 transition">
                     Presensi
                 </a>
@@ -76,7 +82,7 @@
                     <i class="fas fa-clock text-teal-500 mt-1"></i>
                     <div>
                         <p class="font-semibold text-black">Total Jam Kerja</p>
-                        <p>{{ $event->jam_kerja ?? '-' }} jam</p>
+                        <p>{{ $event->total_jam_kerja ?? '-' }} jam</p>
                     </div>
                 </div>
 
@@ -103,7 +109,7 @@
                     <i class="fas fa-tasks text-yellow-500 mt-1"></i>
                     <div>
                         <p class="font-semibold text-black">Tugas Relawan</p>
-                        <p>{{ $event->tugas ?? '-' }}</p>
+                        <p>{{ $event->tugas_relawan ?? '-' }}</p>
                     </div>
                 </div>
     

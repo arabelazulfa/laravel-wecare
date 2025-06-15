@@ -23,6 +23,7 @@ class DashboardController extends Controller
         // Ambil event yang diikutin user, include relasi ke tabel events
         $registeredEvents = EventRegistration::with('event')
             ->where('user_id', $user->id)
+            ->where('status', 'accepted')
             ->get()
             ->pluck('event'); // cuma ambil data event-nya
 

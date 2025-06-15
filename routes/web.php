@@ -132,8 +132,8 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/aktivitas/simpan', [AktivitasController::class, 'simpan'])->name('aktivitas.simpan');
 });
 Route::get('/events/{id}', [EventController::class, 'show'])->name('events.show');
-Route::get('/events/{id}/participants', [EventController::class, 'participants'])->name('events.participants');
-Route::get('/events/{id}/presention', [EventController::class, 'presention'])->name('events.presention');
+Route::get('/events/{id}/participants', [EventController::class, 'ShowParticipants'])->name('events.participants');
+Route::get('/events/{id}/presensi', [EventController::class, 'presensi'])->name('events.presensi');
 
 // auth-protected pages
 Route::middleware('auth')->group(function () {
@@ -213,8 +213,13 @@ Route::middleware('auth')->group(function () {
     // Update password
     Route::post('/volunteer/profile/update-password', [ProfileController::class, 'updatePassword'])->name('volunteer.profile.updatePassword');
 
-    Route::get('/notifications/{id}/read', [NotificationController::class, 'markAsRead'])->name('notifications.read');
+    Route::get('/notifications/{id}/read', function ($id) {
+        $notification = auth()->user()->notifications()->findOrFail($id);
+        $notification->markAsRead();
 
+        // Redirect ke URL yang disimpen di notif
+        return redirect($notification->data['url'] ?? '/');
+    })->name('notifications.read');
 
     // Registrasi volunteer ke event (jika pakai form web)
     Route::resource('event-registrations', EventRegistrationController::class)
@@ -232,8 +237,6 @@ Route::middleware('auth')->group(function () {
     Route::resource('certificates', CertificateController::class)
         ->only(['index', 'show']);
 
-
-    // Route::get('/volunteer/events', [EventController::class, 'showForVolunteer'])->name('volunteer.events');
 });
 
 

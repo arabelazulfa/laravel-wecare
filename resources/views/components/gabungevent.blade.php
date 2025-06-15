@@ -12,7 +12,7 @@
     <h2 class="font-semibold text-gray-900 mb-4 text-base">Formulir Pendaftaran</h2>
 
     {{-- FORM --}}
-    <form  x-data="{
+    <form x-data="{
               form: {
                 event_id : '{{ $eventId }}',
                 reason   : '',
@@ -20,33 +20,40 @@
                 division : '',
                 cv_file  : null
               },
+              isSubmitting: false, // << ini buat cegah submit dobel
               async submitForm () {
+                if (this.isSubmitting) return;
+                this.isSubmitting = true;
+    
                 const fd = new FormData();
                 fd.append('event_id', this.form.event_id);
                 fd.append('reason',   this.form.reason);
                 fd.append('why_you',  this.form.why_you);
                 fd.append('division', this.form.division);
                 fd.append('cv_file',  this.form.cv_file);
-
-                const res = await fetch('{{ route('event.register') }}', {
-                method : 'POST',
-                headers: {
-                'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                },
-                body   : fd,
-                credentials: 'same-origin'  // <<< INI PENTING
-                });
-
-
-                if (res.ok) {
-                  window.dispatchEvent(new CustomEvent('pendaftaran-berhasil'));
-                } else {
-                  alert('Gagal mendaftar, coba lagi.');
+    
+                try {
+                  const res = await fetch('{{ route('event.register') }}', {
+                    method : 'POST',
+                    headers: {
+                      'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    },
+                    body   : fd,
+                    credentials: 'same-origin'
+                  });
+    
+                  if (res.ok) {
+                    window.dispatchEvent(new CustomEvent('pendaftaran-berhasil'));
+                  } else {
+                    alert('Gagal mendaftar, coba lagi.');
+                  }
+                } catch (e) {
+                  alert('Terjadi kesalahan saat mengirim data!');
+                } finally {
+                  this.isSubmitting = false;
                 }
               }
-            }"
-            x-on:submit.prevent="submitForm"
-            enctype="multipart/form-data">
+            }" x-on:submit.prevent="submitForm" enctype="multipart/form-data">
 
       {{-- alasan --}}
       <div class="mb-4">
@@ -78,10 +85,20 @@
       </div>
 
       {{-- submit --}}
-      <button type="submit"
-              class="w-full bg-violet-500 hover:bg-violet-600 text-white font-semibold py-2 px-4 rounded-md">
-        Gabung Sekarang
+      <button type="submit" :disabled="isSubmitting" class="w-full py-3 px-4 rounded-lg font-semibold text-white text-base transition-all duration-200
+                     bg-violet-600 hover:bg-violet-700
+                     disabled:opacity-50 disabled:cursor-not-allowed">
+      
+        <template x-if="!isSubmitting">
+          <span>Gabung Sekarang</span>
+        </template>
+      
+        <template x-if="isSubmitting">
+          <span>Mengirim...</span>
+        </template>
       </button>
+
+
     </form>
   </div>
 </div>
