@@ -62,4 +62,9 @@ class User extends Authenticatable
     return $this->hasOne(VolunteerProfile::class, 'user_id'); // sesuaikan model
     }
 
+    public function presensi()
+    {
+    return $this->hasMany(Presensi::class);
+    }
+
 }
