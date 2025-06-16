@@ -17,7 +17,12 @@
             <div class="flex items-center text-sm text-gray-600 mb-2 space-x-6">
                 <span><i class="far fa-calendar-alt mr-1 text-[#f28b8b]"></i> {{ \Carbon\Carbon::parse($event->date)->format('d M Y') }}</span>
                 <span><i class="fas fa-map-marker-alt mr-1 text-[#f28b8b]"></i> {{ $event->location }}</span>
-                <span><i class="far fa-clock mr-1 text-[#f28b8b]"></i> {{ $event->time }} WIB</span>
+                <span>
+                <i class="far fa-clock mr-1 text-[#f28b8b]"></i>
+                    {{ \Carbon\Carbon::parse($event->start_time)->format('H.i') }}
+                    –
+                    {{ \Carbon\Carbon::parse($event->end_time)->format('H.i') }} WIB
+                </span>
             </div>
 
             <p class="text-sm text-gray-500 mb-4">
@@ -72,7 +77,76 @@
                 {{ $event->description }}
             </p>
         </div>
+        <hr class="my-6 border-gray-200">
+
+            <h3 class="text-lg font-semibold text-black-500 mb-4 px-6">Detail Kebutuhan Relawan</h3>
+            <div class="px-6 pb-6">
+            <div class="grid md:grid-cols-2 gap-4 text-sm text-gray-700">
+                <!-- Item 1 -->
+                <div class="flex items-start gap-3 bg-[#FFF0F3] p-4 rounded-xl shadow-sm">
+                    <i class="fas fa-users text-pink-500 mt-1"></i>
+                    <div>
+                        <p class="font-semibold text-black">Jumlah Relawan Dibutuhkan</p>
+                        <p>{{ $event->jumlah_relawan ?? '-' }}</p>
+                    </div>
+                </div>
+
+                <!-- Item 2 -->
+                <div class="flex items-start gap-3 bg-[#E6FFFA] p-4 rounded-xl shadow-sm">
+                    <i class="fas fa-clock text-teal-500 mt-1"></i>
+                    <div>
+                        <p class="font-semibold text-black">Total Jam Kerja</p>
+                        <p>{{ $event->total_jam_kerja ?? '-' }} jam</p>
+                    </div>
+                </div>
+
+                <!-- Item 3 -->
+                <div class="flex items-start gap-3 bg-[#F0F4FF] p-4 rounded-xl shadow-sm">
+                    <i class="fas fa-layer-group text-blue-500 mt-1"></i>
+                    <div>
+                        <p class="font-semibold text-black">Divisi yang Dicari</p>
+                        <p>{{ $event->divisi ?? '-' }}</p>
+                    </div>
+                </div>
+
+                <!-- Item 4 - Kriteria Relawan -->
+                <div class="flex items-start gap-3 bg-[#F3F0FF] p-4 rounded-xl shadow-sm">
+                    <i class="fas fa-user-check text-indigo-500 mt-1"></i>
+                    <div>
+                        <p class="font-semibold text-black">Kriteria Relawan</p>
+                        <p>{!! nl2br(e($event->kriteria ?? '-')) !!}</p>
+                    </div>
+                </div>
+
+                <!-- Item 5 - Tugas Relawan -->
+                <div class="flex items-start gap-3 bg-[#FFF7ED] p-4 rounded-xl shadow-sm">
+                    <i class="fas fa-tasks text-yellow-500 mt-1"></i>
+                    <div>
+                        <p class="font-semibold text-black">Tugas Relawan</p>
+                        <p>{!! nl2br(e($event->tugas_relawan ?? '-')) !!}</p>
+                    </div>
+                </div>
+            </div>
+            </div>
+            <hr class="my-6 border-gray-200">
+
+            <div class="px-6 pb-10">
+                <h3 class="font-semibold mb-3 text-lg text-black">Ulasan Relawan</h3>
+
+                @forelse ($event->eventReviews as $review)
+                    <div class="bg-[#FFF5F7] p-4 rounded-md shadow mb-3">
+                        <p class="font-bold text-[#f28b8b]">{{ $review->user->name ?? 'Anonim' }}</p>
+                        <p class="text-sm text-gray-600 mt-1">{{ $review->review }}</p>
+                        <p class="text-xs text-gray-500 text-right mt-3">
+                            {{ \Carbon\Carbon::parse($review->created_at)->format('d M Y, H:i') }}
+                        </p>
+                    </div>
+                @empty
+                    <p class="text-sm text-gray-500">Belum ada ulasan untuk event ini.</p>
+                @endforelse
+            </div>
     </div>
+            
     <x-gabungevent :event-id="$event->id" />
     <x-suksesgabung />
 

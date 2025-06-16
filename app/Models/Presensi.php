@@ -24,4 +24,9 @@ class Presensi extends Model
     {
         return $this->belongsTo(Event::class);
     }
+    public function certificate()
+    {
+        return $this->hasOne(Certificate::class, 'user_id', 'user_id')->whereColumn('event_id','event_id');
+    }
+
 }

@@ -10,10 +10,12 @@ use Illuminate\Notifications\Notification;
 class VolunteerAccepted extends Notification
 {
     protected $eventTitle;
+    protected $url;
 
-    public function __construct($eventTitle)
+    public function __construct($event)
     {
-        $this->eventTitle = $eventTitle;
+        $this->eventTitle = $event->title;
+        $this->url = route('events.detail.organisasi', $event->id);
     }
 
     public function via($notifiable)
@@ -24,7 +26,10 @@ class VolunteerAccepted extends Notification
     public function toDatabase($notifiable)
     {
         return [
-            'message' => 'Selamat! Kamu diterima sebagai relawan untuk event "' . $this->eventTitle . '"',
+            'title' => '✅ Diterima sebagai Relawan',
+            'message' => 'Selamat! Kamu telah diterima sebagai relawan untuk event <strong>"' . $this->eventTitle . '"</strong>. Terima kasih atas partisipasimu!',
+            'url' => $this->url,
         ];
     }
+
 }

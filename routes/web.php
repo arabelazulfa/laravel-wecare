@@ -19,7 +19,7 @@ use App\Http\Controllers\ChatController;
 use App\Http\Controllers\PresensiController;
 use App\Http\Controllers\UlasanController;
 use App\Models\OrganizationProfile;
-
+use App\Http\Controllers\EventReviewController;
 use Illuminate\Support\Facades\Auth;
 
 Route::get('/', function () {
@@ -242,6 +242,9 @@ Route::middleware('auth')->group(function () {
     // Sertifikat (download / view)
     Route::resource('certificates', CertificateController::class)
         ->only(['index', 'show']);
+
+    Route::post('/event-reviews', [EventReviewController::class, 'store'])->name('event-reviews.store');
+
 
 });
 

@@ -95,24 +95,40 @@
                     </div>
                 </div>
 
-                <!-- Item 4 -->
+                <!-- Item 4 - Kriteria Relawan -->
                 <div class="flex items-start gap-3 bg-[#F3F0FF] p-4 rounded-xl shadow-sm">
                     <i class="fas fa-user-check text-indigo-500 mt-1"></i>
                     <div>
                         <p class="font-semibold text-black">Kriteria Relawan</p>
-                        <p>{{ $event->kriteria ?? '-' }}</p>
+                        <p>{!! nl2br(e($event->kriteria ?? '-')) !!}</p>
                     </div>
                 </div>
 
-                <!-- Item 5 -->
+                <!-- Item 5 - Tugas Relawan -->
                 <div class="flex items-start gap-3 bg-[#FFF7ED] p-4 rounded-xl shadow-sm">
                     <i class="fas fa-tasks text-yellow-500 mt-1"></i>
                     <div>
                         <p class="font-semibold text-black">Tugas Relawan</p>
-                        <p>{{ $event->tugas_relawan ?? '-' }}</p>
+                        <p>{!! nl2br(e($event->tugas_relawan ?? '-')) !!}</p>
                     </div>
                 </div>
+            </div>
+            <!-- Ulasan Relawan -->
+            <hr class="my-6 border-gray-200">
+            <div class="px-6 pb-10">
+                <h3 class="font-semibold mb-3 text-lg text-black">Ulasan Relawan</h3>
     
+                @forelse($reviews as $review)
+                    <div class="bg-[#FFF5F7] p-4 rounded-md shadow mb-3">
+                        <p class="font-bold text-[#f28b8b]">{{ $review->user->name ?? 'Anonim' }}</p>
+                        <p class="text-sm text-gray-600 mt-1">{{ $review->review }}</p>
+                        <p class="text-xs text-gray-500 text-right mt-3">
+                            {{ \Carbon\Carbon::parse($review->created_at)->format('d M Y, H:i') }}
+                        </p>
+                    </div>
+                @empty
+                    <p class="text-sm text-gray-500">Belum ada ulasan.</p>
+                @endforelse
             </div>
 
 
