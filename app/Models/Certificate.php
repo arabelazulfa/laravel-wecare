@@ -12,6 +12,7 @@ class Certificate extends Model
 
     protected $fillable = [
         'user_id',
+        'event_id', // ← Tambahan penting!
         'title',
         'organizer',
         'certificate_number',
@@ -22,5 +23,9 @@ class Certificate extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+    public function event()
+    {
+        return $this->belongsTo(Event::class);
     }
 }

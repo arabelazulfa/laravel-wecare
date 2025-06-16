@@ -99,7 +99,11 @@
         @forelse($reviews as $review)
             <div class="bg-white p-3 rounded shadow-sm mb-2">
                 <p class="font-bold text-[#f28b8b]">{{ $review->user->name ?? 'Anonim' }}</p>
-                <p class="text-sm">"{{ $review->review }}"</p>
+                <p class="text-xs text-gray-500 mb-1 italic">Event: {{ $review->event->title ?? '-' }}</p>
+                <p class="text-sm">{{ $review->review }}</p>
+                <p class="text-xs text-gray-500 text-right mt-3">
+                    {{ \Carbon\Carbon::parse($review->created_at)->format('d M Y, H:i') }}
+                </p>
             </div>
         @empty
             <p class="text-sm text-gray-500">Belum ada ulasan.</p>

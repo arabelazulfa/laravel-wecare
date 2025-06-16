@@ -17,9 +17,15 @@ class EventController extends Controller
 
     public function show($id)
     {
-        $event = Event::findOrFail($id);
-        return view('events.show', compact('event'));
-    }
+    $event = Event::findOrFail($id);
+
+    $reviews = \App\Models\EventReview::where('event_id', $id)
+                ->with('user') // agar bisa tampil nama relawan
+                ->get();
+
+    return view('events.show', compact('event', 'reviews'));
+    }  
+
 
     // EventController.php
 
@@ -136,6 +142,4 @@ class EventController extends Controller
     $event = Event::with(['presensis.user'])->findOrFail($id);
     return view('events.presensi', compact('event'));
     }
-
-
 }

@@ -79,5 +79,20 @@ class Event extends Model
     {
     return $this->hasMany(Presensi::class);
     }
-    
+    public function certificates()
+    {
+        return $this->hasMany(Certificate::class);
+    }
+
+    // App\Models\Event.php
+    public function reviews()
+    {
+    return $this->hasMany(EventReview::class);
+    }
+
+    public function eventReviews()
+    {
+    return $this->hasMany(EventReview::class);
+    }
+
 }
