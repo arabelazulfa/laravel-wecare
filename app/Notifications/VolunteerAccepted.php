@@ -15,7 +15,7 @@ class VolunteerAccepted extends Notification
     public function __construct($event)
     {
         $this->eventTitle = $event->title;
-        $this->url = route('events.detail.organisasi', $event->id);
+        $this->url = route('events.detail.volunteer', $event->id);
     }
 
     public function via($notifiable)

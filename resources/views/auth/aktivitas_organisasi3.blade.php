@@ -29,8 +29,9 @@
             <!-- Divisi -->
             <div class="mb-4">
                 <label class="block text-sm font-medium mb-1">Divisi yang Dicari</label>
-                <input type="text" name="divisi" required class="w-full rounded-lg bg-white bg-opacity-60 px-4 py-2 text-sm" placeholder="Contoh: Dokumentasi, Keamanan, Kesehatan">
-                <p class="text-xs text-gray-500 mt-1">Pisahkan dengan koma jika lebih dari satu divisi</p>
+                <textarea name="divisi" rows="4" required
+                    class="w-full rounded-lg bg-white bg-opacity-60 px-4 py-2 text-sm"
+                    placeholder="Tuliskan divisi. Gunakan Enter untuk membuat baris baru."></textarea>
             </div>
 
             <!-- Tugas Relawan -->

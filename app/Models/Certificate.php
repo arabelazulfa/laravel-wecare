@@ -18,6 +18,7 @@ class Certificate extends Model
         'certificate_number',
         'issued_at',
         'image_url',
+        'file_path'
     ];
 
     public function user()
