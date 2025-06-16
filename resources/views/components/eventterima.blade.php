@@ -1,8 +1,10 @@
 @props([
-  'title', 'organizer', 'date', 'location',
+  'eventId', 'title', 'organizer', 'date', 'location',
   'registrationDeadline', 'image', 'tags',
-  'presensiUrl' => '#', 'ulasanUrl' => '#'
+  'presensiUrl' => '#',
+  'review' => null
 ])
+
 
 <article class="bg-[#f7a9a9] rounded-lg p-3 flex flex-col select-none shadow" role="article">
   <img src="{{ $image }}" onerror="this.src='{{ asset('images/default-event.jpg') }}'" alt="Event image"
@@ -23,12 +25,24 @@
   </ul>
   <div class="flex justify-between pt-2">
     <a href="{{ $presensiUrl }}"
-      class="bg-white text-black text-xs font-semibold px-3 py-1 rounded-md hover:bg-pink-300 transition">
+      class="bg-violet-500 text-white text-xs font-bold px-5 py-2 rounded-md hover:bg-violet-300 transition">
       Presensi
     </a>
-    <a href="{{ $ulasanUrl }}"
-      class="bg-white text-black text-xs font-semibold px-3 py-1 rounded-md hover:bg-pink-300 transition">
-      Ulasan
-    </a>
+    @if ($review)
+      <button onclick="openReview('{{ $eventId }}')"
+              class="bg-violet-300 text-white text-xs font-semibold px-5 py-2 rounded-md hover:bg-violet-300">
+        Lihat Ulasan
+      </button>
+      @include('components.ulasan-lihat', ['event_id' => $eventId, 'review' => $review->review])
+    @else
+      <button onclick="openUlasan('{{ $eventId }}')"
+              class="bg-violet-500 text-white text-xs font-semibold px-5 py-2 rounded-md hover:bg-violet-300">
+        Beri Ulasan
+      </button>
+      @include('components.ulasan', ['event_id' => $eventId])
+    @endif
   </div>
 </article>
+
+{{-- Include modal ulasan per event --}}
+@include('components.ulasan', ['event_id' => $eventId])

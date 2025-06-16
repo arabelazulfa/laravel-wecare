@@ -16,6 +16,8 @@ use App\Http\Controllers\SertifikasiController;
 use App\Http\Controllers\OrganisasiController;
 use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\ChatController;
+use App\Http\Controllers\PresensiController;
+use App\Http\Controllers\UlasanController;
 use App\Models\OrganizationProfile;
 
 use Illuminate\Support\Facades\Auth;
@@ -190,10 +192,10 @@ Route::middleware('auth')->group(function () {
     )
         ->name('aktivitas');
 
-    Route::get('/notifications', function () {
-        $notifications = auth()->user()->notifications()->paginate(10);
-        return view('dashboard.notifications', compact('notifications'));
-    })->name('notifications.index');
+    // Route::get('/notifications', function () {
+    //     $notifications = auth()->user()->notifications()->paginate(10);
+    //     return view('dashboard.notifications', compact('notifications'));
+    // })->name('notifications.index');
 
 
     Route::get('/chat/{id}', [ChatController::class, 'show'])->name('chat.show');
@@ -232,6 +234,10 @@ Route::middleware('auth')->group(function () {
         ->name('event.register')
         ->middleware('auth');
 
+    Route::get('/presensi/{event}', [PresensiController::class, 'show'])->name('presensi.show');
+    Route::post('/presensi', [PresensiController::class, 'store'])->name('presensi.store');
+
+    Route::post('/ulasan', [UlasanController::class, 'store'])->name('ulasan.store');
 
     // Sertifikat (download / view)
     Route::resource('certificates', CertificateController::class)
