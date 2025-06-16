@@ -38,23 +38,19 @@ class EventRegistrationController extends Controller
             'status' => 'pending',
             'registered_at' => now(),
         ]);
-
         $event = Event::find($request->event_id);
         $request->user()->notify(new EventRegistered($event));
 
         // 🔔 Kirim notifikasi ke organisasi
         $orgUser = $event->organizer; // asumsi relasi event -> organization -> user
 
-        $volunteerName = $request->user()->name;
-        $eventTitle = $event->title;
-        $routeToDashboard = route('dashboard.organisasi');
-
-
+         if ($orgUser) {                    // jaga‑jaga kalau memang null
         $orgUser->notify(new \App\Notifications\VolunteerJoinedEvent(
-            $volunteerName,
-            $eventTitle,
-            $routeToDashboard
+            $request->user()->name,            // nama volunteer
+            $event->title,                     // judul event
+            route('dashboard.organisasi')      // link menuju dashboard org
         ));
+    }
 
         return redirect()->back()->with('success', true);
     }

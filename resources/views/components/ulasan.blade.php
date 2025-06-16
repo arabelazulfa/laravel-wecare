@@ -18,7 +18,7 @@
         <button type="button" onclick="closeUlasan('{{ $event_id }}')" class="bg-gray-300 px-4 py-2 rounded">
           Batal
         </button>
-        <button type="submit" class="bg-pink-500 text-white px-4 py-2 rounded">
+        <button type="submit" class="bg-violet-500 text-white px-4 py-2 rounded">
           Kirim
         </button>
       </div>

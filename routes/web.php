@@ -9,6 +9,7 @@ use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\OtpController;
+use App\Http\Controllers\OTPResetController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\AktivitasController;
@@ -21,7 +22,9 @@ use App\Http\Controllers\UlasanController;
 use App\Models\OrganizationProfile;
 use App\Http\Controllers\EventReviewController;
 use Illuminate\Support\Facades\Auth;
-
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use App\Models\User;
 Route::get('/', function () {
     return view('welcome');
 });
@@ -81,7 +84,38 @@ Route::post('/logout', function () {
     return redirect('/login');
 })->name('logout');
 
+//Reset
+Route::get('/password/otp', [OTPResetController::class, 'showEmailForm']);
+Route::post('/password/otp', [OTPResetController::class, 'sendOTP']);
+Route::post('/send-otp', [OTPResetController::class, 'sendOtp'])->name('otp.send');
+Route::get('/password/otp/verify', [OTPResetController::class, 'showVerifyForm']);
+Route::post('/verify-otp', [OTPResetController::class, 'verify'])->name('verify.otp');
+Route::get('/otp-verify', [OTPResetController::class, 'showOtpForm'])->name('otp.form');
+Route::post('/password/verify', [OTPResetController::class, 'verifyOTP']);
+Route::get('/password/reset/form', [OTPResetController::class, 'showResetForm']);
+Route::post('/password/reset', [OTPResetController::class, 'updatePassword']);
+Route::post('/otp/reset-password', [OTPResetController::class, 'submitNewPassword'])->name('otp.reset.submit');
 
+Route::post('/reset-password', [OtpResetController::class, 'resetPassword'])->name('reset.password.submit');
+
+Route::post('/reset-password', [OTPResetController::class, 'submitNewPassword'])->name('password.reset.submit');
+Route::post('/reset-password-submit', function (Request $request) {
+    $request->validate([
+        'email' => 'required|email',
+        'password' => 'required|confirmed|min:6',
+    ]);
+
+    // Update password user
+    User::where('email', $request->email)->update([
+        'password' => bcrypt($request->password),
+    ]);
+
+    // Hapus token dan session
+    DB::table('password_reset_tokens')->where('email', $request->email)->delete();
+    session()->forget('reset_email');
+
+    return redirect('/login')->with('status', 'Password berhasil diubah.');
+})->name('password.reset.submit');
 // Route::get('/aktivitas', function () {
 //     return view('auth.aktivitas_organisasi1');
 // });
@@ -248,7 +282,6 @@ Route::middleware('auth')->group(function () {
 
     Route::post('/event-reviews', [EventReviewController::class, 'store'])->name('event-reviews.store');
 
+    Route::get('/dashuser', [DashboardController::class, 'index'])->name('dashuser');
 
 });
-
-

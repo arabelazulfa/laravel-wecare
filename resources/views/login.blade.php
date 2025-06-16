@@ -38,7 +38,7 @@
 
         {{-- Lupa password --}}
         <div class="text-right text-xs text-black mb-4">
-            <a href="reset-password.html" class="text-[#4A7CFD] font-semibold hover:underline">Lupa password?</a>
+            <a href="{{ url('/password/otp') }}" class="text-[#4A7CFD] font-semibold hover:underline">Lupa password?</a>
         </div>
 
         {{-- Tombol Masuk --}}

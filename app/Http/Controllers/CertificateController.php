@@ -10,7 +10,11 @@ class CertificateController extends Controller
 {
     public function index()
     {
-        $certificates = Certificate::where('user_id', Auth::id())->get();
+        $certificates = Certificate::with('event')
+            ->where('user_id', Auth::id())
+            ->get();
+
         return view('sertifikat', compact('certificates'));
     }
+
 }

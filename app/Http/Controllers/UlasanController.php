@@ -30,6 +30,6 @@ class UlasanController extends Controller
             'review' => $request->review,
         ]);
 
-        return redirect()->route('volunteer.event')->with('success', 'Ulasan berhasil dikirim!');
+        return redirect()->route('dashuser')->with('success', 'Ulasan berhasil dikirim!');
     }
 }
