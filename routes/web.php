@@ -245,7 +245,6 @@ Route::middleware('auth')->group(function () {
 
     Route::post('/event-reviews', [EventReviewController::class, 'store'])->name('event-reviews.store');
 
+    Route::get('/dashuser', [DashboardController::class, 'index'])->name('dashuser');
 
 });
-
-
