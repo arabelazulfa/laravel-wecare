@@ -3,9 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\Event;
+use App\Notifications\EmergencyEventNotification;
+
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Notification;
 
 class EventController extends Controller
 {
@@ -20,17 +24,6 @@ class EventController extends Controller
         $event = Event::findOrFail($id);
         return view('events.show', compact('event'));
     }
-
-    // EventController.php
-
-    // public function showForVolunteer()
-    // {
-    //     $events = Event::with('organizer.organizationProfile')
-    //         ->where('status', 'active')
-    //         ->get();
-
-    //     return view('events.volunteer-event', compact('events'));
-    // }
 
     public function showForVolunteer()
     {
@@ -119,23 +112,91 @@ class EventController extends Controller
     }
     public function destroy($id)
     {
-    $event = Event::findOrFail($id);
-    $event->delete();
+        $event = Event::findOrFail($id);
+        $event->delete();
 
-    return redirect()->route('aktivitas.index')->with('success', 'Event berhasil dihapus.');
+        return redirect()->route('aktivitas.index')->with('success', 'Event berhasil dihapus.');
     }
 
     public function showParticipants($id)
     {
-    $event = Event::with('participants')->findOrFail($id);
-    return view('events.participants', compact('event'));
+        $event = Event::with('participants')->findOrFail($id);
+        return view('events.participants', compact('event'));
     }
 
     public function presensi($id)
     {
-    $event = Event::with(['presensis.user'])->findOrFail($id);
-    return view('events.presensi', compact('event'));
+        $event = Event::with(['presensis.user'])->findOrFail($id);
+        return view('events.presensi', compact('event'));
     }
+
+    // public function store(Request $request)
+    // {
+    //     $request->validate([
+    //         'title' => 'required|string|max:255',
+    //         'description' => 'required|string',
+    //         'category' => 'required|string',
+    //         'registration_deadline' => 'required|date',
+    //         'event_type' => 'required|string',
+    //         'location' => 'required|string',
+    //         'date' => 'required|date',
+    //         'start_time' => 'required|date_format:H:i',
+    //         'end_time' => 'required|date_format:H:i|after:start_time',
+    //         'jenis_acara' => 'required|string',
+    //         'divisi' => 'required|string',
+    //         'tugas_relawan' => 'required|string',
+    //         'kriteria' => 'required|string',
+    //         'total_jam_kerja' => 'required|integer',
+    //         'jumlah_relawan' => 'required|integer',
+    //         'butuh_cv' => 'required|in:ya,tidak',
+    //         'mode_darurat' => 'required|in:ya,tidak',
+    //         'photo' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+    //     ]);
+
+    //     $photoPath = null;
+    //     if ($request->hasFile('photo')) {
+    //         $photoPath = $request->file('photo')->store('banners', 'public');
+    //     }
+
+    //     $event = Event::create([
+    //         'organizer_id' => Auth::id(),
+    //         'title' => $request->title,
+    //         'description' => $request->description,
+    //         'category' => $request->category,
+    //         'registration_deadline' => $request->registration_deadline,
+    //         'event_type' => $request->event_type,
+    //         'location' => $request->location,
+    //         'date' => $request->date,
+    //         'start_time' => $request->start_time,
+    //         'end_time' => $request->end_time,
+    //         'jenis_acara' => $request->jenis_acara,
+    //         'divisi' => $request->divisi,
+    //         'tugas_relawan' => $request->tugas_relawan,
+    //         'kriteria' => $request->kriteria,
+    //         'total_jam_kerja' => $request->total_jam_kerja,
+    //         'jumlah_relawan' => $request->jumlah_relawan,
+    //         'butuh_cv' => $request->butuh_cv,
+    //         'mode_darurat' => $request->mode_darurat,
+    //         'photo' => $photoPath,
+    //     ]);
+    //     dd($event->mode_darurat);
+    //     $event->refresh();
+    //     // 🚨 Kirim notifikasi jika mode darurat
+    //     if ($event->mode_darurat === "ya") {
+    //          \Log::info('✅ Mode darurat aktif! Mengirim notifikasi darurat.');
+    //         $eventUrl = route('events.show', $event->id);
+    //         $notif = new EmergencyEventNotification($event->title, $eventUrl);
+
+    //         // kirim ke semua volunteer
+    //         $volunteers = User::where('role', 'volunteer')->get();
+    //         Notification::send($volunteers, $notif);
+
+    //         // kirim ke organisasi pembuat event juga
+    //         Auth::user()->notify($notif);
+    //     }
+
+    //     return redirect()->route('dashboard.organisasi')->with('success', 'Event berhasil dibuat.');
+    // }
 
 
 }

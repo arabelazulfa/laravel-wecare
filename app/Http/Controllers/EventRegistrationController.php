@@ -11,7 +11,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth; 
+use Illuminate\Support\Facades\Auth;
 
 
 class EventRegistrationController extends Controller
@@ -41,6 +41,20 @@ class EventRegistrationController extends Controller
 
         $event = Event::find($request->event_id);
         $request->user()->notify(new EventRegistered($event));
+
+        // 🔔 Kirim notifikasi ke organisasi
+        $orgUser = $event->organization->user; // asumsi relasi event -> organization -> user
+
+        $volunteerName = $request->user()->name;
+        $eventTitle = $event->title;
+        $routeToDashboard = route('dashboard.organisasi');
+
+
+        $orgUser->notify(new \App\Notifications\VolunteerJoinedEvent(
+            $volunteerName,
+            $eventTitle,
+            $routeToDashboard
+        ));
 
         return redirect()->back()->with('success', true);
     }
