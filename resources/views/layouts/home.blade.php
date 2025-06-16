@@ -27,14 +27,12 @@
       <i class="far fa-comment-alt fa-lg cursor-pointer hover:scale-110 transition-transform duration-200"></i>
       </a>
     @endauth
-
-      <!-- Notifikasi -->
+      
       @auth
-      <!-- Notifikasi -->
       <div class="relative">
       <button id="notifButton" title="Notifikasi" class="relative focus:outline-none">
-      <i class="far fa-bell fa-lg cursor-pointer hover:scale-110 transition-transform duration-200"></i>
-      @if(isset($unreadCount) && $unreadCount > 0)
+        <i class="far fa-bell fa-lg cursor-pointer hover:scale-110 transition-transform duration-200"></i>
+        @if(isset($unreadCount) && $unreadCount > 0)
       <span class="absolute -top-1 -right-1 bg-red-500 text-white rounded-full text-xs px-1.5">
       {{ $unreadCount }}
       </span>
@@ -42,30 +40,34 @@
       </button>
 
       <div id="notifDropdown" class="hidden absolute right-0 mt-3 w-80 bg-white text-black rounded-lg shadow-xl z-50">
-      <div class="p-4">
-      <h4 class="font-bold text-sm mb-2">Notifikasi Terbaru</h4>
-      <div class="max-h-64 overflow-y-auto space-y-2">
-        @forelse($notifications ?? [] as $notif)
-      <a href="{{ route('notifications.read', $notif->id) }}"
-      class="block p-3 rounded-md text-sm border {{ $notif->read_at ? 'bg-gray-100' : 'bg-pink-100 border-pink-200' }}">
-      <div class="font-semibold">{{ $notif->data['title'] ?? 'Notifikasi' }}</div>
-      <div class="text-sm">{!! $notif->data['message'] ?? '' !!}</div>
-      <div class="text-xs text-gray-600">{{ $notif->created_at->diffForHumans() }}</div>
-      </a>
+        <div class="p-4">
+        <h4 class="font-bold text-sm mb-2">Notifikasi Terbaru</h4>
 
+        <div class="max-h-64 overflow-y-auto space-y-2">
+          @forelse($notifications ?? [] as $notif)
+        @isset($notif)
+        <a href="{{ route('notifications.read', $notif->id ?? '') }}"
+        class="block p-3 rounded-md text-sm border {{ $notif->read_at ? 'bg-gray-100' : 'bg-pink-100 border-pink-200' }}">
+        <div class="font-semibold">{{ $notif->data['title'] ?? 'Notifikasi' }}</div>
+        <div class="text-sm">{!! $notif->data['message'] ?? '' !!}</div>
+        <div class="text-xs text-gray-600">{{ $notif->created_at?->diffForHumans() ?? '' }}</div>
+        </a>
+      @endisset
       @empty
-      <p class="text-gray-500 text-sm">Tidak ada notifikasi baru.</p>
+        <p class="text-gray-500 text-sm">Tidak ada notifikasi baru.</p>
       @endforelse
-      </div>
-      <div class="text-right mt-2">
-        <a href="{{ route('notifications.index') }}" class="text-pink-600 text-sm hover:underline">Lihat
-        Semua</a>
-      </div>
-      </div>
-      </div>
-      </div>
+        </div>
 
-  @endauth
+        <div class="text-right mt-2">
+          <a href="{{ route('notifications.index') }}" class="text-pink-600 text-sm hover:underline">
+          Lihat Semua
+          </a>
+        </div>
+        </div>
+      </div>
+      </div>
+    @endauth
+
 
       <!-- Profile button with dropdown -->
       @auth

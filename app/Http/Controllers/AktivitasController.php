@@ -1,10 +1,13 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Notifications\EmergencyEventNotification;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 use App\Models\Event;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Notification;
 
 class AktivitasController extends Controller
 {
@@ -12,7 +15,7 @@ class AktivitasController extends Controller
     public function index()
     {
         $events = Event::where('organizer_id', Auth::id())->get();
-        return view('auth.aktivitas_organisasi1',  compact('events'));
+        return view('auth.aktivitas_organisasi1', compact('events'));
     }
 
     // ================== LANGKAH 1: TAMPILKAN FORM PERTAMA ==================
@@ -38,8 +41,15 @@ class AktivitasController extends Controller
         ]);
 
         $data = $request->only([
-            'title', 'description', 'category', 'registration_deadline',
-            'event_type', 'location','date','start_time', 'end_time'
+            'title',
+            'description',
+            'category',
+            'registration_deadline',
+            'event_type',
+            'location',
+            'date',
+            'start_time',
+            'end_time'
         ]);
 
         // Simpan foto jika diunggah
@@ -106,6 +116,46 @@ class AktivitasController extends Controller
         $event->status = 'pending';
 
         $event->save();
+
+        // Kirim notifikasi ke organisasi bahwa event telah berhasil dibuat
+        $createdNotif = new \App\Notifications\EventCreatedNotification(
+            $event->title,
+            route('dashboard.organisasi', $event->id)
+        );
+
+        $organizer = User::find($event->organizer_id);
+        if ($organizer) {
+            $organizer->notify($createdNotif);
+        }
+
+
+        // 🚨 Kirim notifikasi jika mode darurat
+        if ($event->mode_darurat === "ya") {
+            \Log::info('✅ Mode darurat aktif! Mengirim notifikasi darurat.');
+
+            // 🔴 Untuk Volunteer
+            $volunteerUrl = route('events.detail.volunteer', $event->id);
+            $notifVol = new EmergencyEventNotification(
+                $event->title,
+                $volunteerUrl,
+                'volunteer' // jenis penerima
+            );
+            $volunteers = User::where('role', 'volunteer')->get();
+            Notification::send($volunteers, $notifVol);
+
+            // 🟣 Untuk Organisasi
+            $orgUrl = route('dashboard.organisasi', $event->id);
+            $notifOrg = new EmergencyEventNotification(
+                $event->title,
+                $orgUrl,
+                'organisasi'
+            );
+            $organizer = User::find($event->organizer_id);
+            if ($organizer) {
+                $organizer->notify($notifOrg);
+            }
+
+        }
 
         // Bersihkan session setelah simpan
         $request->session()->forget('aktivitas.step1');

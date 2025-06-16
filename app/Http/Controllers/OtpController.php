@@ -47,7 +47,7 @@ class OtpController extends Controller
 
         // Kirim notifikasi kalau dia VOLUNTEER
             if ($user->role === 'volunteer') {
-                $user->notify(new \App\Notifications\VolunteerRegistered());
+                $user->notify(new VolunteerRegistered());
         }
         }
 
