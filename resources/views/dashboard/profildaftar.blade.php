@@ -4,13 +4,12 @@
 @section('header', 'Profil Relawan')
 
 @section('content')
-    <div class="bg-white p-6 rounded-2xl shadow-lg max-w-3xl mx-auto mt-6">
+    <div class="bg-white p-6 rounded-2xl shadow-lg mx-auto mt-6 px-6 md:px-10">
         {{-- Foto Profil --}}
         <div class="flex flex-col items-center mb-6">
             @if($user->profile_photo)
-                <img src="{{ asset('storage/' . $user->profile_photo) }}"
-                     alt="Foto Profil"
-                     class="w-40 h-40 rounded-full object-cover shadow-lg border-4 border-pink-300">
+                <img src="{{ asset('storage/' . $user->profile_photo) }}" alt="Foto Profil"
+                    class="w-40 h-40 rounded-full object-cover shadow-lg border-4 border-[#ffeaea]">
             @else
                 <div class="w-40 h-40 rounded-full bg-pink-100 flex items-center justify-center text-gray-500 text-sm shadow">
                     No Photo
@@ -26,30 +25,46 @@
 
         {{-- Info Tambahan --}}
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-gray-700">
-            <div class="bg-pink-50 p-4 rounded-xl shadow-sm">
+            <div class="bg-[#ffeaea] p-4 rounded-xl shadow-sm">
                 <p class="font-semibold text-gray-800">Nomor Telepon:</p>
                 <p>{{ $user->phone ?? '-' }}</p>
             </div>
 
-            <div class="bg-pink-50 p-4 rounded-xl shadow-sm">
+            <div class="bg-[#ffeaea] p-4 rounded-xl shadow-sm">
                 <p class="font-semibold text-gray-800">Domisili:</p>
                 <p>{{ $volProfile->city ?? '-' }}</p>
             </div>
 
-            <div class="bg-pink-50 p-4 rounded-xl shadow-sm">
-                <p class="font-semibold text-gray-800">Profesi:</p>
-                <p>{{ $volProfile->profession ?? '-' }}</p>
-            </div>
-
-            <div class="bg-pink-50 p-4 rounded-xl shadow-sm">
+            <div class="bg-[#ffeaea] p-4 rounded-xl shadow-sm">
                 <p class="font-semibold text-gray-800">Minat 1:</p>
                 <p>{{ $volProfile->interest1 ?? '-' }}</p>
             </div>
 
-            <div class="bg-pink-50 p-4 rounded-xl shadow-sm">
+            <div class="bg-[#ffeaea] p-4 rounded-xl shadow-sm">
                 <p class="font-semibold text-gray-800">Minat 2:</p>
                 <p>{{ $volProfile->interest2 ?? '-' }}</p>
             </div>
+
+            <div class="bg-[#ffeaea] p-4 rounded-xl shadow-sm">
+                <p class="font-semibold text-gray-800">Profesi:</p>
+                <p>{{ $volProfile->profession ?? '-' }}</p>
+            </div>
+
+            {{-- Informasi CV --}}
+            {{-- Informasi CV --}}
+            @if($eventRegistration && $eventRegistration->cv_file)
+                <div class="bg-[#ffeaea] p-4 rounded-xl shadow-sm">
+                    <p class="font-semibold text-gray-800">CV Relawan:</p>
+                    <a href="{{ asset('storage/' . $eventRegistration->cv_file) }}" target="_blank"
+                        class="text-blue-500 hover:underline">
+                        Lihat CV
+                    </a>
+                    <img src="{{ asset('storage/' . $eventRegistration->cv_file) }}" 
+                        class="mt-2 max-w-full max-h-60 object-contain rounded-lg shadow">
+                </div>
+            @endif
+
+
         </div>
     </div>
 @endsection

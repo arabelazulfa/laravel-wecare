@@ -42,12 +42,51 @@ class EventController extends Controller
     //     return view('events.volunteer-event', compact('events'));
     // }
 
-    public function showForVolunteer()
+    public function showForVolunteer(Request $request)
     {
-        $events = Event::latest()->get(); // TANPA FILTER status dulu
+        $query = Event::with('organizer.organizationProfile');
 
-        return view('events.volunteer-event', compact('events'));
+        // 🔍 Search by title / nama organisasi
+        if ($request->filled('search')) {
+            $search = $request->search;
+            $query->where(function ($q) use ($search) {
+                $q->where('title', 'like', "%$search%")
+                    ->orWhereHas('organizer.organizationProfile', function ($sub) use ($search) {
+                        $sub->where('org_name', 'like', "%$search%");
+                    });
+            });
+        }
+
+        // 📍 Filter by lokasi
+        if ($request->filled('location')) {
+            $query->where('location', 'like', "%{$request->location}%");
+        }
+
+        // 📆 Filter by tanggal
+        if ($request->filled('date')) {
+            $query->whereDate('date', $request->date);
+        }
+
+        // 🎯 Filter by tipe kegiatan
+        if ($request->filled('event_type')) {
+            $query->where('event_type', $request->event_type);
+        }
+
+        // 💡 Filter by minat
+        if ($request->filled('interest')) {
+            $query->where('category', 'like', "%{$request->interest}%");
+        }
+
+        // 🚀 Ambil hasilnya
+        $events = $query->latest()->get();
+
+        // Buat opsi filter dropdown (optional, bisa custom)
+        $eventTypes = Event::select('event_type')->distinct()->pluck('event_type');
+        $interests = ['Kesehatan', 'Lingkungan', 'Pendidikan', 'Sosial', 'Teknologi']; // bisa diganti dari DB juga
+
+        return view('events.volunteer-event', compact('events', 'eventTypes', 'interests'));
     }
+
 
     public function participants($id)
     {

@@ -17,6 +17,8 @@ use App\Http\Controllers\SertifikasiController;
 use App\Http\Controllers\OrganisasiController;
 use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\ChatController;
+use App\Http\Controllers\PresensiController;
+use App\Http\Controllers\UlasanController;
 use App\Models\OrganizationProfile;
 use App\Http\Controllers\EventReviewController;
 use Illuminate\Support\Facades\Auth;
@@ -176,13 +178,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])
         ->name('dashboard');
     
-    //     Route::get('/profildaftar/{id}', function ($id) {
-    //     $user = \App\Models\User::with('volunteerProfile')->findOrFail($id);
-    //     return view('dashboard.profildaftar', compact('user'));
-    // })->name('profildaftar');
-
-
-
     // Dashboard untuk organisasi
     Route::get('/dashboardorg', [DashboardController::class, 'organisasi'])
         ->name('dashboard.organisasi');
@@ -190,6 +185,10 @@ Route::middleware('auth')->group(function () {
         ->name('dashboard.profile');
     Route::get('/dashboard/edit-profile', [DashboardController::class, 'edit'])
         ->name('dashboard.editprofile');
+    Route::post('/organisasi/update-password', [OrganisasiController::class, 'updatePassword'])
+    ->name('organisasi.updatePassword');
+
+
     Route::post('/dashboard/update-logo', [DashboardController::class, 'updateLogo'])
         ->name('dashboard.updateLogo');
     Route::get('/profildaftar/{id}', [DashboardController::class, 'profildaftar'])
@@ -224,13 +223,19 @@ Route::middleware('auth')->group(function () {
     )
         ->name('aktivitas');
 
-    Route::get('/notifications', function () {
-        $notifications = auth()->user()->notifications()->paginate(10);
-        return view('dashboard.notifications', compact('notifications'));
-    })->name('notifications.index');
+    // Route::get('/notifications', function () {
+    //     $notifications = auth()->user()->notifications()->paginate(10);
+    //     return view('dashboard.notifications', compact('notifications'));
+    // })->name('notifications.index');
 
-
+    //Fitur Chat
+    Route::get('/chat', [ChatController::class, 'index'])->name('chat.index');
     Route::get('/chat/{id}', [ChatController::class, 'show'])->name('chat.show');
+    Route::post('/chat/send', [ChatController::class, 'store'])->name('chat.send');
+    // Chat untuk Volunteer
+    Route::get('/volunteer/chat', [ChatController::class, 'volunteerIndex'])->name('volunteer.chat.index');
+    Route::get('/volunteer/chat/{id}', [ChatController::class, 'volunteerShow'])->name('volunteer.chat.show');
+    Route::post('/volunteer/chat/send', [ChatController::class, 'volunteerSend'])->name('volunteer.chat.send');
 
 
     //////PROFIL VOLUNTEER//////
@@ -266,6 +271,10 @@ Route::middleware('auth')->group(function () {
         ->name('event.register')
         ->middleware('auth');
 
+    Route::get('/presensi/{event}', [PresensiController::class, 'show'])->name('presensi.show');
+    Route::post('/presensi', [PresensiController::class, 'store'])->name('presensi.store');
+
+    Route::post('/ulasan', [UlasanController::class, 'store'])->name('ulasan.store');
 
     // Sertifikat (download / view)
     Route::resource('certificates', CertificateController::class)
@@ -273,7 +282,6 @@ Route::middleware('auth')->group(function () {
 
     Route::post('/event-reviews', [EventReviewController::class, 'store'])->name('event-reviews.store');
 
+    Route::get('/dashuser', [DashboardController::class, 'index'])->name('dashuser');
 
 });
-
-

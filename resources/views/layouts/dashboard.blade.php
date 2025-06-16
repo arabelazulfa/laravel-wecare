@@ -44,7 +44,7 @@
       </div>
 
       <div class="flex space-x-6 text-white text-lg items-center">
-        <a href="/messages" title="Messages">
+        <a href="{{ route('volunteer.chat.index') }}" title="Chat">
           <i class="far fa-comment-alt fa-lg cursor-pointer hover:scale-110 transition-transform duration-200"></i>
         </a>
 
@@ -79,7 +79,7 @@
               </div>
               <div class="text-right mt-2">
                 <button onclick="document.getElementById('notifFullModal').classList.remove('hidden')"
-                  class="text-pink-600 text-sm hover:underline">
+                  class="text-gray-600 text-sm hover:underline">
                   Lihat Semua
                 </button>
               </div>
@@ -168,7 +168,7 @@
       });
     });
   </script>
-
+ @stack('scripts')
 </body>
 
 </html>
