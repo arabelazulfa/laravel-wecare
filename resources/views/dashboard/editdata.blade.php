@@ -3,9 +3,10 @@
 @section('title', 'Edit Data Organisasi')
 
 @section('content')
-    {{-- Tambahkan margin-top agar tidak mepet header --}}
-    <div class="max-w-4xl mx-auto bg-white p-8 rounded-2xl shadow-md mt">
-        {{-- Tampilkan error validasi jika ada --}}
+<div x-data="{ openPassword: false }">
+    <div class="max-w-4xl mx-auto bg-white p-8 rounded-2xl shadow-md mt-6">
+
+        {{-- Error --}}
         @if ($errors->any())
             <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4 text-sm">
                 <ul class="list-disc ml-5">
@@ -37,6 +38,16 @@
                     <div>
                         <label class="block mb-1 font-medium">No. Telepon</label>
                         <input type="text" name="phone" class="input-field" value="{{ old('phone', $profile->user->phone ?? '') }}">
+                    </div>
+                    <div>
+                        <label class="block mb-1 font-medium">Password</label>
+                        <div class="flex items-center justify-between input-field bg-gray-100">
+                            <span class="text-gray-500 italic text-sm">********</span>
+                            <button type="button" @click="openPassword = true"
+                                class="text-blue-500 hover:text-blue-700 text-sm ml-4">
+                                <i class="fas fa-pen mr-1"></i> Ubah
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -93,7 +104,8 @@
                         <label class="block mb-1 font-medium">Logo</label>
                         <input type="file" name="logo" accept="image/*" class="input-field">
                         @if ($profile->logo)
-                            <img src="{{ asset('storage/' . $profile->logo) }}" alt="Logo Organisasi" class="mt-2 w-24 h-24 object-cover rounded-md border">
+                            <img src="{{ asset('storage/' . $profile->logo) }}" alt="Logo Organisasi"
+                                class="mt-2 w-24 h-24 object-cover rounded-md border">
                         @endif
                     </div>
                 </div>
@@ -108,14 +120,55 @@
         </form>
     </div>
 
-    {{-- Custom Style --}}
-    <style>
-        .input-field {
-            width: 100%;
-            padding: 8px 10px;
-            border: 1px solid #d1d5db;
-            border-radius: 8px;
-            font-size: 14px;
-        }
-    </style>
+    {{-- Overlay Password --}}
+    <div
+        x-show="openPassword"
+        x-cloak
+        class="fixed inset-0 bg-black/50 z-50 flex items-center justify-center"
+    >
+        <div class="bg-white rounded-xl shadow-lg p-6 w-full max-w-md">
+            <h2 class="text-lg font-semibold mb-4">Ubah Password</h2>
+            <form method="POST" action="{{ route('organisasi.updatePassword', $profile->user_id ?? auth()->id()) }}">
+                @csrf
+                @method('PUT')
+
+                <div class="mb-4">
+                <label for="current_password" class="block font-medium mb-1">Password Lama</label>
+                <input type="password" name="current_password" id="current_password" class="input-field" required>
+                </div>
+                <div class="mb-4">
+                    <label for="new_password" class="block font-medium mb-1">Password Baru</label>
+                    <input type="password" name="new_password" id="new_password" class="input-field">
+                </div>
+                <div class="mb-4">
+                    <label for="confirm_password" class="block font-medium mb-1">Konfirmasi Password</label>
+                    <input type="password" name="confirm_password" id="confirm_password" class="input-field">
+                </div>
+                <div class="flex justify-end gap-2">
+                    <button type="button" @click="openPassword = false" class="px-4 py-2 bg-gray-300 hover:bg-gray-400 text-sm rounded">
+                        Batal
+                    </button>
+                    <button type="submit" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm rounded">
+                        Simpan
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+{{-- Style Input --}}
+<style>
+    .input-field {
+        width: 100%;
+        padding: 8px 10px;
+        border: 1px solid #d1d5db;
+        border-radius: 8px;
+        font-size: 14px;
+    }
+
+    [x-cloak] {
+        display: none !important;
+    }
+</style>
 @endsection

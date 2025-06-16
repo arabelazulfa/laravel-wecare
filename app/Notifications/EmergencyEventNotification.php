@@ -36,7 +36,7 @@ class EmergencyEventNotification extends Notification
                 </a>";
         } elseif ($this->receiverType === 'organisasi') {
             $message = "Kamu baru saja membuat event darurat \"{$this->eventTitle}\".<br>
-                <a href=\"{$this->url}\" class=\"inline-block mt-1 px-3 py-1 bg-pink-500 text-white text-xs rounded-md\">
+                <a href=\"{$this->url}\" class=\"inline-block mt-1 px-3 py-1 bg-pink-400 text-white text-xs rounded-md\">
                     Lihat di Dashboard
                 </a>";
         }

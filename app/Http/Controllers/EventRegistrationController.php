@@ -43,7 +43,7 @@ class EventRegistrationController extends Controller
         $request->user()->notify(new EventRegistered($event));
 
         // 🔔 Kirim notifikasi ke organisasi
-        $orgUser = $event->organization->user; // asumsi relasi event -> organization -> user
+        $orgUser = $event->organizer; // asumsi relasi event -> organization -> user
 
         $volunteerName = $request->user()->name;
         $eventTitle = $event->title;

@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\View;
+use App\Models\Chat;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Notifications\DatabaseNotification;
 
@@ -33,6 +34,9 @@ class AppServiceProvider extends ServiceProvider
                         ->take(5)
                         ->get(),
                     'unreadCount' => $user->unreadNotifications()->count(),
+                    'unreadChatCount' => Chat::where('receiver_id', $user->id)
+                        ->whereNull('read_at')
+                        ->count(),
                 ]);
             }
         });

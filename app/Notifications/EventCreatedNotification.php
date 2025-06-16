@@ -30,7 +30,7 @@ class EventCreatedNotification extends Notification
         return [
             'title' => '✅ Event Berhasil Dibuat',
             'message' => "Kamu berhasil membuat event <strong>\"{$this->eventTitle}\"</strong>.<br>
-                <a href=\"{$this->url}\" class=\"inline-block mt-1 px-3 py-1 bg-green-600 text-white text-xs rounded-md\">
+                <a href=\"{$this->url}\" class=\"inline-block mt-1 px-3 py-1 bg-pink-400 text-white text-xs rounded-md\">
                     Lihat di Dashboard
                 </a>",
             'url' => $this->url,
