@@ -66,10 +66,10 @@ class DashboardController extends Controller
     {
         $user = User::with('volunteerProfile')->findOrFail($id);
         $volProfile = VolunteerProfile::where('user_id', $id)->first();
-
+        $eventRegistration = EventRegistration::where('user_id', $user->id)->latest()->first();
         $validInterests = ['Kesehatan', 'Lingkungan', 'Pendidikan', 'Kemanusiaan', 'Teknologi', 'Sosial'];
 
-        return view('dashboard.profildaftar', compact('user', 'volProfile', 'validInterests'));
+        return view('dashboard.profildaftar', compact('user', 'volProfile', 'eventRegistration', 'validInterests'));
     }
 
 

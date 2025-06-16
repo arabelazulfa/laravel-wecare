@@ -7,6 +7,12 @@
   <title>WeCare - Aktivitas</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+  <style>
+    [x-cloak] {
+      display: none !important;
+    }
+  </style>
+
 </head>
 
 <body class="bg-[#fff0f0] h-auto flex items-start p-6 font-sans">
@@ -46,7 +52,7 @@
     use App\Models\OrganizationProfile;
 
     $profile = OrganizationProfile::where('user_id', auth()->id())->first();
-  @endphp
+    @endphp
 
       @if ($profile)
       <a href="{{ route('organisasi.edit', ['user_id' => $profile->user_id]) }}" class="flex items-center gap-3 px-4 py-2 rounded-lg
@@ -73,9 +79,15 @@
       </div>
       <!-- Icons & Profile Dropdown -->
       <div class="flex space-x-6 text-white text-lg items-center">
-        <a href="/messages" title="Messages">
+        <a href="{{ route('chat.index') }}" title="Messages" class="relative">
           <i class="far fa-comment-alt fa-lg cursor-pointer hover:scale-110 transition-transform duration-200"></i>
+          @if (isset($unreadChatCount) && $unreadChatCount > 0)
+        <span class="absolute -top-1 -right-1 bg-red-500 text-white rounded-full text-xs px-1.5">
+        {{ $unreadChatCount }}
+        </span>
+      @endif
         </a>
+
         <div class="relative">
           <button id="notifButton" title="Notifikasi" class="relative focus:outline-none">
             <i class="far fa-bell fa-lg cursor-pointer hover:scale-110 transition-transform duration-200"></i>
@@ -147,7 +159,7 @@
 
         <div id="notifFullList" class="space-y-3">
           @forelse ($notifications ?? [] as $notif)
-        @if(is_object($notif))
+          @if(is_object($notif))
         <div class="p-4 border rounded-lg {{ $notif->read_at ? 'bg-gray-100' : 'bg-pink-100 border-pink-200' }}">
         <div class="font-semibold">{{ $notif->data['title'] ?? 'Notifikasi' }}</div>
         <div class="text-sm">{{ $notif->data['message'] ?? '' }}</div>
@@ -155,7 +167,7 @@
         </div>
         @else
         <div class="p-4 border rounded-lg bg-gray-100 border-gray-200">
-          <div class="font-semibold">Notifikasi tidak valid</div>
+        <div class="font-semibold">Notifikasi tidak valid</div>
         </div>
         @endif
       @empty
@@ -167,7 +179,7 @@
           class="absolute top-3 right-4 text-xl font-bold text-gray-600 hover:text-black">&times;</button>
       </div>
     </div>
-
+    <div class="mt-6"></div>
     @yield('content')
     </div>
   </main>
@@ -208,6 +220,7 @@
     });
   </script>
 
+  <script src="//unpkg.com/alpinejs" defer></script>
 
 </body>
 

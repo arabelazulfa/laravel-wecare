@@ -60,12 +60,23 @@ class User extends Authenticatable
 
     public function volunteerProfile()
     {
-    return $this->hasOne(VolunteerProfile::class, 'user_id'); // sesuaikan model
+        return $this->hasOne(VolunteerProfile::class, 'user_id'); // sesuaikan model
     }
 
     public function presensi()
     {
-    return $this->hasMany(Presensi::class);
+        return $this->hasMany(Presensi::class);
     }
+
+    public function sentMessages()
+    {
+        return $this->hasMany(Chat::class, 'sender_id');
+    }
+
+    public function receivedMessages()
+    {
+        return $this->hasMany(Chat::class, 'receiver_id');
+    }
+
 
 }

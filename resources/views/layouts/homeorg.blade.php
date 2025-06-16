@@ -76,25 +76,21 @@
 
 
       <!-- Profile button with dropdown -->
-      @auth
-      <div class="relative">
-      <button id="profileButton" class="text-white hover:scale-110 transition-transform duration-200">
-        <i class="far fa-user-circle fa-lg"></i>
-      </button>
-      <div id="profileMenu"
-        class="hidden absolute right-0 mt-5 w-40 bg-[#f28b8b] text-white rounded-md shadow-lg z-50">
-        <ul class="p-3 space-y-2 font-semibold text-sm">
-        <li><a href="/dashboard" class="block hover:underline">Dashboard</a></li>
-        <li>
-          <form method="POST" action="{{ route('logout') }}">
-          @csrf
-          <button type="submit" class="w-full text-left hover:underline">Log Out</button>
-          </form>
-        </li>
-        </ul>
-      </div>
-      </div>
-    @endauth
+        <div class="relative">
+          <button id="profileButton" class="text-white hover:scale-110 transition-transform duration-200">
+            <i class="far fa-user-circle fa-lg"></i>
+          </button>
+          <div id="profileMenu"
+            class="hidden absolute right-0 mt-2 w-40 bg-[#f28b8b] text-white rounded-md shadow-lg z-50">
+            <ul class="p-3 space-y-2 font-semibold text-sm">
+              <li><a href="{{ route('dashboard.profile') }}" class="block hover:underline">Profile</a></li>
+              <form method="POST" action="{{ route('logout') }}">
+                @csrf
+                <button type="submit" class="w-full text-left hover:underline">Log Out</button>
+              </form>
+              </li>
+            </ul>
+          </div>
 
     </div>
   </nav>
