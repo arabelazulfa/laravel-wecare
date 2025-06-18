@@ -39,10 +39,52 @@ class ChatController extends Controller
 
                 $contact->unread_count = $unreadCount;
                 $contact->last_message = $lastMessage ? $lastMessage->message : 'Belum ada pesan';
+                $contact->last_message_time = $lastMessage ? $lastMessage->sent_at : null;
 
                 return $contact;
-            });
+            })
+            ->sortByDesc('last_message_time') // urutkan berdasarkan waktu terakhir chat
+            ->values(); // reset indeks
     }
+
+    private function getChatListWithOrgProfile($userId)
+{
+    return User::with('organizationProfile')
+        ->where('id', '!=', $userId)
+        ->where(function ($q) use ($userId) {
+            $q->whereHas('sentMessages', function ($q2) use ($userId) {
+                $q2->where('receiver_id', $userId);
+            })->orWhereHas('receivedMessages', function ($q2) use ($userId) {
+                $q2->where('sender_id', $userId);
+            });
+        })
+        ->get()
+        ->map(function ($contact) use ($userId) {
+            $unreadCount = Chat::where('sender_id', $contact->id)
+                ->where('receiver_id', $userId)
+                ->whereNull('read_at')
+                ->count();
+
+            $lastMessage = Chat::where(function ($q) use ($userId, $contact) {
+                $q->where('sender_id', $userId)->where('receiver_id', $contact->id);
+            })
+                ->orWhere(function ($q) use ($userId, $contact) {
+                    $q->where('sender_id', $contact->id)->where('receiver_id', $userId);
+                })
+                ->orderByDesc('sent_at')
+                ->orderByDesc('created_at')
+                ->first();
+
+            $contact->unread_count = $unreadCount;
+            $contact->last_message = $lastMessage ? $lastMessage->message : 'Belum ada pesan';
+            $contact->last_message_time = $lastMessage ? $lastMessage->sent_at : null;
+
+            return $contact;
+        })
+        ->sortByDesc('last_message_time')
+        ->values();
+}
+
 
     // 💬 Halaman chat organisasi
     public function index(Request $request)
@@ -93,7 +135,8 @@ class ChatController extends Controller
         $userId = auth()->id();
         $query = $request->input('q'); // ambil input pencarian
 
-        $chatList = $this->getChatList($userId);
+        $chatList = $this->getChatListWithOrgProfile($userId);
+
 
         // jika ada query pencarian, filter hasilnya
         if ($query) {
@@ -111,7 +154,8 @@ class ChatController extends Controller
     {
         $receiver = User::with('organizationProfile')->findOrFail($id);
         $userId = auth()->id();
-        $chatList = $this->getChatList($userId);
+        $chatList = $this->getChatListWithOrgProfile($userId);
+
 
         $messages = Chat::where(function ($q) use ($userId, $id) {
             $q->where('sender_id', $userId)->where('receiver_id', $id);

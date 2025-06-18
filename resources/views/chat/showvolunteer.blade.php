@@ -14,24 +14,38 @@
 
             {{-- Daftar Kontak --}}
             @foreach ($chatList as $contact)
-                <a href="{{ route('volunteer.chat.show', $contact->id) }}" class="flex items-center justify-between p-3 rounded-xl mb-2
-                                        {{ $contact->id === $user->id ? 'bg-white' : 'hover:bg-[#f5baba]' }}">
-                    <div class="flex items-center gap-3">
-                        <img src="{{ $contact->organizationProfile?->logo ? asset('storage/' . $contact->organizationProfile->logo) : asset('default-avatar.png') }}"
+                <a href="{{ route('volunteer.chat.show', $contact->id) }}" 
+                   class="flex items-start justify-between p-3 rounded-xl mb-2 
+                          {{ $contact->id === $user->id ? 'bg-white' : 'hover:bg-[#f5baba]' }}">
+
+                    {{-- Kiri: Foto + Info --}}
+                    <div class="flex items-start gap-3 flex-1">
+                        <img src="{{ $contact->organizationProfile?->logo 
+                            ? asset('storage/' . $contact->organizationProfile->logo) 
+                            : asset('default-avatar.png') }}"
                             class="w-10 h-10 rounded-full object-cover">
 
-                        <div class="text-sm">
-                            <p class="font-semibold text-gray-800">
-                                {{ $contact->organizationProfile->org_name ?? $contact->name }}
-                            </p>
-                            <p class="text-xs text-gray-600 truncate w-40">
+                        <div class="flex-1">
+                            <div class="flex justify-between items-center mb-0.5">
+                                <p class="font-semibold text-gray-800 truncate w-36">
+                                    {{ $contact->organizationProfile->org_name ?? $contact->name }}
+                                </p>
+                                @if ($contact->last_message_time)
+                                    <span class="text-[10px] text-gray-500 whitespace-nowrap"
+                                          title="{{ \Carbon\Carbon::parse($contact->last_message_time)->toDayDateTimeString() }}">
+                                        {{ \Carbon\Carbon::parse($contact->last_message_time)->format('H:i') }}
+                                    </span>
+                                @endif
+                            </div>
+                            <p class="text-xs text-gray-600 truncate">
                                 {{ \Illuminate\Support\Str::limit($contact->last_message, 40, '...') }}
                             </p>
                         </div>
                     </div>
 
+                    {{-- Badge Unread --}}
                     @if ($contact->unread_count > 0)
-                        <span class="text-xs bg-red-500 text-white rounded-full px-2 py-0.5">
+                        <span class="text-xs bg-red-500 text-white rounded-full px-2 py-0.5 ml-2 self-center">
                             {{ $contact->unread_count }}
                         </span>
                     @endif
@@ -43,7 +57,9 @@
         <div class="flex-1 bg-[#fff0f0] flex flex-col">
             {{-- Header --}}
             <div class="flex items-center gap-3 px-6 py-4 border-b border-[#f0cfcf] bg-[#ffdada]">
-                <img src="{{ $contact->organizationProfile?->logo ? asset('storage/' . $contact->organizationProfile->logo) : asset('default-avatar.png') }}"
+                <img src="{{ $contact->organizationProfile?->logo 
+                    ? asset('storage/' . $contact->organizationProfile->logo) 
+                    : asset('default-avatar.png') }}"
                     class="w-10 h-10 rounded-full object-cover">
 
                 <h1 class="text-lg font-semibold text-gray-800">
@@ -64,9 +80,8 @@
                     @endif
 
                     <div class="flex {{ $msg->sender_id === Auth::id() ? 'justify-end' : 'justify-start' }}">
-                        <div
-                            class="max-w-[70%] px-4 py-2 rounded-xl text-sm shadow
-                                                {{ $msg->sender_id === Auth::id() ? 'bg-[#ffdddd] text-gray-800' : 'bg-white text-gray-800' }}">
+                        <div class="max-w-[70%] px-4 py-2 rounded-xl text-sm shadow
+                            {{ $msg->sender_id === Auth::id() ? 'bg-[#ffdddd] text-gray-800' : 'bg-white text-gray-800' }}">
                             <p class="break-words">{{ $msg->message }}</p>
                             <span class="block mt-1 text-xs text-right text-gray-500">
                                 {{ $msg->sent_at->format('H:i') }}

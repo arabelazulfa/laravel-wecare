@@ -1,6 +1,6 @@
-@extends('layouts.home') 
+@extends('layouts.home')
 
-@section('title', 'Percakapan')
+@section('title', 'Chat')
 
 @section('content')
     <div class="flex h-[600px] rounded-2xl overflow-hidden shadow bg-[#ffdada]">
@@ -15,32 +15,43 @@
             {{-- Daftar Chat --}}
             @forelse ($chatList as $contact)
                 <a href="{{ route('volunteer.chat.show', $contact->id) }}"
-                    class="flex items-center justify-between p-3 rounded-xl mb-2 hover:bg-[#fcdede] transition">
+                    class="flex items-start justify-between p-3 rounded-xl mb-2 hover:bg-[#fcdede] transition">
 
-                    {{-- Kiri: Foto + Nama + Preview --}}
-                    <div class="flex items-center gap-3">
+                    {{-- Kiri: Foto + Info --}}
+                    <div class="flex items-start gap-3 flex-1">
                         {{-- Foto Profil --}}
-                        @if ($contact->profile_photo)
-                            <img src="{{ asset('storage/' . $contact->profile_photo) }}" alt="{{ $contact->name }}"
+                        @if ($contact->organizationProfile && $contact->organizationProfile->logo)
+                            <img src="{{ asset('storage/' . $contact->organizationProfile->logo) }}"
+                                alt="{{ $contact->organizationProfile->org_name }}"
                                 class="w-10 h-10 rounded-full object-cover">
                         @else
                             <div class="w-10 h-10 bg-pink-100 text-pink-600 flex items-center justify-center rounded-full font-bold text-sm">
-                                {{ strtoupper(substr($contact->name, 0, 1)) }}
+                                {{ strtoupper(substr($contact->organizationProfile->org_name ?? 'O', 0, 1)) }}
                             </div>
                         @endif
 
-                        {{-- Nama dan preview pesan --}}
-                        <div class="text-sm">
-                            <p class="font-semibold text-gray-800">{{ $contact->name }}</p>
-                            <p class="text-xs text-gray-600 truncate w-40">
+                        {{-- Nama, Waktu & Pesan --}}
+                        <div class="flex-1">
+                            <div class="flex justify-between items-center mb-0.5">
+                                <p class="font-semibold text-gray-800 truncate w-36">
+                                    {{ $contact->organizationProfile->org_name ?? $contact->name }}
+                                </p>
+                                @if ($contact->last_message_time)
+                                    <span class="text-[10px] text-gray-500 whitespace-nowrap"
+                                        title="{{ \Carbon\Carbon::parse($contact->last_message_time)->toDayDateTimeString() }}">
+                                        {{ \Carbon\Carbon::parse($contact->last_message_time)->format('H:i') }}
+                                    </span>
+                                @endif
+                            </div>
+                            <p class="text-xs text-gray-600 truncate">
                                 {{ \Illuminate\Support\Str::limit($contact->last_message, 40, '...') }}
                             </p>
                         </div>
                     </div>
 
-                    {{-- Badge jumlah pesan belum dibaca --}}
+                    {{-- Kanan: Badge Unread --}}
                     @if ($contact->unread_count > 0)
-                        <span class="text-xs bg-red-500 text-white rounded-full px-2 py-0.5">
+                        <span class="text-xs bg-red-500 text-white rounded-full px-2 py-0.5 ml-2 self-center">
                             {{ $contact->unread_count }}
                         </span>
                     @endif

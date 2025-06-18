@@ -58,7 +58,7 @@ class EventRegistrationController extends Controller
         if ($orgUser) {
             $user = $request->user(); // ✅ tambahkan ini
             $organizationName = $orgUser->organizationProfile->org_name ?? 'Organisasi Kami';
-            $prompt = "Tulis pesan ramah kepada {$user->name} yang baru mendaftar ke event '{$event->title}' dari organisasi {$organizationName} dan jelaskan bahwa kami akan memberikan informasi lebih lanjut apabila diterima menjadi relawan. Akhiri dengan salam dari {$organizationName}.";
+            $prompt = "Tulis pesan ramah kepada {$user->name} yang baru mendaftar ke event '{$event->title}' dari organisasi {$organizationName} dan jelaskan bahwa kami akan memberikan informasi lebih lanjut apabila diterima menjadi relawan. Akhiri dengan salam dari {$organizationName}.Bold bagian yang penting dan sertakan emoji yang mendukung";
             $aiMessage = AiHelper::generateReply($prompt);
 
             Chat::create([
@@ -130,7 +130,7 @@ class EventRegistrationController extends Controller
         if ($orgUser && $orgUser->organizationProfile) {
             $organizationName = $orgUser->organizationProfile->org_name;
 
-            $prompt = "Tulis pesan ramah dan profesional dari organisasi {$organizationName} kepada {$volunteer->name} bahwa mereka telah DITERIMA untuk bergabung di event <b>'{$event->title}'</b>. Gunakan format HTML. Tambahkan ucapan selamat dalam huruf kapital atau tebal di awal, buat paragraf rapi, dan akhiri dengan salam hangat dari organisasi.";
+            $prompt = "Tulis pesan ramah dan profesional dari organisasi {$organizationName} kepada {$volunteer->name} bahwa mereka telah DITERIMA untuk bergabung di event <b>'{$event->title}'</b>. Gunakan format HTML. Tambahkan ucapan selamat dalam huruf kapital atau tebal di awal, buat paragraf rapi, sertakan emoji yang mendukung dan akhiri dengan salam hangat dari organisasi.";
 
 
             $aiMessage = AiHelper::generateReply($prompt);
