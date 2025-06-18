@@ -9,6 +9,11 @@
         <img src="{{ asset('storage/' . $profile->logo) }}" alt="Logo"
             class="w-40 h-40 rounded-full bg-white object-cover shadow mx-auto">
 
+        <h2 class="text-3xl font-bold mt-3 text-gray-800">
+            {{ $profile->org_name ?? 'Nama Organisasi Belum Diisi' }}
+        </h2>
+
+
         <!-- Label "Ganti Foto" -->
         <label for="logoUpload" class="text-xs text-blue-500 hover:underline mt-2 inline-block cursor-pointer">
             Ganti Foto

@@ -48,7 +48,17 @@ class OrganisasiController extends Controller
             $validated['logo'] = $logoPath;
         }
 
+        // Masukkan semua data yang tervalidasi
+        $profile->fill($validated);  // <<< INI YANG BELUM ADA
         $profile->save();
+
+        // Update data user (jangan lupa ini beda model!)
+        $user = $profile->user;
+        $user->name = $validated['name'] ?? $user->name;
+        $user->email = $validated['email'] ?? $user->email;
+        $user->phone = $validated['phone'] ?? $user->phone;
+        $user->save();
+
 
 
         return redirect()->route('organisasi.edit', $user_id)->with('success', 'Data berhasil diperbarui.');
