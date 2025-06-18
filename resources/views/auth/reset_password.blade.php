@@ -7,7 +7,7 @@
     <form method="POST" action="{{ route('password.reset.submit') }}">
         @csrf
         <input type="hidden" name="email" value="{{ session('reset_email') }}">
-        
+
         <div class="mb-4">
             <label for="password" class="block">Password Baru</label>
             <input type="password" name="password" required class="w-full border p-2 rounded">
