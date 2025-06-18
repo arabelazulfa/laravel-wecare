@@ -16,7 +16,7 @@
 
         <!-- Label "Ganti Foto" -->
         <label for="logoUpload" class="text-xs text-blue-500 hover:underline mt-2 inline-block cursor-pointer">
-            Ganti Foto
+            Ganti Logo
         </label>
 
         <!-- Form Upload Logo -->
