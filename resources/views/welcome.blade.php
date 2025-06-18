@@ -17,8 +17,7 @@
 
         .navbar-brand {
             font-size: 2.5rem;
-            font-weight: bold;
-        }
+            font-weight: bold;}
 
         .navbar-custom {
             background-color: #ff6b6b;
