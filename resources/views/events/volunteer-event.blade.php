@@ -35,20 +35,20 @@
 
     {{-- 💡 Minat --}}
     <select name="interest" class="rounded-xl px-3 py-2 border w-full md:w-[200px]">
-    <option value="">Minat Relawan</option>
-    @foreach ($interests as $minat)
-    <option value="{{ $minat }}" {{ request('interest') == $minat ? 'selected' : '' }}>{{ $minat }}</option>
+    <option value="">Kategori</option>
+    @foreach ($category as $cat)
+    <option value="{{ $cat }}" {{ request('interest') == $cat ? 'selected' : '' }}>{{ $cat }}</option>
     @endforeach
     </select>
 
     {{-- 🔎 Tombol cari --}}
     <button type="submit"
-    class="bg-pink-600 text-white rounded-xl px-4 py-2 text-sm hover:bg-pink-700 w-full md:w-auto">Cari</button>
+    class="bg-blue-600 text-white rounded-xl px-4 py-2 text-sm hover:bg-blue-700 w-full md:w-auto">Cari</button>
   </form>
 
 
 
-    <div class="flex flex-col md:flex-row justify-between items-center mb-6">
+    <!-- <div class="flex flex-col md:flex-row justify-between items-center mb-6">
       {{-- Kolom search + tombol filter --}}
       <div class="flex items-center w-full md:w-1/2 mb-4 md:mb-0">
       <div class="relative w-full">
@@ -71,7 +71,7 @@
         d="M12 3c2.755 0 5.455.232 8.083.678.533.09.917.556.917 1.096v1.044a2.25 2.25 0 0 1-.659 1.591l-5.432 5.432a2.25 2.25 0 0 0-.659 1.591v2.927a2.25 2.25 0 0 1-1.244 2.013L9.75 21v-6.568a2.25 2.25 0 0 0-.659-1.591L3.659 7.409A2.25 2.25 0 0 1 3 5.818V4.774c0-.54.384-1.006.917-1.096A48.32 48.32 0 0 1 12 3Z" />
       </svg>
       </button>
-      </div>
+      </div> -->
 
       {{-- Judul di kanan --}}
       <h1 class="text-xl md:text-2xl font-bold text-black text-right w-full md:w-auto">Temukan Kegiatan, Tebarkan Manfaat

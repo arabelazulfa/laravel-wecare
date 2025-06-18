@@ -15,11 +15,6 @@
     <form method="POST" action="{{ url('/login') }}" autocomplete="off" class="bg-[#FDCACA] rounded-xl w-full max-w-md p-6 relative" spellcheck="false">
         @csrf
 
-        <!-- WeCare Header
-        <div class="absolute -top-5 left-1/2 transform -translate-x-1/2 bg-[#F19494] px-6 py-2 rounded-lg text-white text-center font-semibold text-lg shadow-md">
-            WeCare
-        </div> -->
-
         <div class="pt-18"></div> {{-- Spacer to avoid overlapping WeCare text --}}
 
         <h2 class="text-center text-black text-3xl mb-4 font-semibold">Masuk</h2>

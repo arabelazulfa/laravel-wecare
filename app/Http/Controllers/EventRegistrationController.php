@@ -8,6 +8,8 @@ use App\Notifications\EventRegistered;
 use App\Models\Participation;
 use App\Models\Events;
 use App\Models\User;
+use App\Models\Chat;
+use App\Helpers\AiHelper;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
@@ -44,13 +46,28 @@ class EventRegistrationController extends Controller
         // 🔔 Kirim notifikasi ke organisasi
         $orgUser = $event->organizer; // asumsi relasi event -> organization -> user
 
-         if ($orgUser) {                    // jaga‑jaga kalau memang null
-        $orgUser->notify(new \App\Notifications\VolunteerJoinedEvent(
-            $request->user()->name,            // nama volunteer
-            $event->title,                     // judul event
-            route('dashboard.organisasi')      // link menuju dashboard org
-        ));
-    }
+        if ($orgUser) {                    // jaga‑jaga kalau memang null
+            $orgUser->notify(new \App\Notifications\VolunteerJoinedEvent(
+                $request->user()->name,            // nama volunteer
+                $event->title,                     // judul event
+                route('dashboard.organisasi')      // link menuju dashboard org
+            ));
+        }
+
+        // 🧠 Kirim pesan otomatis pakai AI
+        if ($orgUser) {
+            $user = $request->user(); // ✅ tambahkan ini
+            $organizationName = $orgUser->organizationProfile->org_name ?? 'Organisasi Kami';
+            $prompt = "Tulis pesan ramah kepada {$user->name} yang baru mendaftar ke event '{$event->title}' dari organisasi {$organizationName} dan jelaskan bahwa kami akan memberikan informasi lebih lanjut apabila diterima menjadi relawan. Akhiri dengan salam dari {$organizationName}.";
+            $aiMessage = AiHelper::generateReply($prompt);
+
+            Chat::create([
+                'sender_id' => $orgUser->id,
+                'receiver_id' => $user->id,
+                'message' => $aiMessage,
+                'sent_at' => now(),
+            ]);
+        }
 
         return redirect()->back()->with('success', true);
     }
@@ -107,6 +124,24 @@ class EventRegistrationController extends Controller
         $volunteer = User::find($validated['user_id']);
         $event = Event::find($validated['event_id']);
         $volunteer->notify(new \App\Notifications\VolunteerAccepted($event));
+
+        // 🧠 Pesan otomatis dari AI
+        $orgUser = $event->organizer; // relasi ke user organisasi
+        if ($orgUser && $orgUser->organizationProfile) {
+            $organizationName = $orgUser->organizationProfile->org_name;
+
+            $prompt = "Tulis pesan ramah dan profesional dari organisasi {$organizationName} kepada {$volunteer->name} bahwa mereka telah DITERIMA untuk bergabung di event <b>'{$event->title}'</b>. Gunakan format HTML. Tambahkan ucapan selamat dalam huruf kapital atau tebal di awal, buat paragraf rapi, dan akhiri dengan salam hangat dari organisasi.";
+
+
+            $aiMessage = AiHelper::generateReply($prompt);
+
+            Chat::create([
+                'sender_id' => $orgUser->id,
+                'receiver_id' => $volunteer->id,
+                'message' => $aiMessage,
+                'sent_at' => now(),
+            ]);
+        }
 
         return back()->with([
             'success' => 'Relawan berhasil diterima.',

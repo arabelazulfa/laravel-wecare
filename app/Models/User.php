@@ -78,5 +78,15 @@ class User extends Authenticatable
         return $this->hasMany(Chat::class, 'receiver_id');
     }
 
+    public function getProfilePhotoUrlAttribute()
+    {
+        return $this->profile_photo
+            ? asset('storage/' . $this->profile_photo)
+            : asset('default-avatar.png');
+    }
+
+
+
+
 
 }
