@@ -76,7 +76,8 @@
                         <div
                             class="max-w-[70%] px-4 py-2 rounded-xl text-sm shadow
                                         {{ $msg->sender_id === Auth::id() ? 'bg-[#ffdddd] text-gray-800' : 'bg-white text-gray-800' }}">
-                            <p class="break-words">{{ $msg->message }}</p>
+                            <p class="break-words">{!! $msg->message !!}</p>
+
                             <span class="block mt-1 text-xs text-right text-gray-500">
                                 {{ $msg->sent_at->format('H:i') }}
                             </span>

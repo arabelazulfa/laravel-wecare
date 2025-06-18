@@ -15,7 +15,7 @@
 <body class="bg-gradient-to-b from-[#FCE9E9] to-[#FDCACA] min-h-screen flex flex-col px-4 py-6">
   {{-- Header --}}
   <div class="w-full">
-    <div class="bg-[#F19494] text-white text-center py-4 rounded-xl shadow-md w-full mb-6">
+    <div class="bg-[#f28b8b] text-white text-center py-4 rounded-xl shadow-md w-full mb-6">
       <h1 class="text-4xl font-bold tracking-wider uppercase">WeCare</h1>
     </div>
   </div>

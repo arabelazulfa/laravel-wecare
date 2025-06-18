@@ -46,16 +46,15 @@
             </div>
         </div>
 
-        <div class="mb-4 grid grid-cols-1 md:grid-cols-2 gap-4">
+    
             <div>
                 <label class="block font-semibold mb-1">Jenis Acara</label>
                 <input type="text" name="jenis_acara" value="{{ old('jenis_acara', $event->jenis_acara) }}" class="w-full border px-3 py-2 rounded">
             </div>
             <div>
                 <label class="block font-semibold mb-1">Divisi</label>
-                <input type="text" name="divisi" value="{{ old('divisi', $event->divisi) }}" class="w-full border px-3 py-2 rounded">
+                <textarea name="divisi" rows="3" class="w-full border px-3 py-2 rounded">{{ old('divisi', $event->divisi) }}</textarea>
             </div>
-        </div>
 
         <div class="mb-4">
             <label class="block font-semibold mb-1">Lokasi</label>
