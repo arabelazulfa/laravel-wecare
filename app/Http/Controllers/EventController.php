@@ -82,9 +82,9 @@ class EventController extends Controller
 
         // Buat opsi filter dropdown (optional, bisa custom)
         $eventTypes = Event::select('event_type')->distinct()->pluck('event_type');
-        $interests = ['Kesehatan', 'Lingkungan', 'Pendidikan', 'Sosial', 'Teknologi']; // bisa diganti dari DB juga
+        $category = ['Lingkungan', 'Sosial', 'Pendidikan']; // bisa diganti dari DB juga
 
-        return view('events.volunteer-event', compact('events', 'eventTypes', 'interests'));
+        return view('events.volunteer-event', compact('events', 'eventTypes', 'category'));
     }
 
 
