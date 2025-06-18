@@ -28,8 +28,9 @@
         <i class="fas fa-certificate text-base"></i> <span>Sertifikat</span>
       </a>
 
-      <a href="{{ route('volunteer.profile.show') }}"
-        class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-[#f49b9b] transition">
+      <a href="{{ route('volunteer.profile.show') }}" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-[#f49b9b] transition
+   {{ request()->routeIs('volunteer.profile.show') ? 'bg-white text-[#f28b8b] shadow' : '' }}">
+
         <i class="fas fa-user text-base"></i> <span>Profile</span>
       </a>
     </nav>
@@ -53,10 +54,10 @@
           <button id="notifButton" title="Notifikasi" class="relative focus:outline-none">
             <i class="far fa-bell fa-lg cursor-pointer hover:scale-110 transition-transform duration-200"></i>
             @if(isset($unreadCount) && $unreadCount > 0)
-              <span class="absolute -top-1 -right-1 bg-red-500 text-white rounded-full text-xs px-1.5">
-                {{ $unreadCount }}
-              </span>
-            @endif
+        <span class="absolute -top-1 -right-1 bg-red-500 text-white rounded-full text-xs px-1.5">
+          {{ $unreadCount }}
+        </span>
+      @endif
           </button>
 
           <div id="notifDropdown"
@@ -65,17 +66,17 @@
               <h4 class="font-bold text-sm mb-2">Notifikasi Terbaru</h4>
               <div class="max-h-64 overflow-y-auto space-y-2">
                 @forelse($notifications ?? [] as $notif)
-                  @isset($notif)
-                    <a href="{{ route('notifications.read', $notif->id ?? '') }}"
-                      class="block p-3 rounded-md text-sm border {{ $notif->read_at ? 'bg-gray-100' : 'bg-pink-100 border-pink-200' }}">
-                      <div class="font-semibold">{{ $notif->data['title'] ?? 'Notifikasi' }}</div>
-                      <div class="text-sm">{!! $notif->data['message'] ?? '' !!}</div>
-                      <div class="text-xs text-gray-600">{{ $notif->created_at?->diffForHumans() ?? '' }}</div>
-                    </a>
-                  @endisset
-                @empty
-                  <p class="text-gray-500 text-sm">Tidak ada notifikasi baru.</p>
-                @endforelse
+              @isset($notif)
+            <a href="{{ route('notifications.read', $notif->id ?? '') }}"
+            class="block p-3 rounded-md text-sm border {{ $notif->read_at ? 'bg-gray-100' : 'bg-pink-100 border-pink-200' }}">
+            <div class="font-semibold">{{ $notif->data['title'] ?? 'Notifikasi' }}</div>
+            <div class="text-sm">{!! $notif->data['message'] ?? '' !!}</div>
+            <div class="text-xs text-gray-600">{{ $notif->created_at?->diffForHumans() ?? '' }}</div>
+            </a>
+          @endisset
+        @empty
+          <p class="text-gray-500 text-sm">Tidak ada notifikasi baru.</p>
+        @endforelse
               </div>
               <div class="text-right mt-2">
                 <button onclick="document.getElementById('notifFullModal').classList.remove('hidden')"
@@ -120,18 +121,18 @@
       <h2 class="text-lg font-bold mb-4">Semua Notifikasi</h2>
       @forelse ($notifications ?? [] as $notif)
         @php
-          $data = is_array($notif->data ?? null) ? $notif->data : [];
-          $title = $data['title'] ?? 'Notifikasi';
-          $message = $data['message'] ?? '';
-        @endphp
+        $data = is_array($notif->data ?? null) ? $notif->data : [];
+        $title = $data['title'] ?? 'Notifikasi';
+        $message = $data['message'] ?? '';
+      @endphp
         <div class="p-4 mb-3 border rounded-lg {{ $notif->read_at ? 'bg-gray-100' : 'bg-pink-100 border-pink-200' }}">
-          <div class="font-semibold">{{ $title }}</div>
-          <div class="text-sm">{!! $message !!}</div>
-          <div class="text-xs text-gray-600">{{ $notif->created_at->diffForHumans() ?? '' }}</div>
+        <div class="font-semibold">{{ $title }}</div>
+        <div class="text-sm">{!! $message !!}</div>
+        <div class="text-xs text-gray-600">{{ $notif->created_at->diffForHumans() ?? '' }}</div>
         </div>
-      @empty
-        <p class="text-sm text-gray-500">Belum ada notifikasi.</p>
-      @endforelse
+    @empty
+      <p class="text-sm text-gray-500">Belum ada notifikasi.</p>
+    @endforelse
       <button onclick="document.getElementById('notifFullModal').classList.add('hidden')"
         class="absolute top-3 right-4 text-xl font-bold text-gray-600 hover:text-black">&times;</button>
     </div>
@@ -168,7 +169,7 @@
       });
     });
   </script>
- @stack('scripts')
+  @stack('scripts')
 </body>
 
 </html>

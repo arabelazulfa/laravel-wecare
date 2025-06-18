@@ -139,6 +139,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/sertifikasi', [SertifikasiController::class, 'index'])->name('sertifikasi.index');
     Route::post('/sertifikat/upload/{id}', [SertifikasiController::class, 'upload'])->name('sertifikat.upload');
 
+    //certificate (milik volunteer)
+    Route::resource('certificates', CertificateController::class)->only(['index', 'show']);
+
     // Review & Ulasan
     Route::post('/ulasan', [UlasanController::class, 'store'])->name('ulasan.store');
     Route::post('/event-reviews', [EventReviewController::class, 'store'])->name('event-reviews.store');

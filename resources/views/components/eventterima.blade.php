@@ -44,7 +44,8 @@ $udahPresensi = \App\Models\Presensi::where('user_id', auth()->id())
   </span>
 @else
   <a href="javascript:togglePresensi('presensi-overlay-{{ $eventId }}', true);"
-    class="bg-violet-500 text-white text-xs font-bold px-5 py-2 rounded-md hover:bg-violet-300 transition">
+    class="bg-sky-200 text-sky-900 text-xs font-semibold px-5 py-2 rounded-md hover:bg-sky-300 transition">
+
     Presensi
   </a>
 @endif
@@ -59,7 +60,8 @@ $udahPresensi = \App\Models\Presensi::where('user_id', auth()->id())
       @include('components.lihatulasan', ['event_id' => $eventId, 'review' => $review->review])
     @else
       <button onclick="openUlasan('{{ $eventId }}')"
-              class="bg-violet-500 text-white text-xs font-semibold px-5 py-2 rounded-md hover:bg-violet-300">
+              class="bg-purple-200 text-purple-900 text-xs font-semibold px-5 py-2 rounded-md hover:bg-purple-300 transition">
+
         Beri Ulasan
       </button>
       @include('components.ulasan', ['event_id' => $eventId])
