@@ -28,8 +28,8 @@ class ChatController extends Controller
                     ->count();
 
                 $lastMessage = Chat::where(function ($q) use ($userId, $contact) {
-                        $q->where('sender_id', $userId)->where('receiver_id', $contact->id);
-                    })
+                    $q->where('sender_id', $userId)->where('receiver_id', $contact->id);
+                })
                     ->orWhere(function ($q) use ($userId, $contact) {
                         $q->where('sender_id', $contact->id)->where('receiver_id', $userId);
                     })
@@ -45,15 +45,25 @@ class ChatController extends Controller
     }
 
     // 💬 Halaman chat organisasi
-    public function index()
+    public function index(Request $request)
     {
         $userId = auth()->id();
-        $chatList = $this->getChatList($userId);
-        return view('chat.index', compact('chatList'));
+        $query = $request->input('q'); // ambil input pencarian
 
+        $chatList = $this->getChatList($userId);
+
+        // jika ada query pencarian, filter hasilnya
+        if ($query) {
+            $chatList = $chatList->filter(function ($contact) use ($query) {
+                return stripos($contact->name, $query) !== false;
+            });
+        }
+
+        return view('chat.index', compact('chatList'));
     }
 
-    // 👁️ Tampilkan obrolan dengan user tertentu
+
+    // 👁 Tampilkan obrolan dengan user tertentu
     public function show($id)
     {
         $user = User::findOrFail($id);
@@ -61,8 +71,8 @@ class ChatController extends Controller
         $chatList = $this->getChatList($authId);
 
         $messages = Chat::where(function ($q) use ($authId, $id) {
-                $q->where('sender_id', $authId)->where('receiver_id', $id);
-            })
+            $q->where('sender_id', $authId)->where('receiver_id', $id);
+        })
             ->orWhere(function ($q) use ($authId, $id) {
                 $q->where('sender_id', $id)->where('receiver_id', $authId);
             })
@@ -78,15 +88,25 @@ class ChatController extends Controller
     }
 
     // 🧑‍🤝‍🧑 Halaman chat volunteer
-    public function volunteerIndex()
+    public function volunteerIndex(Request $request)
     {
         $userId = auth()->id();
-        $contacts = $this->getChatList($userId);
-        return view('chat.indexvolunteer', ['chatList' => $contacts]); // Ganti 'contacts' jadi 'chatList'
+        $query = $request->input('q'); // ambil input pencarian
 
+        $chatList = $this->getChatList($userId);
+
+        // jika ada query pencarian, filter hasilnya
+        if ($query) {
+            $chatList = $chatList->filter(function ($contact) use ($query) {
+                return stripos($contact->name, $query) !== false;
+            });
+        }
+
+        return view('chat.indexvolunteer', compact('chatList'));
     }
 
-    // 👁️ Halaman show chat untuk volunteer
+
+    // 👁 Halaman show chat untuk volunteer
     public function volunteerShow($id)
     {
         $receiver = User::with('organizationProfile')->findOrFail($id);
@@ -94,8 +114,8 @@ class ChatController extends Controller
         $chatList = $this->getChatList($userId);
 
         $messages = Chat::where(function ($q) use ($userId, $id) {
-                $q->where('sender_id', $userId)->where('receiver_id', $id);
-            })
+            $q->where('sender_id', $userId)->where('receiver_id', $id);
+        })
             ->orWhere(function ($q) use ($userId, $id) {
                 $q->where('sender_id', $id)->where('receiver_id', $userId);
             })

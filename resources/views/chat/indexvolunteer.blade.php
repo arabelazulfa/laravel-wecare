@@ -7,10 +7,10 @@
         {{-- Sidebar Kontak --}}
         <div class="w-full md:w-1/3 bg-[#f5baba] p-4 overflow-y-auto">
             {{-- Search Box --}}
-            <div class="mb-4">
-                <input type="text" placeholder="Search"
+            <form method="GET" action="{{ route('volunteer.chat.index') }}" class="mb-4">
+                <input type="text" name="q" value="{{ request('q') }}" placeholder="Cari"
                     class="w-full px-4 py-2 rounded-full text-sm bg-white placeholder-gray-500 focus:outline-none">
-            </div>
+            </form>
 
             {{-- Daftar Chat --}}
             @forelse ($chatList as $contact)
