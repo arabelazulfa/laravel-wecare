@@ -72,7 +72,7 @@
 
   <script>
     const inputs = document.querySelectorAll('.otp-box');
-    const hiddenInput = document.getElementById('otp_code');
+    const hiddenInput = document.getElementById('otp'); // agar input hidden `otp` terisi
 
     inputs.forEach((input, idx) => {
       input.addEventListener('input', () => {
