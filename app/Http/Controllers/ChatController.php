@@ -48,42 +48,42 @@ class ChatController extends Controller
     }
 
     private function getChatListWithOrgProfile($userId)
-{
-    return User::with('organizationProfile')
-        ->where('id', '!=', $userId)
-        ->where(function ($q) use ($userId) {
-            $q->whereHas('sentMessages', function ($q2) use ($userId) {
-                $q2->where('receiver_id', $userId);
-            })->orWhereHas('receivedMessages', function ($q2) use ($userId) {
-                $q2->where('sender_id', $userId);
-            });
-        })
-        ->get()
-        ->map(function ($contact) use ($userId) {
-            $unreadCount = Chat::where('sender_id', $contact->id)
-                ->where('receiver_id', $userId)
-                ->whereNull('read_at')
-                ->count();
-
-            $lastMessage = Chat::where(function ($q) use ($userId, $contact) {
-                $q->where('sender_id', $userId)->where('receiver_id', $contact->id);
+    {
+        return User::with('organizationProfile')
+            ->where('id', '!=', $userId)
+            ->where(function ($q) use ($userId) {
+                $q->whereHas('sentMessages', function ($q2) use ($userId) {
+                    $q2->where('receiver_id', $userId);
+                })->orWhereHas('receivedMessages', function ($q2) use ($userId) {
+                    $q2->where('sender_id', $userId);
+                });
             })
-                ->orWhere(function ($q) use ($userId, $contact) {
-                    $q->where('sender_id', $contact->id)->where('receiver_id', $userId);
+            ->get()
+            ->map(function ($contact) use ($userId) {
+                $unreadCount = Chat::where('sender_id', $contact->id)
+                    ->where('receiver_id', $userId)
+                    ->whereNull('read_at')
+                    ->count();
+
+                $lastMessage = Chat::where(function ($q) use ($userId, $contact) {
+                    $q->where('sender_id', $userId)->where('receiver_id', $contact->id);
                 })
-                ->orderByDesc('sent_at')
-                ->orderByDesc('created_at')
-                ->first();
+                    ->orWhere(function ($q) use ($userId, $contact) {
+                        $q->where('sender_id', $contact->id)->where('receiver_id', $userId);
+                    })
+                    ->orderByDesc('sent_at')
+                    ->orderByDesc('created_at')
+                    ->first();
 
-            $contact->unread_count = $unreadCount;
-            $contact->last_message = $lastMessage ? $lastMessage->message : 'Belum ada pesan';
-            $contact->last_message_time = $lastMessage ? $lastMessage->sent_at : null;
+                $contact->unread_count = $unreadCount;
+                $contact->last_message = $lastMessage ? $lastMessage->message : 'Belum ada pesan';
+                $contact->last_message_time = $lastMessage ? $lastMessage->sent_at : null;
 
-            return $contact;
-        })
-        ->sortByDesc('last_message_time')
-        ->values();
-}
+                return $contact;
+            })
+            ->sortByDesc('last_message_time')
+            ->values();
+    }
 
 
     // 💬 Halaman chat organisasi
@@ -101,7 +101,12 @@ class ChatController extends Controller
             });
         }
 
-        return view('chat.index', compact('chatList'));
+        return view('chat.index', [
+            'chatList' => $chatList,
+            'contact' => null,
+            'messages' => [],
+        ]);
+
     }
 
 
@@ -145,7 +150,12 @@ class ChatController extends Controller
             });
         }
 
-        return view('chat.indexvolunteer', compact('chatList'));
+        return view('chat.indexvolunteer', [
+            'chatList' => $chatList,
+            'contact' => null,
+            'messages' => [],
+        ]);
+
     }
 
 
