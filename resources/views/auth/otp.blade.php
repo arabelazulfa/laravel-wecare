@@ -28,7 +28,7 @@
     WeCare
   </div>
 
-  <form method="POST" action="{{ route('otp.verify') }}" autocomplete="off"
+  <form method="POST" action="{{ route('otp.verify.registration') }}" autocomplete="off"
     class="bg-[#FDCACA] rounded-xl w-full max-w-md p-6" spellcheck="false">
     @csrf
     @php
@@ -72,7 +72,7 @@
 
   <script>
     const inputs = document.querySelectorAll('.otp-box');
-    const hiddenInput = document.getElementById('otp');
+    const hiddenInput = document.getElementById('otp_code');
 
     inputs.forEach((input, idx) => {
       input.addEventListener('input', () => {

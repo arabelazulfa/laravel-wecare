@@ -31,7 +31,8 @@
     </div>
   </div>
 
-  <form method="POST" action="{{ route('verify.otp') }}" autocomplete="off"
+  <!-- Form Verifikasi OTP -->
+  <form id="otp-verify-form" method="POST" action="{{ route('otp.verify.reset') }}"
     class="bg-[#FDCACA] rounded-xl w-full max-w-md p-6" spellcheck="false">
     @csrf
     <input type="hidden" name="email" value="{{ session('email') }}">
@@ -61,7 +62,8 @@
         <input type="text" maxlength="1" class="otp-box" required>
       @endfor
     </div>
-    <input type="hidden" name="otp_code" id="otp">
+
+    <input type="hidden" name="otp_code" id="otp_code">
 
     <button type="submit"
       class="w-full bg-[#4A7CFD] text-white font-semibold py-2 rounded-lg mb-3 hover:bg-[#3a66d9] transition-colors">
@@ -69,6 +71,7 @@
     </button>
   </form>
 
+  <!-- Form Resend OTP -->
   <form method="POST" action="{{ route('otp.resend') }}" class="text-center mt-2">
     @csrf
     <button type="submit" class="text-[#4A7CFD] font-semibold hover:underline">
@@ -78,7 +81,11 @@
 
   <script>
     const inputs = document.querySelectorAll('.otp-box');
-    const hiddenInput = document.getElementById('otp');
+    const hiddenInput = document.getElementById('otp_code');
+
+    function updateHiddenInput() {
+      hiddenInput.value = Array.from(inputs).map(i => i.value).join('');
+    }
 
     inputs.forEach((input, idx) => {
       input.addEventListener('input', () => {
@@ -95,10 +102,11 @@
       });
     });
 
-    function updateHiddenInput() {
-      hiddenInput.value = Array.from(inputs).map(i => i.value).join('');
-    }
+    document.getElementById('otp-verify-form').addEventListener('submit', function () {
+      updateHiddenInput();
+    });
   </script>
+
 </body>
 
 </html>

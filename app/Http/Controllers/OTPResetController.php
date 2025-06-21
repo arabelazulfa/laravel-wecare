@@ -36,7 +36,7 @@ class OTPResetController extends Controller
 
         Session::put('email', $request->email);
 
-        return redirect()->route('otp.verify')->with('status', 'Kode OTP telah dikirim ke email Anda');
+        return redirect()->route('otp.verify.reset')->with('status', 'Kode OTP telah dikirim ke email Anda');
     }
 
     public function showVerifyForm()

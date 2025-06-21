@@ -61,14 +61,14 @@ Route::post('/register/organisasi/konfirmasi', [RegisterController::class, 'show
 // ============================
 
 Route::get('/otp', [OtpController::class, 'showOtpForm'])->name('otp.form');
-Route::post('/otp', [OtpController::class, 'verifyOtp'])->name('otp.verify');
+Route::post('/otp', [OtpController::class, 'verifyOtp'])->name('otp.verify.registration');
 Route::post('/otp/resend', [OtpController::class, 'resendOtp'])->name('otp.resend');
 
 // Forgot Password via OTP
 Route::get('/forgot-password', [OTPResetController::class, 'showEmailForm'])->name('otp.email');
 Route::post('/send-otp', [OTPResetController::class, 'sendOtp'])->name('otp.send');
 Route::get('/verify-otp', [OTPResetController::class, 'showVerifyForm'])->name('otp.verify');
-Route::post('/verify-otp', [OTPResetController::class, 'verify'])->name('verify.otp');
+Route::post('/verify-otp', [OTPResetController::class, 'verify'])->name('otp.verify.reset');
 Route::post('/reset-password', [OTPResetController::class, 'submitNewPassword'])->name('password.reset.submit');
 
 // ============================
