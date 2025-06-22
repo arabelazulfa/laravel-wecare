@@ -16,7 +16,7 @@
 
 <div class="bg-[#FCE9E9] min-h-screen flex flex-col items-center pt-8 px-4">
 
-  <!-- Header -->
+  
   <div class="bg-[#F19494] rounded-lg w-full max-w-md text-white text-center py-3 font-semibold text-lg mb-6 shadow-md">
     WeCare
   </div>
@@ -113,7 +113,7 @@
         </div>
       </div>
 
-      <!-- Tombol -->
+      
       <button type="submit"
               class="w-full bg-[#4A7CFD] text-white font-semibold py-2 rounded-lg hover:bg-[#3a66d9] transition-colors mt-2">
         Selanjutnya

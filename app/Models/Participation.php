@@ -9,7 +9,7 @@ class Participation extends Model
 {
     use HasFactory;
 
-    protected $table = 'participations'; // Nama tabel jika tidak mengikuti default (optional)
+    protected $table = 'participations';
 
     protected $fillable = [
         'user_id',
@@ -19,17 +19,13 @@ class Participation extends Model
         'verified',
     ];
 
-    /**
-     * Relasi ke model User
-     */
+   
     public function user()
     {
         return $this->belongsTo(User::class);
     }
 
-    /**
-     * Relasi ke model Event
-     */
+    
     public function event()
     {
         return $this->belongsTo(Event::class);

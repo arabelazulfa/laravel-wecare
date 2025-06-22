@@ -17,15 +17,14 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        //PUNYA VOLUNTEER 
+       
         $user = auth()->user();
 
-        // Ambil event yang diikutin user, include relasi ke tabel events
         $registeredEvents = EventRegistration::with('event')
             ->where('user_id', $user->id)
             ->where('status', 'accepted')
             ->get()
-            ->pluck('event'); // cuma ambil data event-nya
+            ->pluck('event'); 
 
         return view('dashuser', compact('registeredEvents'));
     }
@@ -96,17 +95,17 @@ class DashboardController extends Controller
         $profile = OrganizationProfile::where('user_id', auth()->id())->first();
 
 
-        // Hapus logo lama kalau ada
+      
         if ($profile->logo && Storage::exists('public/logos/' . $profile->logo)) {
             Storage::delete('public/logos/' . $profile->logo);
         }
 
-        // Simpan logo baru
+       
         $file = $request->file('logo');
         $filename = time() . '_' . $file->getClientOriginalName();
         $file->storeAs('public/logos', $filename);
 
-        // Update di database
+     
         $profile->logo = $filename;
         $profile->save();
 

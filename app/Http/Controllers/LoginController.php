@@ -9,13 +9,12 @@ class LoginController extends Controller
 {
     public function login(Request $request)
     {
-        // Validasi input
+      
         $credentials = $request->only('email', 'password');
 
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
 
-            // Cek role user yang login
             $user = Auth::user();
             if ($user->role === 'volunteer') {
                 return redirect()->route('volunteer.events');

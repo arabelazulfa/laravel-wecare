@@ -19,10 +19,10 @@ class VolunteerProfile extends Model
         'interest1',
         'interest2',
         'ktp_file',
-        // tambahkan field lain sesuai tabel volunteer_profiles
+        
     ];
 
-    // Relasi ke User
+    
     public function user()
     {
         return $this->belongsTo(User::class);

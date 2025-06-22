@@ -22,7 +22,6 @@ class OrganisasiController extends Controller
     public function update(Request $request, $user_id)
     {
         $profile = OrganizationProfile::with('user')->where('user_id', $user_id)->firstOrFail();
-        // dd($request->file('logo'));
         $validated = $request->validate([
             'name' => 'sometimes|required|string',
             'email' => 'sometimes|required|email',
@@ -48,11 +47,11 @@ class OrganisasiController extends Controller
             $validated['logo'] = $logoPath;
         }
 
-        // Masukkan semua data yang tervalidasi
-        $profile->fill($validated);  // <<< INI YANG BELUM ADA
+       
+        $profile->fill($validated); 
         $profile->save();
 
-        // Update data user (jangan lupa ini beda model!)
+  
         $user = $profile->user;
         $user->name = $validated['name'] ?? $user->name;
         $user->email = $validated['email'] ?? $user->email;
@@ -72,7 +71,7 @@ class OrganisasiController extends Controller
             'new_password' => 'required|confirmed|min:8',
         ]);
 
-        $user = Auth::user(); // user organisasi yang sedang login
+        $user = Auth::user(); 
 
         if (!Hash::check($request->current_password, $user->password)) {
             return back()->withErrors(['current_password' => 'Password lama tidak sesuai.']);

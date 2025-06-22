@@ -13,13 +13,12 @@
       ->where('event_id', $event->id)
       ->first();
     @endphp
-    {{-- kartu event --}}
+  
     <x-eventterima :eventId="$event->id" :review="$review" :title="$event->title"
     :organizer="$event->organizer->organizationProfile->org_name ?? $event->organizer->name" :date="$event->start_date . ' - ' . $event->end_date" :location="$event->location" :registrationDeadline="$event->registration_deadline"
     :image="asset('storage/' . ($event->photo ?? 'images/default-event.jpg'))" :tags="$event->category"
     presensiUrl="javascript:togglePresensi('presensi-overlay-{{ $event->id }}', true);" />
 
-    {{-- modal presensi (per event) --}}
     <x-presensi :event="$event" :user="auth()->user()" />
     @endforeach
     </div>
@@ -34,7 +33,7 @@
 
   if (show) {
     el.classList.remove('hidden');
-    el.style.display = 'flex'; // biar muncul dan tetap fleksibel
+    el.style.display = 'flex'; 
   } else {
     el.classList.add('hidden');
     el.style.display = 'none';
@@ -42,7 +41,7 @@
   }
 
     function openReview(eventId) {
-    const el = document.getElementById('ulasan-show-' + eventId); // 🟢 ini cocok sama ID di blade
+    const el = document.getElementById('ulasan-show-' + eventId); 
     if (el) {
     el.classList.remove('hidden');
     el.classList.add('flex');

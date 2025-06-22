@@ -21,12 +21,12 @@
 
 <body class="bg-[#fff0f0] min-h-screen">
 
-  <!-- Navbar -->
+  
   <nav class="bg-[#f28b8b] rounded-xl mx-4 mt-4 p-3 flex items-center justify-between">
-    <!-- Logo -->
+  
     <a href="{{ route('volunteer.events') }}" class="text-xl font-bold text-white hover:text-gray-200">WeCare</a>
 
-    <!-- Icons & Profile Dropdown -->
+    
     @auth
     <div class="flex space-x-6 text-white text-lg items-center">
       <a href="{{ route('volunteer.chat.index') }}" title="Chat">
@@ -35,7 +35,7 @@
     @endauth
 
 @auth
-  <!-- Notifikasi -->
+
   <div class="relative">
     <button id="notifButton" title="Notifikasi" class="relative focus:outline-none">
     <i class="far fa-bell fa-lg cursor-pointer hover:scale-110 transition-transform duration-200"></i>
@@ -75,7 +75,7 @@
 @endauth
 
 
-      <!-- Profile button with dropdown -->
+   
         <div class="relative">
           <button id="profileButton" class="text-white hover:scale-110 transition-transform duration-200">
             <i class="far fa-user-circle fa-lg"></i>
@@ -95,12 +95,11 @@
     </div>
   </nav>
 
-  <!-- Konten dari halaman lain bakal masuk di sini -->
   <section class="p-4">
     @yield('content')
   </section>
 
-  <!-- Notifikasi Lengkap -->
+ 
   <div id="notifFullModal" class="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50 hidden">
     <div class="bg-white w-[90%] max-w-lg max-h-[80vh] overflow-y-auto rounded-xl p-6 shadow-lg relative">
       <h2 class="text-lg font-bold mb-4">Semua Notifikasi</h2>
@@ -127,23 +126,19 @@
     document.addEventListener('DOMContentLoaded', function () {
       const profileBtn = document.getElementById('profileButton');
       const profileMenu = document.getElementById('profileMenu');
-      //const notifBtn = document.getElementById('notifButton');
-      //const notifOverlay = document.getElementById('notifOverlay');
-
+      
       profileBtn.addEventListener('click', function (e) {
-        e.stopPropagation(); // biar klik di luar bisa nutup
+        e.stopPropagation(); 
         profileMenu.classList.toggle('hidden');
       });
 
-      // Klik di luar menu nutup dropdown
+     
       window.addEventListener('click', function (e) {
         if (!profileMenu.classList.contains('hidden')) {
           profileMenu.classList.add('hidden');
         }
 
-        // if (!notifOverlay.classList.contains('hidden')) {
-        //   notifOverlay.classList.add('hidden');
-        // }
+       
       });
     });
   </script>

@@ -1,5 +1,5 @@
 <?php
-// app/Notifications/OrganizationRegistered.php
+
 
 namespace App\Notifications;
 

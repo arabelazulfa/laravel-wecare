@@ -11,20 +11,20 @@ use Illuminate\Support\Facades\Notification;
 
 class AktivitasController extends Controller
 {
-    // ================== TAMPILKAN DAFTAR AKTIVITAS ==================
+    // TAMPILKAN DAFTAR AKTIVITAS 
     public function index()
     {
         $events = Event::where('organizer_id', Auth::id())->get();
         return view('auth.aktivitas_organisasi1', compact('events'));
     }
 
-    // ================== LANGKAH 1: TAMPILKAN FORM PERTAMA ==================
+    // LANGKAH 1: TAMPILKAN FORM PERTAMA 
     public function create()
     {
         return view('auth.aktivitas_organisasi2');
     }
 
-    // ================== PROSES DARI LANGKAH 1 KE LANGKAH 2 ==================
+    // PROSES DARI LANGKAH 1 KE LANGKAH 2 
     public function keLangkah2(Request $request)
     {
         $request->validate([
@@ -64,13 +64,13 @@ class AktivitasController extends Controller
         return redirect()->route('aktivitas.langkah2');
     }
 
-    // ================== LANGKAH 2: TAMPILKAN FORM KEDUA ==================
+    // LANGKAH 2: TAMPILKAN FORM KEDUA
     public function langkah2()
     {
         return view('auth.aktivitas_organisasi3');
     }
 
-    // ================== LANGKAH AKHIR: SIMPAN SEMUA DATA ==================
+    // LANGKAH AKHIR: SIMPAN SEMUA DATA
     public function simpan(Request $request)
     {
         // Validasi langkah 2
@@ -129,11 +129,11 @@ class AktivitasController extends Controller
         }
 
 
-        // 🚨 Kirim notifikasi jika mode darurat
+        // Kirim notifikasi jika mode darurat
         if ($event->mode_darurat === "ya") {
             \Log::info('✅ Mode darurat aktif! Mengirim notifikasi darurat.');
 
-            // 🔴 Untuk Volunteer
+            // Untuk Volunteer
             $volunteerUrl = route('events.detail.volunteer', $event->id);
             $notifVol = new EmergencyEventNotification(
                 $event->title,
@@ -143,7 +143,7 @@ class AktivitasController extends Controller
             $volunteers = User::where('role', 'volunteer')->get();
             Notification::send($volunteers, $notifVol);
 
-            // 🟣 Untuk Organisasi
+            // Untuk Organisasi
             $orgUrl = route('dashboard.organisasi', $event->id);
             $notifOrg = new EmergencyEventNotification(
                 $event->title,

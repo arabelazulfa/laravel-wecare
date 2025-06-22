@@ -14,7 +14,7 @@
 
 <body class="bg-[#fff0f0] min-h-screen flex items-start p-6 font-sans">
 
-  <!-- Sidebar -->
+  
   <aside class="bg-[#f28b8b] text-white w-52 min-h-[90vh] rounded-2xl p-4 flex flex-col shadow-md">
     <a href="{{ route('volunteer.events') }}" class="text-xl font-bold text-white hover:text-gray-200 mb-6">WeCare</a>
     <nav class="flex flex-col space-y-3 text-sm font-medium">
@@ -36,9 +36,8 @@
     </nav>
   </aside>
 
-  <!-- Main Content -->
+  
   <main class="flex-1 ml-8">
-    <!-- Header -->
     <header class="bg-[#f28b8b] text-white rounded-2xl px-6 py-4 flex items-center justify-between shadow-md">
       <div class="font-semibold text-xl">
         @yield('header', 'Dashboard')
@@ -49,7 +48,6 @@
           <i class="far fa-comment-alt fa-lg cursor-pointer hover:scale-110 transition-transform duration-200"></i>
         </a>
 
-        <!-- Notifikasi -->
         <div class="relative">
           <button id="notifButton" title="Notifikasi" class="relative focus:outline-none">
             <i class="far fa-bell fa-lg cursor-pointer hover:scale-110 transition-transform duration-200"></i>
@@ -88,7 +86,7 @@
           </div>
         </div>
 
-        <!-- Profile -->
+       
         <div class="relative">
           <button id="profileButton" class="text-white hover:scale-110 transition-transform duration-200">
             <i class="far fa-user-circle fa-lg"></i>
@@ -109,13 +107,13 @@
       </div>
     </header>
 
-    <!-- Content -->
+  
     <section class="mt-8 bg-white rounded-xl shadow px-6 py-5 w-full">
       @yield('content')
     </section>
   </main>
 
-  <!-- Notifikasi Lengkap -->
+ 
   <div id="notifFullModal" class="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50 hidden">
     <div class="bg-white w-[90%] max-w-lg max-h-[80vh] overflow-y-auto rounded-xl p-6 shadow-lg relative">
       <h2 class="text-lg font-bold mb-4">Semua Notifikasi</h2>

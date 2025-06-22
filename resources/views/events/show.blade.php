@@ -30,7 +30,6 @@
                 Batas registrasi: {{ \Carbon\Carbon::parse($event->registration_deadline)->format('d M Y') }}
             </p>
 
-            <!-- Kategori -->
             <div class="flex flex-wrap gap-2 mb-4">
                 <span
                     class="bg-blue-100 text-blue-700 text-xs font-semibold px-3 py-1 rounded-full">{{ $event->category }}</span>
@@ -40,7 +39,7 @@
                     class="bg-blue-100 text-blue-700 text-xs font-semibold px-3 py-1 rounded-full">{{ $event->event_type }}</span>
             </div>
 
-            <!-- Tombol Aksi -->
+        
             <div class="flex flex-wrap gap-2 mb-6">
                 <a href="{{ route('events.edit', $event->id) }}"
                     class="inline-block text-xs bg-[#4A90E2] text-white font-bold py-2 px-4 rounded-xl hover:bg-[#357ABD] transition">
@@ -68,7 +67,7 @@
             <h3 class="text-lg font-semibold text-black-500 mb-4">Detail Kebutuhan Relawan</h3>
 
             <div class="grid md:grid-cols-2 gap-4 text-sm text-gray-700">
-                <!-- Item 1 -->
+          
                 <div class="flex items-start gap-3 bg-[#FFF0F3] p-4 rounded-xl shadow-sm">
                     <i class="fas fa-users text-pink-500 mt-1"></i>
                     <div>
@@ -77,7 +76,7 @@
                     </div>
                 </div>
 
-                <!-- Item 2 -->
+             
                 <div class="flex items-start gap-3 bg-[#E6FFFA] p-4 rounded-xl shadow-sm">
                     <i class="fas fa-clock text-teal-500 mt-1"></i>
                     <div>
@@ -86,7 +85,7 @@
                     </div>
                 </div>
 
-                <!-- Item 3 -->
+          
                 <div class="flex items-start gap-3 bg-[#F0F4FF] p-4 rounded-xl shadow-sm">
                     <i class="fas fa-layer-group text-blue-500 mt-1"></i>
                     <div>
@@ -95,7 +94,6 @@
                     </div>
                 </div>
 
-                <!-- Item 4 - Kriteria Relawan -->
                 <div class="flex items-start gap-3 bg-[#F3F0FF] p-4 rounded-xl shadow-sm">
                     <i class="fas fa-user-check text-indigo-500 mt-1"></i>
                     <div>
@@ -104,7 +102,6 @@
                     </div>
                 </div>
 
-                <!-- Item 5 - Tugas Relawan -->
                 <div class="flex items-start gap-3 bg-[#FFF7ED] p-4 rounded-xl shadow-sm">
                     <i class="fas fa-tasks text-yellow-500 mt-1"></i>
                     <div>
@@ -113,7 +110,7 @@
                     </div>
                 </div>
             </div>
-            <!-- Ulasan Relawan -->
+            
             <hr class="my-6 border-gray-200">
             <div class="px-6 pb-10">
                 <h3 class="font-semibold mb-3 text-lg text-black">Ulasan Relawan</h3>

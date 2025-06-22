@@ -22,8 +22,6 @@ class RegisterController extends Controller
             'email' => 'required|email|unique:users,email',
             'password' => 'required|min:6|confirmed',
             'ktp' => 'required|image|mimes:jpeg,png,jpg|max:2048',
-
-            // field tambahan
             'phone'         => 'required|string|max:20',
             'gender'        => 'required|string|in:Laki-Laki,Perempuan',
             'birthdate'     => 'required|date',
@@ -50,10 +48,10 @@ class RegisterController extends Controller
             'user_id'    => $user->id,
             'interest1'  => $request->minat1,
             'interest2'  => $request->minat2,
-            'city'       => $request->city,      // kalau kolom-nya city
+            'city'       => $request->city,    
             'profession' => $request->profession,
             'ktp_file'   => $ktpPath,
-            // simpan field lain kalau ada
+           
         ]);
 
         $otp = rand(100000, 999999);
@@ -85,8 +83,8 @@ class RegisterController extends Controller
                 'name' => $request->contact_name,
                 'email' => $request->email,
                 'phone' => $request->phone,
-                'password' => Hash::make($request->password), // lebih baik pakai Hash::make
-                'role' => 'organizer', // gunakan 'organizer' sesuai enum di DB
+                'password' => Hash::make($request->password), 
+                'role' => 'organizer',
             ],
         ]);
 
@@ -115,7 +113,7 @@ class RegisterController extends Controller
         $validated['logo'] = $logoPath;
     }
 
-    // JANGAN UNSET logo
+   
     session(['organisasi_detail' => $validated]);
 
     return redirect()->route('register.organisasi.preview');
@@ -155,7 +153,7 @@ class RegisterController extends Controller
             'name' => $step1['name'],
             'email' => $step1['email'],
             'password' => $step1['password'],
-            'role' => 'organizer', // pastikan ini sesuai enum
+            'role' => 'organizer', 
             'phone' => $step1['phone'],
         ]);
 

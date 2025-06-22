@@ -37,7 +37,7 @@ class GalleryController extends Controller
 
     public function destroy(Gallery $gallery)
     {
-        // Pastikan hanya pemilik yang bisa hapus
+    
         if ($gallery->user_id !== auth()->id()) {
             abort(403);
         }

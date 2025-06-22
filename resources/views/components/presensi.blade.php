@@ -46,7 +46,7 @@
         <label class="block text-[15px] font-regular">file yang diterima: jpg, jpeg, png</label>
       </div>
 
-      {{-- submit --}}
+    
       <button type="submit" :disabled="isSubmitting" class="w-full py-3 px-4 rounded-lg font-semibold text-white text-base transition-all duration-200
                      bg-violet-600 hover:bg-violet-700
                      disabled:opacity-50 disabled:cursor-not-allowed">

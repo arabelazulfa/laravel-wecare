@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Auth;
 
 class ChatController extends Controller
 {
-    // 🧠 Fungsi reusable untuk ambil daftar kontak dengan unread count & last message
+    
     private function getChatList($userId)
     {
         return User::where('id', '!=', $userId)
@@ -43,8 +43,8 @@ class ChatController extends Controller
 
                 return $contact;
             })
-            ->sortByDesc('last_message_time') // urutkan berdasarkan waktu terakhir chat
-            ->values(); // reset indeks
+            ->sortByDesc('last_message_time') 
+            ->values(); 
     }
 
     private function getChatListWithOrgProfile($userId)
@@ -86,15 +86,14 @@ class ChatController extends Controller
     }
 
 
-    // 💬 Halaman chat organisasi
+
     public function index(Request $request)
     {
         $userId = auth()->id();
-        $query = $request->input('q'); // ambil input pencarian
+        $query = $request->input('q'); 
 
         $chatList = $this->getChatList($userId);
 
-        // jika ada query pencarian, filter hasilnya
         if ($query) {
             $chatList = $chatList->filter(function ($contact) use ($query) {
                 return stripos($contact->name, $query) !== false;
@@ -110,7 +109,6 @@ class ChatController extends Controller
     }
 
 
-    // 👁 Tampilkan obrolan dengan user tertentu
     public function show($id)
     {
         $user = User::findOrFail($id);
@@ -134,16 +132,16 @@ class ChatController extends Controller
         return view('chat.show', compact('user', 'messages', 'chatList'));
     }
 
-    // 🧑‍🤝‍🧑 Halaman chat volunteer
+    
     public function volunteerIndex(Request $request)
     {
         $userId = auth()->id();
-        $query = $request->input('q'); // ambil input pencarian
+        $query = $request->input('q'); 
 
         $chatList = $this->getChatListWithOrgProfile($userId);
 
 
-        // jika ada query pencarian, filter hasilnya
+        
         if ($query) {
             $chatList = $chatList->filter(function ($contact) use ($query) {
                 return stripos($contact->name, $query) !== false;
@@ -159,7 +157,6 @@ class ChatController extends Controller
     }
 
 
-    // 👁 Halaman show chat untuk volunteer
     public function volunteerShow($id)
     {
         $receiver = User::with('organizationProfile')->findOrFail($id);
@@ -188,7 +185,7 @@ class ChatController extends Controller
         ]);
     }
 
-    // 📤 Kirim pesan dari volunteer
+
     public function volunteerSend(Request $request)
     {
         Chat::create([
@@ -201,7 +198,7 @@ class ChatController extends Controller
         return redirect()->route('volunteer.chat.show', $request->receiver_id);
     }
 
-    // 📤 Kirim pesan dari organisasi
+  
     public function store(Request $request)
     {
         $request->validate([

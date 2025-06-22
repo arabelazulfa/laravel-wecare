@@ -4,7 +4,7 @@
 
 @section('content')
 
-{{-- Judul dan tombol di luar kontainer putih --}}
+
 <div class="flex items-center justify-between max-w-5xl mx-auto mt-8 mb-2 px-2">
     <h2 class="font-bold text-black text-xl">Aktivitas saya</h2>
     <a href="{{ route('aktivitas.tambah') }}">
@@ -17,7 +17,7 @@
 
 <section class="bg-white rounded-xl shadow px-6 py-5 max-w-5xl mx-auto">
 
-    {{-- Alert jika ada pesan sukses dari session --}}
+    
     @if(session('success'))
         <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4" role="alert">
             {{ session('success') }}
@@ -28,12 +28,12 @@
         @foreach($events as $activity)
             <a href="{{ route('events.show', $activity->id) }}" class="block hover:no-underline">
                 <div class="bg-white rounded-xl shadow-sm border border-gray-200 mb-4 p-4 flex items-center space-x-4 hover:shadow-md transition">
-                    {{-- Banner / Foto --}}
+                    
                     <div class="w-24 h-24 overflow-hidden rounded-lg">
                         <img src="{{ asset('storage/' . $activity->photo) }}" alt="Banner" class="w-full h-full object-cover">
                     </div>
 
-                    {{-- Informasi Aktivitas --}}
+                   
                     <div class="flex-1">
                         <h3 class="text-base font-bold text-gray-800">{{ $activity->title }}</h3>
                         <p class="text-sm text-gray-600 flex items-center">

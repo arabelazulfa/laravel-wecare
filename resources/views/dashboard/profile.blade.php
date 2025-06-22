@@ -3,9 +3,9 @@
 @section('title', 'Profil Organisasi')
 
 @section('content')
-    <!-- Header Profile -->
+   
     <div class="text-center mt-8 mb-8">
-        <!-- Logo -->
+     
         <img src="{{ asset('storage/' . $profile->logo) }}" alt="Logo"
             class="w-40 h-40 rounded-full bg-white object-cover shadow mx-auto">
 
@@ -14,12 +14,11 @@
         </h2>
 
 
-        <!-- Label "Ganti Foto" -->
         <label for="logoUpload" class="text-xs text-blue-500 hover:underline mt-2 inline-block cursor-pointer">
             Ganti Logo
         </label>
 
-        <!-- Form Upload Logo -->
+      
         <form id="logoForm" action="{{ route('dashboard.updateLogo') }}" method="POST" enctype="multipart/form-data">
             @csrf
             <input type="file" name="logo" id="logoUpload" accept="image/*" class="hidden"
@@ -28,7 +27,7 @@
     </div>
 
 
-    <!-- Detail Box -->
+ 
     <div class="grid grid-cols-2 gap-6 mt-6">
         <div class="bg-[#ffcfcf] p-4 rounded-xl text-sm md:text-base text-black-500">
             <p class="font-semibold mb-2 flex items-center gap-2">
@@ -57,7 +56,7 @@
         </div>
     </div>
 
-    <!-- Galeri Placeholder -->
+    
     <div class="mt-8">
         <div class="flex justify-between items-center mb-3">
             <h3 class="font-semibold text-lg text-black">Galeri Organisasi</h3>
@@ -77,7 +76,6 @@
     </div>
 
 
-    <!-- Aktivitas Terbaru -->
     <div class="mt-8">
         <h3 class="font-semibold mb-3 text-lg text-black">Aktivitas Organisasi</h3>
         @forelse($events as $event)
@@ -97,8 +95,6 @@
         @endforelse
     </div>
 
-
-    <!-- Ulasan Relawan -->
     <div class="mt-8">
         <h3 class="font-semibold mb-3 text-lg text-black">Ulasan Relawan</h3>
         @forelse($reviews as $review)

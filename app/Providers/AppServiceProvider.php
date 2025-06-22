@@ -24,7 +24,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        // Inject data notifikasi ke view dashboard & home
+        
         View::composer(['layouts.home', 'layouts.dashboard', 'layouts.dashboardorg'], function ($view) {
             if (auth()->check()) {
                 $user = auth()->user();

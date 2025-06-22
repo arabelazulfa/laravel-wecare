@@ -4,22 +4,22 @@
 
 @section('content')
     <div class="flex h-[600px] rounded-2xl overflow-hidden shadow bg-[#ffdada]">
-        {{-- Sidebar Kontak --}}
+        
         <div class="w-full md:w-1/3 bg-[#f5baba] p-4 overflow-y-auto">
-            {{-- Search Box --}}
+            
             <form method="GET" action="{{ route('volunteer.chat.index') }}" class="mb-4">
                 <input type="text" name="q" value="{{ request('q') }}" placeholder="Cari"
                     class="w-full px-4 py-2 rounded-full text-sm bg-white placeholder-gray-500 focus:outline-none">
             </form>
 
-            {{-- Daftar Chat --}}
+           
             @forelse ($chatList as $contact)
                 <a href="{{ route('volunteer.chat.show', $contact->id) }}"
                     class="flex items-start justify-between p-3 rounded-xl mb-2 hover:bg-[#fcdede] transition">
 
-                    {{-- Kiri: Foto + Info --}}
+                    
                     <div class="flex items-start gap-3 flex-1">
-                        {{-- Foto Profil --}}
+                        
                         @if ($contact->organizationProfile && $contact->organizationProfile->logo)
                             <img src="{{ asset('storage/' . $contact->organizationProfile->logo) }}"
                                 alt="{{ $contact->organizationProfile->org_name }}"
@@ -30,7 +30,7 @@
                             </div>
                         @endif
 
-                        {{-- Nama, Waktu & Pesan --}}
+                        
                         <div class="flex-1">
                             <div class="flex justify-between items-center mb-0.5">
                                 <p class="font-semibold text-gray-800 truncate w-36">
@@ -49,7 +49,7 @@
                         </div>
                     </div>
 
-                    {{-- Kanan: Badge Unread --}}
+                    
                     @if ($contact->unread_count > 0)
                         <span class="text-xs bg-red-500 text-white rounded-full px-2 py-0.5 ml-2 self-center">
                             {{ $contact->unread_count }}

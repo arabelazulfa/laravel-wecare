@@ -1,4 +1,4 @@
-<!-- resources/views/welcome.blade.php -->
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -41,7 +41,7 @@
             position: absolute;
             inset: 0;
             background-color: rgba(255, 192, 203, 0.4);
-            /* Pink pastel transparan */
+       
             z-index: 0;
             pointer-events: none;
         }
@@ -130,7 +130,7 @@
 
         .btn-danger {
             background-color: #ff4d4d !important;
-            /* merah pastel cerah */
+            
             border: none;
             color: #fff;
             transition: all 0.3s ease;
@@ -161,7 +161,7 @@
 
 <body>
 
-    <!-- Navbar -->
+    
     <nav class="navbar navbar-expand-lg navbar-custom sticky-top">
         <div class="container-fluid px-4">
             <h1 class="navbar-brand text-white fw-bold">WeCare</h1>
@@ -172,7 +172,7 @@
         </div>
     </nav>
 
-    <!-- Carousel Hero Section -->
+    
     <div id="carouselHero" class="carousel slide" data-bs-ride="carousel" data-bs-interval="5000">
         <div class="carousel-inner">
             <div class="carousel-item active" style="background-image: url('/images/volunteer.jpg');">
@@ -208,7 +208,7 @@
         </button>
     </div>
 
-    <!-- Stats Section -->
+
     <section class="stats">
         <div class="stat">
             <i class="fas fa-hands-helping"></i>
@@ -227,7 +227,7 @@
         </div>
     </section>
 
-    <!-- Footer -->
+
     <footer>
         <p>&copy; 2025 WeCare. Semua Hak Dilindungi.</p>
     </footer>

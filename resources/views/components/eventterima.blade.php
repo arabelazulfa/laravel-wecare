@@ -37,7 +37,7 @@ $udahPresensi = \App\Models\Presensi::where('user_id', auth()->id())
   </ul>
 
   <div class="flex justify-between pt-2">
-    {{-- Tombol Presensi --}}
+    
     @if ($udahPresensi)
   <span class="text-base font-semibold text-gray-600">
     Sudah Presensi
@@ -51,7 +51,7 @@ $udahPresensi = \App\Models\Presensi::where('user_id', auth()->id())
 @endif
 
 
-    {{-- Tombol Ulasan --}}
+ 
     @if ($review)
       <button onclick="openReview('{{ $eventId }}')"
               class="bg-gray-500 text-white text-xs font-semibold px-5 py-2 rounded-md">

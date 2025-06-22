@@ -43,20 +43,20 @@ class EventRegistrationController extends Controller
         $event = Event::find($request->event_id);
         $request->user()->notify(new EventRegistered($event));
 
-        // 🔔 Kirim notifikasi ke organisasi
-        $orgUser = $event->organizer; // asumsi relasi event -> organization -> user
+      
+        $orgUser = $event->organizer; 
 
-        if ($orgUser) {                    // jaga‑jaga kalau memang null
+        if ($orgUser) {                    
             $orgUser->notify(new \App\Notifications\VolunteerJoinedEvent(
-                $request->user()->name,            // nama volunteer
-                $event->title,                     // judul event
-                route('dashboard.organisasi')      // link menuju dashboard org
+                $request->user()->name,            
+                $event->title,                     
+                route('dashboard.organisasi')      
             ));
         }
 
-        // 🧠 Kirim pesan otomatis pakai AI
+        
         if ($orgUser) {
-            $user = $request->user(); // ✅ tambahkan ini
+            $user = $request->user(); 
             $organizationName = $orgUser->organizationProfile->org_name ?? 'Organisasi Kami';
             $prompt = "Tulis pesan ramah kepada {$user->name} yang baru mendaftar ke event '{$event->title}' dari organisasi {$organizationName} dan jelaskan bahwa kami akan memberikan informasi lebih lanjut apabila diterima menjadi relawan. Akhiri dengan salam dari {$organizationName}.Bold bagian yang penting dan sertakan emoji yang mendukung";
             $aiMessage = AiHelper::generateReply($prompt);
@@ -92,7 +92,6 @@ class EventRegistrationController extends Controller
         $event = Event::find($data['event_id']);
         Auth::user()->notify(new EventRegistered($event));
 
-        // 🎁 balikin respon JSON aja (AJAX nggak butuh redirect)
         return response()->json(['message' => 'Pendaftaran berhasil!']);
     }
 
@@ -105,28 +104,26 @@ class EventRegistrationController extends Controller
             'event_id' => 'required|exists:events,id',
         ]);
 
-        // Insert jika belum ada, update jika sudah
         Participation::updateOrCreate(
             [
                 'user_id' => $validated['user_id'],
                 'event_id' => $validated['event_id'],
             ],
             [
-                'verified' => true, // gunakan 'verified' untuk status 'diterima'
+                'verified' => true,
             ]
         );
-        // Update status juga di tabel event_registrations
         EventRegistration::where('user_id', $validated['user_id'])
             ->where('event_id', $validated['event_id'])
             ->update(['status' => DB::raw("'accepted'")]);
 
-        // Kirim notifikasi
+    
         $volunteer = User::find($validated['user_id']);
         $event = Event::find($validated['event_id']);
         $volunteer->notify(new \App\Notifications\VolunteerAccepted($event));
 
-        // 🧠 Pesan otomatis dari AI
-        $orgUser = $event->organizer; // relasi ke user organisasi
+       
+        $orgUser = $event->organizer; 
         if ($orgUser && $orgUser->organizationProfile) {
             $organizationName = $orgUser->organizationProfile->org_name;
 

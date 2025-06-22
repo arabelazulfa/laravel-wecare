@@ -11,10 +11,10 @@ class Event extends Model
 {
     use HasFactory;
 
-    // Nama tabel jika tidak sesuai dengan default plural dari nama model (optional jika tabel bernama 'events')
+  
     protected $table = 'events';
 
-    // Kolom yang boleh diisi secara massal (mass assignment)
+   
     protected $fillable = [
         'organizer_id',
         'title',
@@ -30,7 +30,7 @@ class Event extends Model
         'status',
         'rejection_reason',
 
-        // Tambahkan kolom baru yang sudah kamu buat
+       
         'jenis_acara',
         'divisi',
         'tugas_relawan',
@@ -42,9 +42,7 @@ class Event extends Model
     ];
 
 
-    // Jika kolom created_at dan updated_at sudah ada, maka model otomatis akan menggunakan timestamp
-
-    // Jika kamu ingin atur tipe data tertentu
+    
     protected $casts = [
         'date' => 'date',
         'registration_deadline' => 'date',
@@ -52,15 +50,12 @@ class Event extends Model
         'end_time' => 'datetime:H:i',
     ];
 
-    // Contoh relasi: Event punya organizer (user)
+    
     public function organizer()
     {
         return $this->belongsTo(User::class, 'organizer_id');
     }
-    // public function participants()
-    // {
-    //     return $this->belongsToMany(User::class, 'event_registrations')->withTimestamps();
-    // }
+   
 
     public function organizerProfile()
     {
@@ -91,7 +86,7 @@ class Event extends Model
         return $this->hasMany(Certificate::class);
     }
 
-    // App\Models\Event.php
+    
     public function reviews()
     {
     return $this->hasMany(EventReview::class);

@@ -6,7 +6,7 @@
 <div x-data="{ openPassword: false }">
     <div class="max-w-4xl mx-auto bg-white p-8 rounded-2xl shadow-md mt-6">
 
-        {{-- Error --}}
+        
         @if ($errors->any())
             <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4 text-sm">
                 <ul class="list-disc ml-5">
@@ -23,7 +23,7 @@
             @csrf
             @method('PUT')
 
-            {{-- Informasi Kontak --}}
+           
             <div>
                 <h3 class="text-lg font-semibold mb-2 text-gray-700">Informasi Kontak</h3>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -52,7 +52,7 @@
                 </div>
             </div>
 
-            {{-- Detail Organisasi --}}
+            
             <div class="mt-6">
                 <h3 class="text-lg font-semibold mb-2 text-gray-700">Detail Organisasi</h3>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -111,7 +111,7 @@
                 </div>
             </div>
 
-            {{-- Tombol Simpan --}}
+           
             <div class="pt-6 text-right">
                 <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white text-sm px-4 py-2 rounded shadow">
                     Simpan Perubahan
@@ -120,7 +120,7 @@
         </form>
     </div>
 
-    {{-- Overlay Password --}}
+   
     <div
         x-show="openPassword"
         x-cloak
@@ -157,7 +157,7 @@
     </div>
 </div>
 
-{{-- Style Input --}}
+
 <style>
     .input-field {
         width: 100%;

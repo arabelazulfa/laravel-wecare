@@ -5,7 +5,7 @@
 
 @section('content')
     <div class="bg-white p-6 rounded-2xl shadow-lg mx-auto mt-6 px-6 md:px-10">
-        {{-- Foto Profil --}}
+        
         <div class="flex flex-col items-center mb-6">
             @if($user->profile_photo)
                 <img src="{{ asset('storage/' . $user->profile_photo) }}" alt="Foto Profil"
@@ -16,14 +16,12 @@
                 </div>
             @endif
         </div>
-
-        {{-- Nama & Email --}}
         <div class="text-center mb-6">
             <h2 class="text-2xl font-bold text-black-500">{{ $user->name }}</h2>
             <p class="text-gray-600">{{ $user->email }}</p>
         </div>
 
-        {{-- Info Tambahan --}}
+        
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-gray-700">
             <div class="bg-[#ffeaea] p-4 rounded-xl shadow-sm">
                 <p class="font-semibold text-gray-800">Nomor Telepon:</p>
@@ -50,8 +48,7 @@
                 <p>{{ $volProfile->profession ?? '-' }}</p>
             </div>
 
-            {{-- Informasi CV --}}
-            {{-- Informasi CV --}}
+          
             @if($eventRegistration && $eventRegistration->cv_file)
                 <div class="bg-[#ffeaea] p-4 rounded-xl shadow-sm">
                     <p class="font-semibold text-gray-800">CV Relawan:</p>

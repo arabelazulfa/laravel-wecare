@@ -52,7 +52,7 @@
     @csrf
     <h2 class="text-center text-black text-2xl font-semibold mb-4">Daftar Volunteer</h2>
 
-    <!-- Nama Lengkap -->
+  
     <div>
       <label class="block text-sm font-medium text-gray-700 mb-1">Nama Lengkap</label>
       <div class="bg-white p-3 rounded-lg shadow">
@@ -61,7 +61,7 @@
       </div>
     </div>
 
-    <!-- Email -->
+    
     <div>
       <label class="block text-sm font-medium text-gray-700 mb-1">Email</label>
       <div class="bg-white p-3 rounded-lg shadow">
@@ -70,7 +70,7 @@
       </div>
     </div>
 
-    <!-- No Telepon -->
+   
     <div>
       <label class="block text-sm font-medium text-gray-700 mb-1">No Telepon</label>
       <div class="bg-white p-3 rounded-lg shadow">
@@ -79,7 +79,7 @@
       </div>
     </div>
 
-    <!-- Password -->
+  
     <div>
       <label class="block text-sm font-medium text-gray-700 mb-1">Password</label>
       <div class="bg-white p-3 rounded-lg shadow">
@@ -88,7 +88,7 @@
       </div>
     </div>
 
-    <!-- Konfirmasi Password -->
+
     <div>
       <label class="block text-sm font-medium text-gray-700 mb-1">Konfirmasi Password</label>
       <div class="bg-white p-3 rounded-lg shadow">
@@ -101,7 +101,7 @@
       <p class="font-semibold text-xl mb-2">Data Diri</p>
     </div>
 
-    <!-- Jenis Kelamin -->
+   
     <div>
       <label class="block text-sm font-medium text-gray-700 mb-2">Jenis Kelamin</label>
       <div class="flex items-center gap-6">
@@ -116,7 +116,7 @@
       </div>
     </div>
 
-    <!-- Tanggal Lahir -->
+
     <div>
       <label class="block text-sm font-medium text-gray-700 mb-1">Tanggal Lahir</label>
       <div class="bg-white p-3 rounded-lg shadow">
@@ -124,7 +124,7 @@
       </div>
     </div>
 
-    <!-- Minat 1 & 2 -->
+  
     <div class="grid grid-cols-2 gap-4">
       <div>
         <label for="minat1" class="block text-sm font-medium text-gray-700 mb-1">Minat 1</label>
@@ -154,7 +154,7 @@
       </div>
     </div>
 
-    <!-- Provinsi -->
+   
     <div>
       <label class="block text-sm font-medium text-gray-700 mb-1">Provinsi</label>
       <div class="bg-white p-3 rounded-lg shadow">
@@ -163,7 +163,7 @@
       </div>
     </div>
 
-    <!-- Kota/Kabupaten -->
+    
     <div>
       <label class="block text-sm font-medium text-gray-700 mb-1">Kota/Kabupaten</label>
       <div class="bg-white p-3 rounded-lg shadow">
@@ -172,7 +172,7 @@
       </div>
     </div>
 
-    <!-- Profesi -->
+    
     <div>
       <label class="block text-sm font-medium text-gray-700 mb-1">Profesi</label>
       <div class="bg-white p-3 rounded-lg shadow">
@@ -181,7 +181,7 @@
       </div>
     </div>
 
-    <!-- Upload KTP -->
+   
     <div>
       <label class="block text-sm font-medium text-gray-700 mb-1">Upload KTP</label>
       <div class="bg-white p-3 rounded-lg shadow">
@@ -190,12 +190,12 @@
       </div>
     </div>
 
-    <!-- Submit Button -->
+   
     <button type="submit" class="w-full bg-[#4A7CFD] text-white font-semibold py-2 rounded-lg hover:bg-[#3a66d9] transition-colors mt-2">
       Daftar
     </button>
 
-    <!-- Link Login -->
+ 
     <p class="text-center text-xs text-black mt-2">
       Sudah punya akun?
       <a href="/login" class="text-[#4A7CFD] font-semibold hover:underline">Masuk</a>

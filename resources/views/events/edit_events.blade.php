@@ -134,9 +134,7 @@
         </div>
     </form>
 
-        {{-- Tombol Simpan dan Hapus --}}
         <div class="flex justify-between items-center mt-6">
-            {{-- Tombol Hapus di kiri --}}
             <form action="{{ route('events.destroy', $event->id) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus event ini?');">
                 @csrf
                 @method('DELETE')
@@ -145,7 +143,6 @@
                 </button>
             </form>
 
-            {{-- Tombol Simpan di kanan --}}
             <button type="submit" form="edit-form" class="ml-auto bg-blue-500 hover:bg-blue-600 text-white px-3 py-1.5 rounded shadow">
                 Simpan Perubahan
             </button>

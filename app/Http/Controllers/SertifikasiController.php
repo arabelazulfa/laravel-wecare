@@ -9,12 +9,12 @@ use App\Models\Event;
 class SertifikasiController extends Controller
 {
 
-// SertifikasiController.php
+
 public function index()
 {
-    // Ambil event yang dibuat oleh organisasi login (organizer_id = user id)
+   
     $events = Event::with(['presensis.user', 'certificates'])
-        ->where('organizer_id', auth()->id()) // PENTING: hanya event milik organisasi login
+        ->where('organizer_id', auth()->id())
         ->get();
 
     return view('auth.sertifikasi', compact('events'));

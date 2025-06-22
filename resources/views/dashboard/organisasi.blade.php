@@ -26,42 +26,38 @@
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                 @forelse ($group->registrations as $relawan)
                     <div class="bg-[#ffe4e6] rounded-xl shadow-sm p-6 hover:shadow-md transition text-center flex flex-col items-center">
-                        {{-- Foto Profil --}}
+                        
                         <img src="{{ $relawan->profile_photo ? asset('storage/' . $relawan->profile_photo) : asset('images/default-user.png') }}"
                             alt="Foto Profil" class="w-20 h-20 rounded-full object-cover shadow mb-4 bg-white border border-gray-300">
-
-                        {{-- Nama --}}
+                        
                         <h3 class="text-lg font-semibold text-gray-800 mb-1">
                             {{ $relawan->name ?? '-' }}
                         </h3>
 
-                        {{-- Kota --}}
                         <p class="text-sm text-gray-500 mb-3">
                             <i class="fas fa-map-marker-alt mr-1 text-pink-500"></i>
                             {{ $relawan->city ?? '-' }}
                         </p>
 
-                        {{-- Alasan dan Divisi --}}
                         <div class="text-sm text-gray-700 mb-4 text-left w-full">
                             <p class="mb-1"><strong>Alasan:</strong> {{ $relawan->reason ?? '-' }}</p>
                             <p><strong>Divisi:</strong> {{ $relawan->division ?? '-' }}</p>
                         </div>
 
-                        {{-- Tombol menyamping --}}
+                    
                         <div class="flex justify-center gap-2 w-full mt-2">
-                            {{-- Tombol Hubungi --}}
+                            
                             <a href="{{ route('chat.show', ['id' => $relawan->id]) }}"
                                 class="bg-green-200 hover:bg-green-300 text-gray-800 px-3 py-2 rounded-lg text-sm font-medium flex items-center gap-1">
                                 <i class="fas fa-comments"></i> Hubungi
                             </a>
 
-                            {{-- Tombol Profil --}}
+                          
                             <a href="{{ route('profildaftar', ['id' => $relawan->id]) }}"
                                 class="bg-pink-200 hover:bg-pink-300 text-gray-800 px-3 py-2 rounded-lg text-sm font-medium flex items-center gap-1">
                                 <i class="fas fa-user"></i> Profil
                             </a>
 
-                            {{-- Tombol Terima/Diterima --}}
                             @php
                                 $eventId = $group->event_id ?? null;
                                 $accepted = \App\Models\Participation::where('user_id', $relawan->id)

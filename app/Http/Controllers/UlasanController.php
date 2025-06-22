@@ -9,14 +9,7 @@ use Illuminate\Support\Facades\Auth;
 
 class UlasanController extends Controller
 {
-    // Tampilkan form ulasan
-    // public function create($eventId)
-    // {
-    //     $event = Event::findOrFail($eventId);
-    //     return view('components.ulasan', compact('event'));
-    // }
-
-    // Simpan ulasan ke database
+   
     public function store(Request $request)
     {
         $request->validate([

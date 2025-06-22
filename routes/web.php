@@ -26,9 +26,8 @@ use App\Http\Controllers\{
     UserController
 };
 
-// ============================
+
 // Public Routes
-// ============================
 
 Route::get('/', fn () => view('welcome'));
 Route::get('/register', fn () => view('daftar'))->name('register');
@@ -36,16 +35,15 @@ Route::get('/login', fn () => view('login'))->name('login');
 Route::post('/login', [LoginController::class, 'login']);
 Route::post('/logout', fn () => Auth::logout() && redirect('/login'))->name('logout');
 
-// ============================
+
 // Volunteer Registration
-// ============================
 
 Route::get('/register/volunteer', fn () => view('auth.register_volunteer'))->name('register.volunteer');
 Route::post('/register/volunteer', [RegisterController::class, 'storeVolunteer'])->name('store.volunteer');
 
-// ============================
+
 // Organisasi Registration (Multi-step)
-// ============================
+
 
 Route::get('/register/organisasi', fn () => view('auth.register_organisasi'))->name('register.organisasi.step1');
 Route::post('/register/organisasi', [RegisterController::class, 'storeOrganisasiStep1'])->name('register.organisasi.step1');
@@ -56,9 +54,9 @@ Route::post('/register/organisasi/finalize', [RegisterController::class, 'finali
 Route::get('/register/organisasi/konfirmasi', [RegisterController::class, 'showKonfirmasi'])->name('register.organisasi.konfirmasi');
 Route::post('/register/organisasi/konfirmasi', [RegisterController::class, 'showKonfirmasi'])->name('register.organisasi.konfirmasi');
 
-// ============================
+
 // OTP
-// ============================
+
 
 Route::get('/otp', [OtpController::class, 'showOtpForm'])->name('otp.form');
 Route::post('/otp', [OtpController::class, 'verifyOtp'])->name('otp.verify.registration');
@@ -71,15 +69,15 @@ Route::get('/verify-otp', [OTPResetController::class, 'showVerifyForm'])->name('
 Route::post('/verify-otp', [OTPResetController::class, 'verify'])->name('otp.verify.reset');
 Route::post('/reset-password', [OTPResetController::class, 'submitNewPassword'])->name('password.reset.submit');
 
-// ============================
+
 // Volunteer Routes (Public)
-// ============================
+
 
 Route::get('/activities', [EventController::class, 'showForVolunteer'])->name('volunteer.events');
 
-// ============================
+
 // Authenticated Routes
-// ============================
+
 
 Route::match(['get', 'post'], '/logout', function () {
     Auth::logout();
@@ -139,7 +137,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/sertifikasi', [SertifikasiController::class, 'index'])->name('sertifikasi.index');
     Route::post('/sertifikat/upload/{id}', [SertifikasiController::class, 'upload'])->name('sertifikat.upload');
 
-    //certificate (milik volunteer)
+    //certificate (volunteer)
     Route::resource('certificates', CertificateController::class)->only(['index', 'show']);
 
     // Review & Ulasan

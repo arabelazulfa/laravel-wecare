@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Storage;
 
 class PresensiController extends Controller
 {
-    // Tampilkan form presensi
+
     public function show($eventId)
     {
         $event = Event::findOrFail($eventId);
@@ -19,7 +19,7 @@ class PresensiController extends Controller
         return view('presensi.form', compact('event', 'user'));
     }
 
-    // Simpan data presensi
+    
     public function store(Request $request)
     {
         $request->validate([
@@ -30,7 +30,7 @@ class PresensiController extends Controller
 
         $userId = auth()->id();
 
-        // Cek apakah user udah pernah presensi di event ini
+    
         $alreadyExists = Presensi::where('user_id', $userId)
             ->where('event_id', $request->event_id)
             ->exists();
@@ -39,7 +39,7 @@ class PresensiController extends Controller
             return redirect()->route('dashuser')->with('error', 'Kamu sudah presensi di event ini!');
         }
 
-        // Simpen file foto
+    
         $photoPath = $request->file('attendance_photo')->store('presensi', 'public');
 
         Presensi::create([

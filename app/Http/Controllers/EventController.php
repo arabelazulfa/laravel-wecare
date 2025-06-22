@@ -24,29 +24,18 @@ class EventController extends Controller
     $event = Event::findOrFail($id);
 
     $reviews = \App\Models\EventReview::where('event_id', $id)
-                ->with('user') // agar bisa tampil nama relawan
+                ->with('user') 
                 ->get();
 
     return view('events.show', compact('event', 'reviews'));
     }  
 
 
-    // EventController.php
-
-    // public function showForVolunteer()
-    // {
-    //     $events = Event::with('organizer.organizationProfile')
-    //         ->where('status', 'active')
-    //         ->get();
-
-    //     return view('events.volunteer-event', compact('events'));
-    // }
 
     public function showForVolunteer(Request $request)
     {
         $query = Event::with('organizer.organizationProfile');
 
-        // 🔍 Search by title / nama organisasi
         if ($request->filled('search')) {
             $search = $request->search;
             $query->where(function ($q) use ($search) {
@@ -57,32 +46,29 @@ class EventController extends Controller
             });
         }
 
-        // 📍 Filter by lokasi
+      
         if ($request->filled('location')) {
             $query->where('location', 'like', "%{$request->location}%");
         }
 
-        // 📆 Filter by tanggal
         if ($request->filled('date')) {
             $query->whereDate('date', $request->date);
         }
 
-        // 🎯 Filter by tipe kegiatan
+        
         if ($request->filled('event_type')) {
             $query->where('event_type', $request->event_type);
         }
 
-        // 💡 Filter by minat
+      
         if ($request->filled('interest')) {
             $query->where('category', 'like', "%{$request->interest}%");
         }
 
-        // 🚀 Ambil hasilnya
         $events = $query->latest()->get();
 
-        // Buat opsi filter dropdown (optional, bisa custom)
         $eventTypes = Event::select('event_type')->distinct()->pluck('event_type');
-        $category = ['Lingkungan', 'Sosial', 'Pendidikan']; // bisa diganti dari DB juga
+        $category = ['Lingkungan', 'Sosial', 'Pendidikan']; 
 
         return view('events.volunteer-event', compact('events', 'eventTypes', 'category'));
     }
@@ -101,14 +87,14 @@ class EventController extends Controller
     }
 
 
-    // ================== TAMPILKAN FORM EDIT ==================
+    
     public function edit($id)
     {
         $event = Event::findOrFail($id);
         return view('events.edit_events', compact('event'));
     }
 
-    // ================== PROSES UPDATE EVENT ==================
+    
     public function update(Request $request, $id)
     {
         $event = Event::findOrFail($id);
@@ -154,7 +140,7 @@ class EventController extends Controller
             'mode_darurat' => $request->mode_darurat,
         ]);
 
-        // Proses foto jika diunggah
+       
         if ($request->hasFile('photo')) {
             if ($event->photo && Storage::disk('public')->exists($event->photo)) {
                 Storage::disk('public')->delete($event->photo);
@@ -186,73 +172,6 @@ class EventController extends Controller
         return view('events.presensi', compact('event'));
     }
 
-    // public function store(Request $request)
-    // {
-    //     $request->validate([
-    //         'title' => 'required|string|max:255',
-    //         'description' => 'required|string',
-    //         'category' => 'required|string',
-    //         'registration_deadline' => 'required|date',
-    //         'event_type' => 'required|string',
-    //         'location' => 'required|string',
-    //         'date' => 'required|date',
-    //         'start_time' => 'required|date_format:H:i',
-    //         'end_time' => 'required|date_format:H:i|after:start_time',
-    //         'jenis_acara' => 'required|string',
-    //         'divisi' => 'required|string',
-    //         'tugas_relawan' => 'required|string',
-    //         'kriteria' => 'required|string',
-    //         'total_jam_kerja' => 'required|integer',
-    //         'jumlah_relawan' => 'required|integer',
-    //         'butuh_cv' => 'required|in:ya,tidak',
-    //         'mode_darurat' => 'required|in:ya,tidak',
-    //         'photo' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
-    //     ]);
-
-    //     $photoPath = null;
-    //     if ($request->hasFile('photo')) {
-    //         $photoPath = $request->file('photo')->store('banners', 'public');
-    //     }
-
-    //     $event = Event::create([
-    //         'organizer_id' => Auth::id(),
-    //         'title' => $request->title,
-    //         'description' => $request->description,
-    //         'category' => $request->category,
-    //         'registration_deadline' => $request->registration_deadline,
-    //         'event_type' => $request->event_type,
-    //         'location' => $request->location,
-    //         'date' => $request->date,
-    //         'start_time' => $request->start_time,
-    //         'end_time' => $request->end_time,
-    //         'jenis_acara' => $request->jenis_acara,
-    //         'divisi' => $request->divisi,
-    //         'tugas_relawan' => $request->tugas_relawan,
-    //         'kriteria' => $request->kriteria,
-    //         'total_jam_kerja' => $request->total_jam_kerja,
-    //         'jumlah_relawan' => $request->jumlah_relawan,
-    //         'butuh_cv' => $request->butuh_cv,
-    //         'mode_darurat' => $request->mode_darurat,
-    //         'photo' => $photoPath,
-    //     ]);
-    //     dd($event->mode_darurat);
-    //     $event->refresh();
-    //     // 🚨 Kirim notifikasi jika mode darurat
-    //     if ($event->mode_darurat === "ya") {
-    //          \Log::info('✅ Mode darurat aktif! Mengirim notifikasi darurat.');
-    //         $eventUrl = route('events.show', $event->id);
-    //         $notif = new EmergencyEventNotification($event->title, $eventUrl);
-
-    //         // kirim ke semua volunteer
-    //         $volunteers = User::where('role', 'volunteer')->get();
-    //         Notification::send($volunteers, $notif);
-
-    //         // kirim ke organisasi pembuat event juga
-    //         Auth::user()->notify($notif);
-    //     }
-
-    //     return redirect()->route('dashboard.organisasi')->with('success', 'Event berhasil dibuat.');
-    // }
 
 
 }

@@ -29,7 +29,7 @@
                 Batas registrasi: {{ \Carbon\Carbon::parse($event->registration_deadline)->format('d M Y') }}
             </p>
 
-            <!-- Kategori -->
+         
             <div class="flex flex-wrap gap-2 mb-4">
                 <span
                     class="bg-blue-100 text-blue-700 text-xs font-semibold px-3 py-1 rounded-full">{{ $event->category }}</span>
@@ -39,7 +39,6 @@
                     class="bg-blue-100 text-blue-700 text-xs font-semibold px-3 py-1 rounded-full">{{ $event->event_type }}</span>
             </div>
 
-            <!-- Tombol Daftar untuk Volunteer -->
             @auth
                 @if (auth()->user()->role === 'volunteer')
                     @php
@@ -90,7 +89,7 @@
         <h3 class="text-lg font-semibold text-black-500 mb-4 px-6">Detail Kebutuhan Relawan</h3>
         <div class="px-6 pb-6">
             <div class="grid md:grid-cols-2 gap-4 text-sm text-gray-700">
-                <!-- Item 1 -->
+         
                 <div class="flex items-start gap-3 bg-[#FFF0F3] p-4 rounded-xl shadow-sm">
                     <i class="fas fa-users text-pink-500 mt-1"></i>
                     <div>
@@ -99,7 +98,7 @@
                     </div>
                 </div>
 
-                <!-- Item 2 -->
+               
                 <div class="flex items-start gap-3 bg-[#E6FFFA] p-4 rounded-xl shadow-sm">
                     <i class="fas fa-clock text-teal-500 mt-1"></i>
                     <div>
@@ -108,7 +107,6 @@
                     </div>
                 </div>
 
-                <!-- Item 3 -->
                 <div class="flex items-start gap-3 bg-[#F0F4FF] p-4 rounded-xl shadow-sm">
                     <i class="fas fa-layer-group text-blue-500 mt-1"></i>
                     <div>
@@ -117,7 +115,7 @@
                     </div>
                 </div>
 
-                <!-- Item 4 - Kriteria Relawan -->
+              
                 <div class="flex items-start gap-3 bg-[#F3F0FF] p-4 rounded-xl shadow-sm">
                     <i class="fas fa-user-check text-indigo-500 mt-1"></i>
                     <div>
@@ -126,7 +124,7 @@
                     </div>
                 </div>
 
-                <!-- Item 5 - Tugas Relawan -->
+               
                 <div class="flex items-start gap-3 bg-[#FFF7ED] p-4 rounded-xl shadow-sm">
                     <i class="fas fa-tasks text-yellow-500 mt-1"></i>
                     <div>
@@ -159,12 +157,10 @@
     <x-suksesgabung />
 
     <script>
-        // Dengerin custom event dari Alpine setelah sukses submit form
+    
         window.addEventListener('pendaftaran-berhasil', () => {
-            // Tutup form gabung (optional)
             toggleGabungOverlay(false);
 
-            // Tampilkan overlay sukses
             const overlay = document.getElementById('suksesGabungOverlay');
             overlay.classList.remove('hidden');
         });

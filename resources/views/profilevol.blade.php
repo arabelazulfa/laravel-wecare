@@ -5,7 +5,7 @@
 
 @section('content')
     <h2 class="text-xl font-semibold mb-2">Profile Saya</h2>
-        {{-- Foto Profil --}}
+        
         <div class="flex flex-col items-center mb-4">
             @if($user->profile_photo)
                 <img src="{{ asset('storage/' . $user->profile_photo) }}" alt="Foto Profil"
@@ -16,7 +16,6 @@
                 </div>
             @endif
 
-            {{-- Upload Foto --}}
             <form method="POST" action="{{ route('volunteer.profile.updatePhoto') }}" enctype="multipart/form-data" class="mt-2">
                 @csrf
                 <label class="cursor-pointer text-sm text-blue-500 hover:underline">
@@ -26,13 +25,11 @@
             </form>
         </div>
 
-        {{-- Nama & Email --}}
         <div class="text-center mb-4">
             <h2 class="text-xl font-semibold text-gray-800">{{ $user->name }}</h2>
             <p class="text-gray-500">{{ $user->email }}</p>
         </div>
 
-        {{--Data Lain (Minat, Domisili, Profesi) --}}
         <div class="grid grid-cols-1 gap-4">
             <x-inline-editvol field="phone" :value="$user->phone ?? '-'" label="Nomor Telepon" icon="true" />
             <x-inline-passwordvol icon="true" />

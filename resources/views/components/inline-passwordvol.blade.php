@@ -5,7 +5,7 @@
         <button @click="open = true"
             class="text-gray-500 hover:text-pink-500 transition"
             title="Edit Password">
-            {{-- Icon pensil --}}
+            
             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none"
                  viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                 <path stroke-linecap="round" stroke-linejoin="round"
@@ -14,7 +14,7 @@
         </button>
     </div>
 
-    {{-- Modal --}}
+
     <div x-show="open" class="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
         <div @click.outside="open = false" class="bg-white p-6 rounded-xl w-full max-w-md shadow-lg">
             <h3 class="text-lg font-semibold mb-4">Ubah Password</h3>
@@ -50,7 +50,7 @@
     </div>
 </div>
 
-<!-- Toast -->
+
 <div x-show="showToast" x-transition
      class="absolute top-full mt-2 left-0 bg-white border rounded px-4 py-2 text-sm shadow"
      :class="toastSuccess ? 'border-green-500 text-green-600' : 'border-red-500 text-red-600'">

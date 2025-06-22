@@ -1,6 +1,6 @@
 <?php
 
-// app/Models/Certificate.php
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -12,7 +12,7 @@ class Certificate extends Model
 
     protected $fillable = [
         'user_id',
-        'event_id', // ← Tambahan penting!
+        'event_id', 
         'title',
         'organizer',
         'certificate_number',

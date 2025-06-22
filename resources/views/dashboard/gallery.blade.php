@@ -6,7 +6,7 @@
     <div class="bg-white p-6 rounded shadow">
         <h2 class="text-xl font-bold mb-4">Galeri Organisasi</h2>
 
-        <!-- Form Upload -->
+       
         <form action="{{ route('gallery.store') }}" method="POST" enctype="multipart/form-data" class="mb-6 relative">
             @csrf
 
@@ -18,9 +18,7 @@
 
             <input type="file" name="image[]" accept="image/*" multiple required class="block w-full text-sm text-gray-500">
         </form>
-
-
-        <!-- Galeri List -->
+        
         <div class="grid grid-cols-4 gap-4">
             @forelse ($galleries as $gallery)
                 <div class="relative">

@@ -31,7 +31,7 @@
     </div>
   </div>
 
-  <!-- Form Verifikasi OTP -->
+
   <form id="otp-verify-form" method="POST" action="{{ route('otp.verify.reset') }}"
     class="bg-[#FDCACA] rounded-xl w-full max-w-md p-6" spellcheck="false">
     @csrf

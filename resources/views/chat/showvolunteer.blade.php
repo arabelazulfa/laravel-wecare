@@ -4,20 +4,20 @@
 
 @section('content')
     <div class="flex h-[600px] rounded-2xl overflow-hidden shadow bg-[#ffdada]">
-        {{-- Sidebar Kontak --}}
+       
         <div class="w-1/3 bg-[#f5baba] p-4 overflow-y-auto">
-            {{-- Search Box --}}
+            
             <div class="mb-4">
                 <input type="text" placeholder="Cari"
                     class="w-full px-4 py-2 rounded-full text-sm bg-white placeholder-gray-500 focus:outline-none">
             </div>
 
-            {{-- Daftar Kontak --}}
+            
             @foreach ($chatList as $contact)
                 <a href="{{ route('volunteer.chat.show', $contact->id) }}" class="flex items-start justify-between p-3 rounded-xl mb-2 
                                   {{ $contact->id === $user->id ? 'bg-white' : 'hover:bg-[#f5baba]' }}">
 
-                    {{-- Kiri: Foto + Info --}}
+                    
                     <div class="flex items-start gap-3 flex-1">
                         <img src="{{ $user->organizationProfile?->logo
                 ? asset('storage/' . $user->organizationProfile->logo)
@@ -42,7 +42,7 @@
                         </div>
                     </div>
 
-                    {{-- Badge Unread --}}
+                 
                     @if ($contact->unread_count > 0)
                         <span class="text-xs bg-red-500 text-white rounded-full px-2 py-0.5 ml-2 self-center">
                             {{ $contact->unread_count }}
@@ -52,9 +52,9 @@
             @endforeach
         </div>
 
-        {{-- Panel Chat --}}
+      
         <div class="flex-1 bg-[#fff0f0] flex flex-col">
-            {{-- Header --}}
+           
             <div class="flex items-center gap-3 px-6 py-4 border-b border-[#f0cfcf] bg-[#ffdada]">
                 <img src="{{ $user->organizationProfile?->logo
         ? asset('storage/' . $user->organizationProfile->logo)
@@ -66,7 +66,7 @@
                 </h1>
             </div>
 
-            {{-- Chat Box --}}
+           
             <div id="chat-box" class="flex-1 overflow-y-auto p-6 space-y-4 scroll-smooth">
                 @php $lastDate = null; @endphp
                 @forelse ($messages as $msg)
@@ -93,7 +93,7 @@
                 @endforelse
             </div>
 
-            {{-- Form Kirim --}}
+          
             <form action="{{ route('volunteer.chat.send') }}" method="POST" class="p-4 bg-[#ffdada] flex gap-3">
                 @csrf
                 <input type="hidden" name="receiver_id" value="{{ $user->id }}">

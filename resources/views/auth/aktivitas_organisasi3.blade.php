@@ -20,13 +20,13 @@
         <form action="{{ route('aktivitas.simpan') }}" method="POST">
             @csrf
 
-            <!-- Jenis Acara -->
+         
             <div class="mb-4">
                 <label class="block text-sm font-medium mb-1">Jenis Acara</label>
                 <input type="text" name="jenis_acara" required class="w-full rounded-lg bg-white bg-opacity-60 px-4 py-2 text-sm" placeholder="Jenis Acara">
             </div>
 
-            <!-- Divisi -->
+            
             <div class="mb-4">
                 <label class="block text-sm font-medium mb-1">Divisi yang Dicari</label>
                 <textarea name="divisi" rows="4" required
@@ -34,14 +34,13 @@
                     placeholder="Tuliskan divisi. Gunakan Enter untuk membuat baris baru."></textarea>
             </div>
 
-            <!-- Tugas Relawan -->
             <div class="mb-4">
                 <label class="block text-sm font-medium mb-1">Tugas Relawan</label>
                 <textarea name="tugas_relawan" rows="4" required
                     class="w-full rounded-lg bg-white bg-opacity-60 px-4 py-2 text-sm"
                     placeholder="Tuliskan detail tugas. Gunakan Enter untuk membuat baris baru."></textarea>
             </div>
-            <!-- Kriteria -->
+            
             <div class="mb-4">
                 <label class="block text-sm font-medium mb-1">Kriteria</label>
                 <textarea name="kriteria" rows="4" required
@@ -49,19 +48,17 @@
                     placeholder="Tuliskan Kriteria. Gunakan Enter untuk membuat baris baru."></textarea>
             </div>
 
-            <!-- Total Jam Kerja -->
             <div class="mb-4">
                 <label class="block text-sm font-medium mb-1">Total Jam Kerja</label>
                 <input type="number" name="total_jam_kerja" required class="w-full rounded-lg bg-white bg-opacity-60 px-4 py-2 text-sm" placeholder="Tuliskan Total Jam Kerja">
             </div>
 
-            <!-- Jumlah Relawan -->
+           
             <div class="mb-4">
                 <label class="block text-sm font-medium mb-1">Jumlah Relawan</label>
                 <input type="number" name="jumlah_relawan" required class="w-full rounded-lg bg-white bg-opacity-60 px-4 py-2 text-sm" placeholder="Tuliskan Jumlah Relawan yang Dicari">
             </div>
 
-            <!-- Perlu CV -->
             <div class="mb-4">
                 <label class="block text-sm font-medium mb-1">Relawan Memerlukan CV?</label>
                 <select name="butuh_cv" required class="w-full rounded-lg bg-white bg-opacity-60 px-4 py-2 text-sm">
@@ -72,7 +69,7 @@
             </div>
 
 
-            <!-- Mode Darurat -->
+      
             <div class="mb-4">
                 <label class="block text-sm font-medium mb-1">Mode Darurat</label>
                 <select name="mode_darurat" required class="w-full rounded-lg bg-white bg-opacity-60 px-4 py-2 text-sm">
@@ -82,10 +79,9 @@
                 </select>
             </div>
 
-            <!-- Catatan -->
+     
             <p class="text-xs text-gray-600 mb-6">NB: Mode Darurat diutamakan untuk event yang membutuhkan relawan se-segera mungkin, seperti bencana alam atau donor darah.</p>
 
-            <!-- Tombol Submit -->
             <div class="text-right">
                 <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm hover:bg-blue-700">Tambahkan</button>
             </div>

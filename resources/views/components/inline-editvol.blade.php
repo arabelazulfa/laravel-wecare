@@ -1,9 +1,8 @@
 @props([
-    'field',          // kolom di DB
-    'value',          // nilai awal
-    'label',          // label ditampilkan
+    'field',          
+    'value',          
+    'label',          
     'icon'   => false,
-    // kalau dropdown → array opsi, kalau null berarti input text
     'options' => null
 ])
 
@@ -65,16 +64,15 @@
     }"
     class="flex flex-col mb-3 relative"
 >
-    {{-- label --}}
+    
     <label class="text-sm text-gray-600 mb-1">{{ $label }}</label>
 
     <div class="flex items-center gap-2 bg-pink-100 px-4 py-2 rounded-xl shadow-sm">
-        {{-- tampilan normal --}}
+        
         <template x-if="!editing">
             <span class="flex-1 text-gray-900 display-value" x-text="newValue || '-'"></span>
         </template>
 
-        {{-- mode edit --}}
         <template x-if="editing">
             @if($options)
                 <select x-ref="input" x-model="newValue"
@@ -90,13 +88,13 @@
             @endif
         </template>
 
-        {{-- tombol --}}
+        
         <template x-if="!editing">
             <button @click="startEdit"
                     class="text-gray-500 hover:text-pink-500 transition"
                     :title="'Edit '+ '{{ $label }}'">
                 @if($icon)
-                    {{-- ikon pensil --}}
+                    
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none"
                          viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                         <path stroke-linecap="round" stroke-linejoin="round"
@@ -114,7 +112,7 @@
         </template>
     </div>
 
-    {{-- toast --}}
+   
     <div x-show="showToast" x-transition
          class="absolute top-full mt-2 left-0 bg-white border rounded px-4 py-2 text-sm shadow"
          :class="toastSuccess ? 'border-green-500 text-green-600'

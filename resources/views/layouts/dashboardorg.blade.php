@@ -17,20 +17,18 @@
 
 <body class="bg-[#fff0f0] h-auto flex items-start p-6 font-sans">
 
-  <!-- Sidebar -->
+  
   <aside class="bg-[#f28b8b] text-white w-52 h-screen rounded-2xl p-4 flex flex-col shadow-md">
     <div class="text-xl font-bold mb-6">WeCare</div>
     <nav class="flex flex-col space-y-3 text-sm font-medium">
 
-      {{-- Dashboard --}}
+    
       <a href="{{ route('dashboard.organisasi') }}" class="flex items-center gap-3 px-4 py-2 rounded-lg
         {{ request()->routeIs('dashboard.organisasi', 'profildaftar')
   ? 'bg-white text-[#f28b8b] shadow'
   : 'hover:bg-[#f49b9b] text-white transition' }}">
         <i class="fas fa-home text-base"></i> <span>Dashboard</span>
       </a>
-
-      {{-- Aktivitas --}}
       <a href="{{ route('aktivitas.index') }}" class="flex items-center gap-3 px-4 py-2 rounded-lg
         {{ request()->is('aktivitas*') || request()->is('events*')
   ? 'bg-white text-[#f28b8b] shadow'
@@ -39,7 +37,6 @@
       </a>
 
 
-      {{-- Sertifikasi --}}
       <a href="{{ route('sertifikasi.index') }}" class="flex items-center gap-3 px-4 py-2 rounded-lg
         {{ request()->routeIs('sertifikasi.*')
   ? 'bg-white text-[#f28b8b] shadow'
@@ -47,7 +44,6 @@
         <i class="fas fa-certificate text-base"></i> <span>Sertifikasi</span>
       </a>
 
-      {{-- Edit Organisasi --}}
       @php
     use App\Models\OrganizationProfile;
 
@@ -70,14 +66,14 @@
   </aside>
 
 
-  <!-- Main Content -->
+ 
   <main class="flex-1 ml-8">
-    <!-- Header -->
+    
     <header class="bg-[#f28b8b] text-white rounded-2xl px-6 py-4 flex items-center justify-between shadow-md">
       <div class="font-semibold text-xl">
         @yield('title')
       </div>
-      <!-- Icons & Profile Dropdown -->
+     
       <div class="flex space-x-6 text-white text-lg items-center">
         <a href="{{ route('chat.index') }}" title="Messages" class="relative">
           <i class="far fa-comment-alt fa-lg cursor-pointer hover:scale-110 transition-transform duration-200"></i>
@@ -132,7 +128,7 @@
         </div>
 
 
-        <!-- Profile button with dropdown -->
+     
         <div class="relative">
           <button id="profileButton" class="text-white hover:scale-110 transition-transform duration-200">
             <i class="far fa-user-circle fa-lg"></i>
@@ -152,7 +148,7 @@
       </div>
     </header>
 
-    <!-- Modal Notifikasi Lengkap -->
+
     <div id="notifFullModal" class="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50 hidden">
       <div class="bg-white w-[90%] max-w-lg max-h-[80vh] overflow-y-auto rounded-xl p-6 shadow-lg relative">
         <h2 class="text-lg font-bold mb-4">Semua Notifikasi</h2>

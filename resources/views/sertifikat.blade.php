@@ -8,7 +8,7 @@
     <h2 class="text-xl font-semibold mb-2">Sertifikat dimiliki</h2>
 
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-    {{-- Ulangi komponen card sertifikat sebanyak yang dibutuhkan --}}
+
     @forelse ($certificates as $cert)
     <article class="bg-pink-100 rounded-lg p-3 flex flex-col space-y-2">
       <div class="w-full flex justify-center">

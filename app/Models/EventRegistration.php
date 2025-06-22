@@ -9,7 +9,7 @@ class EventRegistration extends Model
 {
     use HasFactory;
 
-    protected $table = 'event_registrations'; // pastikan sesuai nama tabel di DB
+    protected $table = 'event_registrations'; 
 
     protected $fillable = [
         'event_id',
@@ -18,23 +18,23 @@ class EventRegistration extends Model
         'reason',
         'why_you',
         'cv_file',
-        'status', // kalau ada kolom status (misal: pending, approved, dll)
+        'status', 
         'registered_at',
-        // tambahin field lain kalau ada
+        
     ];
 
-    // Relasi ke Event
+    
     public function event()
     {
         return $this->belongsTo(Event::class);
     }
 
-    // Relasi ke User (si volunteer yang daftar)
+    
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id');
     }
-    // App\Models\EventRegistration.php
+   
 
     public function relawan()
     {
